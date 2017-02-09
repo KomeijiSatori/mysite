@@ -1,0 +1,7 @@
+from .models import User
+from django import forms
+
+class UserForm(forms.Form):
+    name = forms.CharFiel()
+    password = forms.CharField()
+    email = forms.EmailField()
