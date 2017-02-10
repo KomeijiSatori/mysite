@@ -1,12 +1,13 @@
+{% extends "mysite/base.html" %}
 {% load static %}
-<head>
-    <link href="{% static 'blogs/1.css' %}" type="text/css" rel="stylesheet"/>
-</head>
+{% load crispy_forms_tags %}
 
-<body>
-    <h1>啊，乖乖站好</h1>
-    <form method="POST" action="">
-        {{ usr }}
-    </form>
-</body>
 
+
+{% block content %}
+<h1>啊，乖乖站好</h1>
+<form method="POST" action="">{% csrf_token %}
+    {{ usr|crispy }}
+    <input type="submit" class="btn btn-primary" value="Sign Up"/>
+</form>
+{% endblock %}

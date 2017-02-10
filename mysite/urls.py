@@ -19,6 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.home, name = "home"),
-    url(r'^blogs/', include('blogs.urls')),
+    url(r'^blogs/', include('blogs.urls', namespace="blogs")),
     url(r'^admin/', admin.site.urls),
+    url(r'accounts/', include('registration.backends.default.urls')),
 ]

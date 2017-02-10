@@ -35,10 +35,15 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'mysite.apps.MysiteConfig',
     'blogs.apps.BlogsConfig',
+
+    'crispy_forms',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +128,11 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static_for_ind", "my_static"),
 # ]
+
+
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+
+CRISPY_TEMPLATE_PACK = "bootstrap3"
+
+SITE_ID = 1
