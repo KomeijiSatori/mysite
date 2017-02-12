@@ -14,6 +14,8 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--Font-awesome CSS-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -34,7 +36,6 @@
   </head>
 
   <body>
-
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
@@ -44,15 +45,26 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              {% if user.is_authenticated %}
-              <h3 class="masthead-brand">{{ user.username }}</h3>
-              {% endif %}
+
+              <nav>
+              <div class="masthead-brand">
+                {% if user.is_authenticated %}
+                {{ user.username }}
+                <a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true">Log Out</i></a>
+                {% else %}
+                <a href="{% url 'auth_login' %}"><i class="fa fa-sign-in" aria-hidden="true">Log In</i></a>
+                <a href="{% url 'registration_register' %}"><i class="fa fa-user-plus" aria-hidden="true">Register</i></a>
+                {% endif %}
+
+
+              </div>
+
               <nav>
                 <ul class="nav masthead-nav">
-                  <li class="active"><a href="/">Home</a></li>
-                  <li><a href="{% url 'blogs:index' %}">Blog</a></li>
-                  <li><a href="#">Game</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
+                  <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">Blog</a></li>
+                  <li {% if '/game' in request.path %}class="active"{% endif %}><a href="#">Game</a></li>
+                  <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="#">Contact</a></li>
                 </ul>
               </nav>
             </div>

@@ -6,5 +6,4 @@ from .forms import UserForm
 
 
 def index(request):
-    usr = UserForm()
-    return render(request, "blogs/index.html", {"usr": usr})
+    return render(request, "blogs/index.html", {})
