@@ -2,8 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import User, Blog
+from .models import Blog, BlogCategory
 
 
-admin.site.register(User)
 admin.site.register(Blog)
+admin.site.register(BlogCategory)

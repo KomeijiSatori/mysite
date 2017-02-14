@@ -24,57 +24,36 @@ Blogs
             <div class="col-md-8">
 
                 <h1 class="page-header">
-                    Page Heading
-                    <small>Secondary Text</small>
+                    Dark♂Blogs
+                    <small>乖乖站♂好</small>
                 </h1>
 
-                <!-- First Blog Post -->
+                <!--List a list of blogs-->
+                {% for blog in blogs %}
+
                 <h2>
-                    <a href="#">Blog Post Title</a>
+                    <a href="#">{{ blog.title }}</a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
+                    by <a href="#">{{ blog.author }}</a>
                 </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum officiis rerum.</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                <hr>
-
-                <!-- Second Blog Post -->
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
+                {% if blog.blogcategory_set.all.count is not 0 %}
+                <p>
+                    Category:
+                    {% for category in blog.blogcategory_set.all %}
+                    {{ category }}
+                    {% endfor %}
                 </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:45 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, quasi, fugiat, asperiores harum voluptatum tenetur a possimus nesciunt quod accusamus saepe tempora ipsam distinctio minima dolorum perferendis labore impedit voluptates!</p>
+                {% endif %}
+                <br/>
+                <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
+                <!--<hr>-->
+                <p>{{ blog.text|linebreaksbr }}</p>
                 <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <hr/>
 
-                <hr>
-
-                <!-- Third Blog Post -->
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:45 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, voluptates, voluptas dolore ipsam cumque quam veniam accusantium laudantium adipisci architecto itaque dicta aperiam maiores provident id incidunt autem. Magni, ratione.</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                <hr>
+                {% endfor %}
 
                 <!-- Pager -->
                 <ul class="pager">
@@ -85,6 +64,16 @@ Blogs
                         <a href="#">Newer &rarr;</a>
                     </li>
                 </ul>
+
+                {% if user.is_authenticated %}
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </form>
+                {% else %}
+                <p class="lead">Please log in to post a blog.</p>
+                {% endif %}
 
             </div>
 
