@@ -4,82 +4,70 @@
 
 
 {% block title %}
-Blogs
+    Blogs
 {% endblock %}
 
 
 {% block additional_head %}
-<!-- Custom CSS -->
-<link href="{% static 'blogs/blog-home.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'blogs/blog-home.css' %}" rel="stylesheet">
 {% endblock %}
 
 
 {% block content %}
-<!-- Page Content -->
-    <div class="container">
+    <!-- Page Content -->
 
-        <div class="row">
+    <h1 class="page-header">
+        Dark♂Blogs
+        <small>乖乖站♂好</small>
+    </h1>
 
-            <!-- Blog Entries Column -->
-            <div class="col-md-8">
+    <!--List a list of blogs-->
+    {% for blog in blogs %}
 
-                <h1 class="page-header">
-                    Dark♂Blogs
-                    <small>乖乖站♂好</small>
-                </h1>
+    <h2>
+        <a href="#">{{ blog.title }}</a>
+    </h2>
+    <p class="lead">
+        by <a href="#">{{ blog.author }}</a>
+    </p>
+    <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
+    {% if blog.blogcategory_set.all.count is not 0 %}
+    <p>
+        Category:
+        {% for category in blog.blogcategory_set.all %}
+        {{ category }}
+        {% endfor %}
+    </p>
+    {% endif %}
+    <br/>
+    <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
+    <!--<hr>-->
+    <p>{{ blog.text|linebreaksbr }}</p>
+    <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+    <hr/>
 
-                <!--List a list of blogs-->
-                {% for blog in blogs %}
+    {% endfor %}
 
-                <h2>
-                    <a href="#">{{ blog.title }}</a>
-                </h2>
-                <p class="lead">
-                    by <a href="#">{{ blog.author }}</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
-                {% if blog.blogcategory_set.all.count is not 0 %}
-                <p>
-                    Category:
-                    {% for category in blog.blogcategory_set.all %}
-                    {{ category }}
-                    {% endfor %}
-                </p>
-                {% endif %}
-                <br/>
-                <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
-                <!--<hr>-->
-                <p>{{ blog.text|linebreaksbr }}</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-                <hr/>
+    <!-- Pager -->
+    <ul class="pager">
+        <li class="previous">
+            <a href="#">&larr; Older</a>
+        </li>
+        <li class="next">
+            <a href="#">Newer &rarr;</a>
+        </li>
+    </ul>
 
-                {% endfor %}
+    {% if user.is_authenticated %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-primary" value="Submit" />
+    </form>
+    {% else %}
+    <p class="lead">Please log in to post a blog.</p>
+    {% endif %}
 
-                <!-- Pager -->
-                <ul class="pager">
-                    <li class="previous">
-                        <a href="#">&larr; Older</a>
-                    </li>
-                    <li class="next">
-                        <a href="#">Newer &rarr;</a>
-                    </li>
-                </ul>
-
-                {% if user.is_authenticated %}
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <input type="submit" class="btn btn-primary" value="Submit" />
-                </form>
-                {% else %}
-                <p class="lead">Please log in to post a blog.</p>
-                {% endif %}
-
-            </div>
-
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container -->
 
 {% endblock %}

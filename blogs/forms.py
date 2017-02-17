@@ -3,7 +3,7 @@ from django import forms
 
 class BlogForm(forms.Form):
     title = forms.CharField()
-    text = forms.CharField(widget = forms.Textarea)
+    text = forms.CharField(widget=forms.Textarea)
     categories = forms.CharField()
 
     def clean_title(self):
@@ -18,3 +18,12 @@ class BlogForm(forms.Form):
             raise forms.ValidationError("Content cannot be empty!")
         return text
 
+
+class BlogCommentForm(forms.Form):
+    text = forms.CharField(label="", help_text="", widget=forms.Textarea)
+
+    def clean_text(self):
+        text = self.cleaned_data.get('text')
+        if text == "":
+            raise forms.ValidationError("Content cannot be empty!")
+        return text

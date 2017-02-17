@@ -63,15 +63,17 @@
                 <ul class="nav masthead-nav">
                   <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
                   <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">Blog</a></li>
-                  <li {% if '/game' in request.path %}class="active"{% endif %}><a href="#">Game</a></li>
+                  <!--<li {% if '/game' in request.path %}class="active"{% endif %}><a href="#">Game</a></li>-->
                   <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="#">Contact</a></li>
                 </ul>
               </nav>
             </div>
           </div>
 
+          <div class="inner cover">
           {% block content %}
           {% endblock %}
+          </div>
 
           <div class="mastfoot">
             <div class="inner">

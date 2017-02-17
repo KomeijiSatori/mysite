@@ -1,0 +1,131 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ blog.title }}
+{% endblock %}
+
+
+{% block additional_head %}
+    <!-- Custom CSS -->
+    <link href="{% static 'blogs/blog-post.css' %}" rel="stylesheet">
+    <!-- Custom JS-->
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("button[class='btn btn-link']").click(function(){
+            $(this).next('form').toggle(500);
+            if ($(this).children('i').attr('class') === 'fa fa-arrow-down')
+            {
+                $(this).children('i').attr('class', 'fa fa-arrow-up');
+                $(this).children('spam').html('Retract')
+            }
+            else
+            {
+                $(this).children('i').attr('class', 'fa fa-arrow-down');
+                $(this).children('spam').html('Reply')
+            }
+        });
+    });
+    </script>
+{% endblock %}
+
+
+{% block content %}
+    <!-- Page Content -->
+
+    <!-- Blog Post -->
+
+    <!-- Title -->
+    <h1>{{ blog.title }}</h1>
+
+    <!-- Author -->
+    <p class="lead">
+        by <a href="#">{{ blog.author }}</a>
+    </p>
+
+    <!--<hr>-->
+
+    <!-- Date/Time -->
+    <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
+
+    <hr>
+
+    <!--&lt;!&ndash; Preview Image &ndash;&gt;-->
+    <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
+
+    <!--<hr>-->
+
+    <!-- Post Content -->
+    <p class = "lead">
+        {{ blog.text|linebreaksbr }}
+    </p>
+    <hr>
+
+    <!-- Blog Comments -->
+
+    <!-- Comments Form -->
+    <div class="comment-area">
+        <h4>Leave a Comment:</h4>
+        <form role="form" method="POST" action="{% url 'blogs:addComment' blog.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ comment_form|crispy }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <!-- Posted Comments -->
+
+    {% for comment in blog.blogcomment_set.all %}
+    <!-- Comment -->
+    <div class="media">
+        <!--<a class="pull-left" href="#">-->
+            <img class="media-object pull-left" src= "{% static 'blogs/images/trans-64_64.png' %}" alt=""/>
+        <!--</a>-->
+        <div class="media-body">
+            <h4 class="media-heading">{{ comment.author }}
+                <small>
+                    {{ comment.publish_time }}
+
+                </small>
+            </h4>
+            {{ comment.text }}
+
+            <button class="btn btn-link">
+                <spam>Reply</spam> <i class="fa fa-arrow-down" aria-hidden="true"></i>
+            </button>
+
+            <form style="display: none;" role="form" method="POST" action="{% url 'blogs:addNestedComment' comment.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ nested_comment_form|crispy }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+
+            {% for nested_comment in comment.blognestedcomment_set.all %}
+            <!-- Nested Comment -->
+            <div class="media">
+                <!--<a class="pull-left" href="#">-->
+                    <img class="media-object pull-left" src= "{% static 'blogs/images/trans-64_64.png' %}" alt=""/>
+                <!--</a>-->
+                <div class="media-body">
+                    <h4 class="media-heading">{{ nested_comment.author }}
+                        <small>{{ nested_comment.publish_time }}</small>
+                    </h4>
+                    {{ nested_comment.text }}
+                </div>
+            </div>
+            <!-- End Nested Comment -->
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

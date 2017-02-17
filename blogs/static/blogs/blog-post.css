@@ -1,0 +1,11 @@
+.comment-area {
+    margin-top: 50px;
+}
+
+.media-body {
+    text-align: left;
+}
+
+.btn:focus, .btn-link:focus {
+  outline: none !important;
+}
