@@ -4,7 +4,7 @@ from django import forms
 class BlogForm(forms.Form):
     title = forms.CharField()
     text = forms.CharField(widget=forms.Textarea)
-    categories = forms.CharField()
+    categories = forms.CharField(required=False, label="Tags", help_text="Divide tags by space")
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -17,6 +17,17 @@ class BlogForm(forms.Form):
         if text == "":
             raise forms.ValidationError("Content cannot be empty!")
         return text
+
+    def clean_categories(self):
+        category_text = self.cleaned_data.get('categories')
+        category = category_text.split(' ')
+        if category_text == '':
+            return category_text
+        if '' in category:
+            raise forms.ValidationError("Too many spaces between tags!")
+        if len(category) != len(set(category)):
+            raise forms.ValidationError("Redundant tags exist!")
+        return category_text
 
 
 class BlogCommentForm(forms.Form):

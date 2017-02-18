@@ -1,0 +1,4 @@
+.pager li>a, .pager li>span {
+    color: #333;
+    text-shadow: 0 0 0;
+}

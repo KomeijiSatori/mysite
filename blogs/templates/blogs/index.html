@@ -11,6 +11,13 @@
 {% block additional_head %}
     <!-- Custom CSS -->
     <link href="{% static 'blogs/blog-home.css' %}" rel="stylesheet">
+    {% if anchor %}
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            window.location = '#{{ anchor }}'
+        });
+    </script>
+    {% endif %}
 {% endblock %}
 
 
@@ -26,7 +33,7 @@
     {% for blog in blogs %}
 
     <h2>
-        <a href="#">{{ blog.title }}</a>
+        <a href="{% url 'blogs:archive' blog.id %}">{{ blog.title }}</a>
     </h2>
     <p class="lead">
         by <a href="#">{{ blog.author }}</a>
@@ -43,24 +50,40 @@
     <br/>
     <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
     <!--<hr>-->
-    <p>{{ blog.text|linebreaksbr }}</p>
-    <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+    <p class="lead">{{ blog.text|linebreaksbr }}</p>
+    <a class="btn btn-primary" href="{% url 'blogs:archive' blog.id %}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
     <hr/>
 
     {% endfor %}
 
     <!-- Pager -->
     <ul class="pager">
-        <li class="previous">
-            <a href="#">&larr; Older</a>
+        <li class="previous" style="visibility: {% if page > 1 %}visible{% else %}hidden{% endif %}">
+            <a href="{% url 'blogs:page_show' page|add:-1 %}">&larr; Older</a>
         </li>
-        <li class="next">
-            <a href="#">Newer &rarr;</a>
+
+        {% for i in page_list %}
+            {% if i != '...' %}
+                {% if i != page|stringformat:"i" %}
+                    <a class="btn btn-default" href="{% url 'blogs:page_show' i %}">{{ i }}</a>
+                {% else %}
+                    <a class="btn btn-info" href="{% url 'blogs:page_show' i %}">{{ i }}</a>
+                {% endif %}
+            {% else %}
+                <spam>...</spam>
+            {% endif %}
+        {% endfor %}
+
+        <li class="next" style="visibility: {% if page < page_list|length %}visible{% else %}hidden{% endif %}">
+            <a href="{% url 'blogs:page_show' page|add:1 %}">Newer &rarr;</a>
         </li>
     </ul>
 
+
+
+
     {% if user.is_authenticated %}
-    <form method="POST" action="">
+    <form id="post_form" method="POST" action="">
         {% csrf_token %}
         {{ form|crispy }}
         <input type="submit" class="btn btn-primary" value="Submit" />

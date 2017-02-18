@@ -36,7 +36,7 @@
     <!-- Page Content -->
 
     <!-- Blog Post -->
-
+    <a href="{% url 'blogs:page_show' page %}" class="btn btn-primary pull-left"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to blogs</a><br/>
     <!-- Title -->
     <h1>{{ blog.title }}</h1>
 
@@ -65,6 +65,7 @@
 
     <!-- Blog Comments -->
 
+    {% if user.is_authenticated %}
     <!-- Comments Form -->
     <div class="comment-area">
         <h4>Leave a Comment:</h4>
@@ -78,7 +79,7 @@
     </div>
 
     <hr>
-
+    {% endif %}
     <!-- Posted Comments -->
 
     {% for comment in blog.blogcomment_set.all %}
@@ -96,6 +97,8 @@
             </h4>
             {{ comment.text }}
 
+
+            {% if user.is_authenticated %}
             <button class="btn btn-link">
                 <spam>Reply</spam> <i class="fa fa-arrow-down" aria-hidden="true"></i>
             </button>
@@ -107,7 +110,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-
+            {% endif %}
 
             {% for nested_comment in comment.blognestedcomment_set.all %}
             <!-- Nested Comment -->
