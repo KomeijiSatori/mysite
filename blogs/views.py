@@ -49,6 +49,7 @@ def index(request, page=1):
 
     if form.is_valid():
         categories = form.cleaned_data.get('categories').split(' ')
+        categories = list(filter(None, categories))
 
         blog = Blog()
         blog.title = form.cleaned_data.get('title')
@@ -82,6 +83,7 @@ def index(request, page=1):
     context['form'] = form
     context['page_list'] = page_list
     context['page'] = page + 1
+    context['page_url'] = 'blogs:page_show'
     return render(request, "blogs/index.html", context)
 
 
@@ -125,6 +127,31 @@ def addNestedComment(request, comment_id):
         return HttpResponseRedirect(reverse('blogs:archive', args=(comment.blog.id,)))
     else:
         raise Http404("Page not found")
+
+
+def categoryBlogs(request, category, page=1):
+    cate = BlogCategory.objects.filter(name=category)
+    page = int(page) - 1
+    start_ind = page * blog_show_per_page
+
+    if cate.count() > 0:
+        blogs = cate[0].blog.all()
+        page_list = getPageList(page, math.ceil(blogs.count() / blog_show_per_page))
+        blogs = blogs.order_by('-publish_time')[start_ind:start_ind + blog_show_per_page]
+
+    else:
+        blogs = []
+        page_list = []
+
+    context = {}
+    context['blogs'] = blogs
+    context['title'] = category
+    context['page_list'] = page_list
+    context['page'] = page + 1
+    context['page_url'] = 'blogs:category_page'
+    context['page_url_args'] = category  # page_url_args is before page argument
+
+    return render(request, "blogs/category.html", context)
 
 
 

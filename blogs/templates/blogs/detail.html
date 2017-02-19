@@ -49,8 +49,15 @@
 
     <!-- Date/Time -->
     <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
-
-    <hr>
+    {% if blog.blogcategory_set.all.count is not 0 %}
+        <p>
+            Category:
+            {% for category in blog.blogcategory_set.all %}
+                <a href="{% url 'blogs:category' category %}">{{ category }}</a>
+            {% endfor %}
+        </p>
+    {% endif %}
+    <br/>
 
     <!--&lt;!&ndash; Preview Image &ndash;&gt;-->
     <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->

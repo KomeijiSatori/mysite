@@ -1,0 +1,57 @@
+<!--List a list of blogs-->
+    {% for blog in blogs %}
+
+    <h2>
+        <a href="{% url 'blogs:archive' blog.id %}">{{ blog.title }}</a>
+    </h2>
+    <p class="lead">
+        by <a href="#">{{ blog.author }}</a>
+    </p>
+    <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
+    {% if blog.blogcategory_set.all.count > 0 %}
+    <p>
+        Category:
+        {% for category in blog.blogcategory_set.all %}
+        <a href="{% url 'blogs:category' category %}">{{ category }}</a>
+        {% endfor %}
+    </p>
+    {% endif %}
+    <br/>
+    <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
+    <!--<hr>-->
+    <p class="lead">{{ blog.text|linebreaksbr }}</p>
+    <a class="btn btn-primary" href="{% url 'blogs:archive' blog.id %}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+    <hr/>
+
+    {% endfor %}
+
+    <!-- Pager -->
+    <ul class="pager">
+        <li class="previous" style="visibility: {% if page > 1 %}visible{% else %}hidden{% endif %}">
+            <a href="{% url 'blogs:page_show' page|add:-1 %}">&larr; Older</a>
+        </li>
+
+        {% for i in page_list %}
+            {% if i != '...' %}
+                {% if i != page|stringformat:"i" %}
+                    {% if page_url_args %}
+                        <a class="btn btn-default" href="{% url page_url page_url_args i %}">{{ i }}</a>
+                    {% else %}
+                        <a class="btn btn-default" href="{% url page_url i %}">{{ i }}</a>
+                    {% endif %}
+                {% else %}
+                    {% if page_url_args %}
+                        <a class="btn btn-info" href="{% url page_url page_url_args i %}">{{ i }}</a>
+                    {% else %}
+                        <a class="btn btn-info" href="{% url page_url i %}">{{ i }}</a>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <spam>...</spam>
+            {% endif %}
+        {% endfor %}
+
+        <li class="next" style="visibility: {% if page < page_list|length %}visible{% else %}hidden{% endif %}">
+            <a href="{% url 'blogs:page_show' page|add:1 %}">Newer &rarr;</a>
+        </li>
+    </ul>

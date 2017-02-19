@@ -1,0 +1,27 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+{% block additional_head %}
+    <!-- Custom CSS -->
+    <link href="{% static 'blogs/blog-home.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+    <!-- Page Content -->
+
+    <h1 class="page-header">
+        Result for {{ title }}
+        <small>乖乖站♂好</small>
+    </h1>
+
+    {% include "blogs/base_blog_items.html" %}
+
+{% endblock %}
