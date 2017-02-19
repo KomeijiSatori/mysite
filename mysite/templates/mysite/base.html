@@ -64,7 +64,7 @@
                   <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
                   <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">Blog</a></li>
                   <!--<li {% if '/game' in request.path %}class="active"{% endif %}><a href="#">Game</a></li>-->
-                  <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="#">Contact</a></li>
+                  <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="{% url 'contact' %}">Contact</a></li>
                 </ul>
               </nav>
             </div>
@@ -77,7 +77,7 @@
 
           <div class="mastfoot">
             <div class="inner">
-              <p>Developed by <a href="http://github.com/KomeijiSatori">Satori</a>. All rights reserved.</p>
+              <p>Developed by <a href="http://github.com/KomeijiSatori" target="_blank">Satori</a>. All rights reserved.</p>
             </div>
           </div>
 

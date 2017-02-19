@@ -1,13 +1,11 @@
 {% load i18n %}
-{% trans "Activate account at" %} {{ site.name }}:
+{% trans "激活该站点的账号: " %} {{ site.name }}:
 
-Hello there!
+您好，请您点击以下链接完成注册，谢谢！
 
-Click the link below to activate your account.
-
-http://{{ site.domain }}{% url 'registration_activate' activation_key %}
+{{ site.domain }}{% url 'registration_activate' activation_key %}
 
 
-{% block trans %}The above link is valid for {{ expiration_days }} days.{% endblock trans %}
+{% block trans %}以上链接仅仅有效 {{ expiration_days }} 天。请您抓紧时间注册，谢谢。{% endblock trans %}
 
 -Komeiji Satori

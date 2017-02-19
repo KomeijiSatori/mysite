@@ -24,14 +24,11 @@
     <!-- Page Content -->
 
     <h1 class="page-header">
-        Dark♂Blogs
-        <small>乖乖站♂好</small>
+        Blogs
+        <small>Page {{ page }} of {{ page_list|length }}</small>
     </h1>
 
     {% include "blogs/base_blog_items.html" %}
-
-
-
 
     {% if user.is_authenticated %}
     <form id="post_form" method="POST" action="">

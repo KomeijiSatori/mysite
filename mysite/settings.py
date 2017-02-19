@@ -27,6 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = os.environ.get("MailUser", '')
+EMAIL_HOST_PASSWORD = os.environ.get("MailPasswd", '')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+
+REGISTRATION_EMAIL_HTML = False
+
 
 # Application definition
 
@@ -129,6 +138,7 @@ STATIC_URL = '/static/'
 #     os.path.join(BASE_DIR, "static_for_ind", "my_static"),
 # ]
 
+LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
