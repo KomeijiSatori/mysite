@@ -1,0 +1,23 @@
+# mysite_uwsgi.ini file
+[uwsgi]
+
+# Django-related settings
+# the base directory (full path)
+chdir           = /home/satori/mysite/src
+# Django's wsgi file
+module          = mysite.wsgi
+# the virtualenv (full path)
+home            = /home/satori/mysite/bin
+plugins         = python35
+
+# process-related settings
+# master
+master          = true
+# maximum number of worker processes
+processes       = 10
+# the socket (use the full path to be safe
+socket          = /home/satori/mysite/src/mysite.sock
+# ... with appropriate permissions - may be needed
+chmod-socket    = 777
+clear environment on exit
+vacuum          = true

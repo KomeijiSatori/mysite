@@ -27,6 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = os.environ.get("MailUser", '')
+EMAIL_HOST_PASSWORD = os.environ.get("MailPasswd", '')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+
+REGISTRATION_EMAIL_HTML = False
+
 
 # Application definition
 
@@ -35,9 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'mysite.apps.MysiteConfig',
     'blogs.apps.BlogsConfig',
+
+    'crispy_forms',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +134,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static_for_ind", "my_static"),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static_for_ind", "my_static"),
+# ]
+
+LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+
+CRISPY_TEMPLATE_PACK = "bootstrap3"
+
+SITE_ID = 1
