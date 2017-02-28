@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hqh9s)7yd2j^ygwjy@!er3vl=kx%#&i(2@3zb1eep^kfch9xf*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['118.89.233.232','chongliu.me']
 
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_HOST_USER = os.environ.get("MailUser", '')

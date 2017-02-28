@@ -1,11 +1,9 @@
 {% load i18n %}
-{% trans "激活该站点的账号: " %} {{ site.name }}:
+{% trans "Please complete the registration for: " %} {{ site.name }}:
 
-您好，请您点击以下链接完成注册，谢谢！
+Please click the link below to complete registration
+http://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
-{{ site.domain }}{% url 'registration_activate' activation_key %}
-
-
-{% block trans %}以上链接仅仅有效 {{ expiration_days }} 天。请您抓紧时间注册，谢谢。{% endblock trans %}
+{% block trans %}This link is valid for only {{ expiration_days }} days, please be quick before the link expire. Thank you very much!{% endblock trans %}
 
 -Komeiji Satori
