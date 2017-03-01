@@ -1,0 +1,5 @@
+{% load i18n %}
+{% trans "请您完成网站的注册" %} {{ site.name }}:
+<b><a href="http://{{ site.domain }}{% url 'registration_activate' activation_key % }请点击我以便完成注册</a></b>
+{% block trans %}<p>这个链接仅仅有效 {{ expiration_days }}天， 请在链接失效前完成注册，谢谢您的注册！</p>{% endblock trans %}
+<p>-Komeiji Satori</p>

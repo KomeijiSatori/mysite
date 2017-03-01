@@ -23,18 +23,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hqh9s)7yd2j^ygwjy@!er3vl=kx%#&i(2@3zb1eep^kfch9xf*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['118.89.233.232','chongliu.me']
+ALLOWED_HOSTS = ['118.89.233.232', 'chongliu.me', 'www.chongliu.me', '139.162.88.195']
 
-EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST = os.environ.get("MailHost", "")
 EMAIL_HOST_USER = os.environ.get("MailUser", '')
 EMAIL_HOST_PASSWORD = os.environ.get("MailPasswd", '')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_PORT = 25
+EMAIL_PORT = os.environ.get("MailPort", '')
 EMAIL_USE_TLS = True
-
-REGISTRATION_EMAIL_HTML = False
 
 
 # Application definition
