@@ -1,9 +1,0 @@
-{% load i18n %}
-{% trans "Please complete the registration for: " %} {{ site.name }}:
-
-Please click the link below to complete registration
-http://{{ site.domain }}{% url 'registration_activate' activation_key %}
-
-{% block trans %}This link is valid for only {{ expiration_days }} days, please be quick before the link expire. Thank you very much!{% endblock trans %}
-
--Komeiji Satori
