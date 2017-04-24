@@ -1,52 +1,49 @@
-import math
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 from .models import Blog, BlogCategory, BlogComment, BlogNestedComment
 from .forms import BlogForm, BlogCommentForm
 
 # Create your views here.
 
 blog_show_per_page = 10
-blog_home_char_show = 100
 blog_display_page = 7  # should be odd number
 
 
 def getPageList(cur_page, page_count):
-    left = int(cur_page - (blog_display_page - 1) / 2)
-    right = int(cur_page + (blog_display_page - 1) / 2)
-    if left <= 2:
-        if blog_display_page <= page_count - 1:
-            right = 1 + blog_display_page
-        else:
-            right = page_count
-    if right >= page_count - 1:
-        if blog_display_page <= page_count - 1:
-            left = page_count - blog_display_page
-        else:
-            left = 1
+    cur_page = int(cur_page)
 
-    if left <= 2:
+    if page_count <= blog_display_page:
         left = 1
-    if right >= page_count - 1:
         right = page_count
+    else:
+        left = int(cur_page - ((blog_display_page - 1) / 2 - 1))
+        right = int(cur_page + ((blog_display_page - 1) / 2 - 1))
+        if left < 2:
+            right += 2 - left
+            left = 2
+        elif right > page_count - 1:
+            left -= right - page_count + 1
+            right = page_count - 1
 
     if left == 1:
-        res = [str(x) for x in range(left, 1 + right)]
+        res = [x for x in range(left, 1 + right)]
+    elif left == 2:
+        res = [1] + [x for x in range(left, right + 1)]
     else:
-        res = ['1', '...'] + [str(x) for x in range(left, right + 1)]
+        res = [1, "..."] + [x for x in range(left, right + 1)]
     if right <= page_count - 2:
-        res += ['...', str(page_count)]
+        res += ['...', page_count]
+    elif right == page_count - 1:
+        res += [page_count]
     return res
 
 
-def index(request, page=1):
-    page = int(page) - 1
-    start_ind = page * blog_show_per_page
-
+def index(request):
     context = {}
     form = BlogForm(request.POST or None)
-
     if form.is_valid():
         categories = form.cleaned_data.get('categories').split(' ')
         categories = list(filter(None, categories))
@@ -54,7 +51,9 @@ def index(request, page=1):
         blog = Blog()
         blog.title = form.cleaned_data.get('title')
         blog.author = request.user
-        blog.text = form.cleaned_data.get('text')
+        # the cleaned data will swallow space which would break markdown format
+        # blog.text = form.cleaned_data.get('text')
+        blog.text = request.POST.get("text")
         blog.save()
 
         for category in categories:
@@ -68,37 +67,36 @@ def index(request, page=1):
             blog_category.blog.add(blog)
         return HttpResponseRedirect(reverse('blogs:index'))
 
-    elif len(form.data) > 0:
-        context['anchor'] = 'post_form'
+    blog_list = Blog.objects.all().order_by('-publish_time')
+    paginator = Paginator(blog_list, blog_show_per_page)
+    page = request.GET.get('page')
+    try:
+        blogs = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        page = 1
+        blogs = paginator.page(page)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        page = paginator.num_pages
+        blogs = paginator.page(page)
 
-    blogs = Blog.objects.all().order_by('-publish_time')[start_ind:start_ind + blog_show_per_page]
-
-    page_list = getPageList(page, math.ceil(Blog.objects.count() / blog_show_per_page))
-    # only render first 100 character
-    for blog in blogs:
-        if len(blog.text) > blog_home_char_show:
-            blog.text = blog.text[:blog_home_char_show] + "......"
+    page_list = getPageList(page, paginator.num_pages)
 
     context['blogs'] = blogs
-    context['form'] = form
     context['page_list'] = page_list
-    context['page'] = page + 1
-    context['page_url'] = 'blogs:page_show'
+    context['title'] = "Blogs"
     return render(request, "blogs/index.html", context)
 
 
 def archive(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
 
-    blogs = Blog.objects.all().order_by('-publish_time')
-    # the related page to that blog
-    page = str(int([x.id for x in blogs].index(int(blog_id)) / blog_show_per_page) + 1)
-
     comment_form = BlogCommentForm()
     nested_comment_form = BlogCommentForm()
     return render(request, "blogs/detail.html", {"blog": blog, 'comment_form': comment_form,
                                                  'nested_comment_form': nested_comment_form,
-                                                 'page': page, },)
+                                                 },)
 
 
 def addComment(request, blog_id):
@@ -129,16 +127,26 @@ def addNestedComment(request, comment_id):
         raise Http404("Page not found")
 
 
-def categoryBlogs(request, category, page=1):
+def categoryBlogs(request, category):
     cate = BlogCategory.objects.filter(name=category)
-    page = int(page) - 1
-    start_ind = page * blog_show_per_page
 
     if cate.count() > 0:
         blogs = cate[0].blog.all()
-        page_list = getPageList(page, math.ceil(blogs.count() / blog_show_per_page))
-        blogs = blogs.order_by('-publish_time')[start_ind:start_ind + blog_show_per_page]
+        blog_list = blogs.order_by('-publish_time')
+        paginator = Paginator(blog_list, blog_show_per_page)
+        page = request.GET.get('page')
+        try:
+            blogs = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            page = 1
+            blogs = paginator.page(page)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            page = paginator.num_pages
+            blogs = paginator.page(page)
 
+        page_list = getPageList(page, paginator.num_pages)
     else:
         blogs = []
         page_list = []
@@ -147,15 +155,52 @@ def categoryBlogs(request, category, page=1):
     context['blogs'] = blogs
     context['title'] = category
     context['page_list'] = page_list
-    context['page'] = page + 1
-    context['page_url'] = 'blogs:category_page'
-    context['page_url_args'] = category  # page_url_args is before page argument
 
-    return render(request, "blogs/category.html", context)
+    return render(request, "blogs/index.html", context)
 
 
+def post(request):
+    if request.user.is_authenticated():
+        form = BlogForm()
+        return render(request, "blogs/post.html", {"form": form})
+    raise Http404("Please log in to create a blog.")
 
 
+def search(request):
+    search_text = request.GET.get('search')
+    if search_text:
+        blog_list = Blog.objects.all()
+        query_list = blog_list.filter(
+            Q(title__icontains=search_text) |
+            Q(text__icontains=search_text) |
+            Q(author__username__icontains=search_text)
+        )
+        cate = BlogCategory.objects.filter(name=search_text)
+        print(cate.count())
+        if cate.count() > 0:
+            blogs = cate[0].blog.all()
+            query_list = query_list | blogs
+        query_list = query_list.distinct()
 
+    else:
+        query_list = []
+    paginator = Paginator(query_list, blog_show_per_page)
+    page = request.GET.get('page')
+    try:
+        blogs = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        page = 1
+        blogs = paginator.page(page)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        page = paginator.num_pages
+        blogs = paginator.page(page)
 
+    page_list = getPageList(page, paginator.num_pages)
 
+    context = {}
+    context['blogs'] = blogs
+    context['page_list'] = page_list
+    context['title'] = search_text
+    return render(request, "blogs/index.html", context)

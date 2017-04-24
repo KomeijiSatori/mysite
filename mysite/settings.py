@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hqh9s)7yd2j^ygwjy@!er3vl=kx%#&i(2@3zb1eep^kfch9xf*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['chongliu.me', 'www.chongliu.me']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'chongliu.me', 'www.chongliu.me']
 
 EMAIL_HOST = os.environ.get("MailHost", "")
 EMAIL_HOST_USER = os.environ.get("MailUser", '')
@@ -51,6 +51,8 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'registration',
+    'pagedown',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +149,17 @@ REGISTRATION_AUTO_LOGIN = True
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 SITE_ID = 1
+
+MARKDOWN_DEUX_STYLES = {
+    "default": {
+        "extras": {
+            "code-friendly": None,
+            "tables": None,
+            "footnotes": None,
+            "cuddled-lists": None,
+            "html-classes": {"pre": "prettyprint"},
+        },
+        "safe_mode": "escape",
+    },
+}
+

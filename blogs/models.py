@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.utils.safestring import mark_safe
+
+from markdown_deux import markdown
 # Create your models here.
 
 
@@ -14,6 +17,11 @@ class Blog(models.Model):
 
     class Meta:
         ordering = ('-publish_time', 'title', 'author',)
+
+    def get_markdown(self):
+        content = self.text
+        return mark_safe(markdown(content))
+
 
 
 class BlogCategory(models.Model):

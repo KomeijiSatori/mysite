@@ -1,0 +1,26 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    Blog Post
+{% endblock %}
+
+
+{% block additional_head %}
+    <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
+    {{ form.media }}
+{% endblock %}
+
+
+{% block content %}
+    <br/>
+    <div class="blog_post_div well">
+        <form id="post_form" method="POST" action="{% url 'blogs:index' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </form>
+    </div>
+{% endblock %}

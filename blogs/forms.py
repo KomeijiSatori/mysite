@@ -1,10 +1,12 @@
 from django import forms
+from pagedown.widgets import PagedownWidget
 
 
 class BlogForm(forms.Form):
-    title = forms.CharField()
-    text = forms.CharField(widget=forms.Textarea)
-    categories = forms.CharField(required=False, label="Tags", help_text="Divide tags by space")
+    title = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Title'}))
+    text = forms.CharField(label='', widget=PagedownWidget(attrs={'placeholder': 'Text'}))
+    categories = forms.CharField(required=False, label='', widget=forms.TextInput(
+        attrs={'placeholder': 'Tags\tDivide tags by space'}))
 
     def clean_title(self):
         title = self.cleaned_data.get('title')

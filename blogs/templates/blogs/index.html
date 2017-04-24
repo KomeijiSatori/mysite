@@ -4,41 +4,22 @@
 
 
 {% block title %}
-    Blogs
+    {{ title }}
 {% endblock %}
 
 
 {% block additional_head %}
     <!-- Custom CSS -->
     <link href="{% static 'blogs/blog-home.css' %}" rel="stylesheet">
-    {% if anchor %}
-    <script type='text/javascript'>
-        $(document).ready(function(){
-            window.location = '#{{ anchor }}'
-        });
-    </script>
-    {% endif %}
+    <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
 {% endblock %}
+
 
 {% block content %}
     <!-- Page Content -->
-
-    <h1 class="page-header">
-        Blogs
-        <small>Page {{ page }} of {{ page_list|length }}</small>
-    </h1>
+    {% include "blogs/base_search.html" %}
+    <br/>
 
     {% include "blogs/base_blog_items.html" %}
-
-    {% if user.is_authenticated %}
-    <form id="post_form" method="POST" action="">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" class="btn btn-primary" value="Submit" />
-    </form>
-    {% else %}
-    <p class="lead">Please log in to post a blog.</p>
-    {% endif %}
-
 
 {% endblock %}

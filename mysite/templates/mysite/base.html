@@ -2,91 +2,83 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!--Font-awesome CSS-->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+        <!--Font-awesome CSS-->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!--code style CSS-->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/monokai-sublime.min.css">
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <link href="{% static 'mysite/cover.css' %}" rel="stylesheet">
+        {% block additional_head %}
+        {% endblock %}
+    </head>
 
-    <link href="{% static 'mysite\cover.css' %}" rel="stylesheet">
-    {% block additional_head %}
-    {% endblock %}
-  </head>
-
-  <body>
-    <div class="site-wrapper">
-
-      <div class="site-wrapper-inner">
-
-        <div class="cover-container">
-
-
-          <div class="masthead clearfix">
-            <div class="inner">
-
-              <nav>
-              <div class="masthead-brand">
-                {% if user.is_authenticated %}
-                {{ user.username }}
-                <a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true">Log Out</i></a>
-                {% else %}
-                <a href="{% url 'auth_login' %}"><i class="fa fa-sign-in" aria-hidden="true">Log In</i></a>
-                <a href="{% url 'registration_register' %}"><i class="fa fa-user-plus" aria-hidden="true">Register</i></a>
-                {% endif %}
-
-
-              </div>
-
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
-                  <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">Blog</a></li>
-                  <!--<li {% if '/game' in request.path %}class="active"{% endif %}><a href="#">Game</a></li>-->
-                  <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="{% url 'contact' %}">Contact</a></li>
-                </ul>
-              </nav>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="navbar-header navbar-text">
+                        {% if user.is_authenticated %}
+                            {{ user.username }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true">Log Out</i></a></li>
+                        {% else %}
+                            <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in" aria-hidden="true">Log In</i></a></li>
+                            <li><a href="{% url 'registration_register' %}"><i class="fa fa-user-plus" aria-hidden="true">Register</i></a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
+                        <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">Blog</a></li>
+                        <!--<li {% if '/game' in request.path %}class="active"{% endif %}><a href="#">Game</a></li>-->
+                        <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
             </div>
-          </div>
+        </nav>
 
-          <div class="inner cover">
-          {% block content %}
-          {% endblock %}
-          </div>
-
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Developed by <a href="http://github.com/KomeijiSatori" target="_blank">Satori</a>. All rights reserved.</p>
+        <div class="col-lg-8 col-lg-offset-2">
+            {% block content %}
+            {% endblock %}
+            <div class="footer">
+                <a class="btn btn-success" href="http://github.com/KomeijiSatori" target="_blank">Developed by Satori. All rights reserved.</a>
             </div>
-          </div>
-
-
         </div>
 
-      </div>
-
-    </div>
-
-  </body>
+        <div id="zan-gotop">
+            <i class="fa fa-angle-up"></i>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+        <!--<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>-->
+        <script src="{% static 'mysite/cover.js' %}"></script>
+    </body>
 </html>
