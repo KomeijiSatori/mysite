@@ -1,0 +1,13 @@
+.wmd-panel
+{
+	margin-left: 0;
+	margin-right: 0;
+	width: 100%;
+}
+
+.wmd-input
+{
+	background-color: #fff;
+	border: #ccc;
+	border-radius: 4px;
+}

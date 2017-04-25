@@ -20,4 +20,5 @@
 .blog_post_div {
     background-color: rgba(230,238,232,0.8);
     box-shadow: 0px 0px 8px black;
+    overflow: hidden;
 }

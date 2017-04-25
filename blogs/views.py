@@ -43,30 +43,6 @@ def getPageList(cur_page, page_count):
 
 def index(request):
     context = {}
-    form = BlogForm(request.POST or None)
-    if form.is_valid():
-        categories = form.cleaned_data.get('categories').split(' ')
-        categories = list(filter(None, categories))
-
-        blog = Blog()
-        blog.title = form.cleaned_data.get('title')
-        blog.author = request.user
-        # the cleaned data will swallow space which would break markdown format
-        # blog.text = form.cleaned_data.get('text')
-        blog.text = request.POST.get("text")
-        blog.save()
-
-        for category in categories:
-            res = BlogCategory.objects.filter(name=category)
-            if res.count() == 0:
-                blog_category = BlogCategory()
-                blog_category.name = category
-                blog_category.save()
-            else:
-                blog_category = res[0]
-            blog_category.blog.add(blog)
-        return HttpResponseRedirect(reverse('blogs:index'))
-
     blog_list = Blog.objects.all().order_by('-publish_time')
     paginator = Paginator(blog_list, blog_show_per_page)
     page = request.GET.get('page')
@@ -161,7 +137,29 @@ def categoryBlogs(request, category):
 
 def post(request):
     if request.user.is_authenticated():
-        form = BlogForm()
+        form = BlogForm(request.POST or None)
+        if form.is_valid():
+            categories = form.cleaned_data.get('categories').split(' ')
+            categories = list(filter(None, categories))
+
+            blog = Blog()
+            blog.title = form.cleaned_data.get('title')
+            blog.author = request.user
+            # the cleaned data will swallow space which would break markdown format
+            # blog.text = form.cleaned_data.get('text')
+            blog.text = request.POST.get("text")
+            blog.save()
+
+            for category in categories:
+                res = BlogCategory.objects.filter(name=category)
+                if res.count() == 0:
+                    blog_category = BlogCategory()
+                    blog_category.name = category
+                    blog_category.save()
+                else:
+                    blog_category = res[0]
+                blog_category.blog.add(blog)
+            return HttpResponseRedirect(reverse('blogs:index'))
         return render(request, "blogs/post.html", {"form": form})
     raise Http404("Please log in to create a blog.")
 

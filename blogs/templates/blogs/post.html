@@ -9,18 +9,72 @@
 
 
 {% block additional_head %}
-    <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
     {{ form.media }}
+    <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
+    <link href="{% static 'blogs/pagedown-widget.css' %}" rel="stylesheet">
 {% endblock %}
 
 
 {% block content %}
     <br/>
     <div class="blog_post_div well">
-        <form id="post_form" method="POST" action="{% url 'blogs:index' %}">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input type="submit" class="btn btn-primary" value="Submit" />
-        </form>
+        <div class="col-md-6">
+            <h1>Form</h1>
+            <form id="post_form" method="POST" action="">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h1>Preview</h1>
+            <div class="blog-detail_div well">
+                <h1 id="preview_title"></h1>
+                <p class="lead">
+                    by <a>{{ request.user.username }}</a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on xxxx-xx-xx </p>
+                <p id="preview_category"></p>
+                <br/>
+                <p id="preview_content"></p>
+                <hr>
+            </div>
+
+        </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            function set_title()
+            {
+                $("#preview_title").text($("#id_title").val());
+            }
+            function set_content() {
+                $("#preview_content").html(marked($("#id_text").val()));
+            }
+            function set_category() {
+                var text = $("#id_categories").val();
+                var cates = text.split(" ");
+                var res = "Category:";
+                for(var i = 0; i < cates.length; i++)
+                {
+                    res += " <a>" + cates[i] + "</a>";
+                }
+                $("#preview_category").html(res);
+            }
+
+            // initial set
+            set_title();
+            set_content();
+            set_category();
+            // listen events
+            $("#id_title").bind('input propertychange', set_title);
+
+            $("#id_text").bind('input propertychange', set_content);
+
+            $("#id_categories").bind('input propertychange', set_category);
+        })
+    </script>
 {% endblock %}
