@@ -47,7 +47,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div id="navbar" class="navbar-collapse collapse">
+                <div id="navbar">
                     <ul class="nav navbar-nav">
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true">Log Out</i></a></li>
