@@ -1,8 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.utils.safestring import mark_safe
 
-from markdown_deux import markdown
 # Create your models here.
 
 
@@ -18,12 +16,6 @@ class Blog(models.Model):
     class Meta:
         ordering = ('-publish_time', 'title', 'author',)
 
-    def get_markdown(self):
-        content = self.text
-        return mark_safe(markdown(content))
-
-
-
 class BlogCategory(models.Model):
     blog = models.ManyToManyField(Blog)
     name = models.CharField(max_length=50)
@@ -36,7 +28,7 @@ class BlogCategory(models.Model):
 
 
 class BlogComment(models.Model):
-    blog = models.ForeignKey(Blog, on_delete = models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     publish_time = models.DateTimeField(auto_now_add=True, auto_now=False)
     text = models.TextField()

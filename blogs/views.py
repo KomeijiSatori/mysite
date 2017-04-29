@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.utils import timezone
 from .models import Blog, BlogCategory, BlogComment, BlogNestedComment
 from .forms import BlogForm, BlogCommentForm
 
@@ -58,6 +59,9 @@ def index(request):
         blogs = paginator.page(page)
 
     page_list = getPageList(page, paginator.num_pages)
+
+    for blog in blogs:
+        blog.publish_time = timezone.localtime(blog.publish_time)
 
     context['blogs'] = blogs
     context['page_list'] = page_list
@@ -121,6 +125,9 @@ def categoryBlogs(request, category):
             # If page is out of range (e.g. 9999), deliver last page of results.
             page = paginator.num_pages
             blogs = paginator.page(page)
+
+        for blog in blogs:
+            blog.publish_time = timezone.localtime(blog.publish_time)
 
         page_list = getPageList(page, paginator.num_pages)
     else:
@@ -194,6 +201,9 @@ def search(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         page = paginator.num_pages
         blogs = paginator.page(page)
+
+    for blog in blogs:
+        blog.publish_time = timezone.localtime(blog.publish_time)
 
     page_list = getPageList(page, paginator.num_pages)
 

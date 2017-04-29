@@ -8,32 +8,32 @@
 
 {% block content %}
 
-  <div class="inner cover">
-    <h1 class="cover-heading">I will be back</h1>
-    <p class="lead">
-       I thought what I'd do was, I'd pretend I was one of those deaf-mutes. 
-    </p>
-    <pre>
-        Renew background-image
-        Renew blog list UI
-        Add go top Button
-        Add markdown to content
-        Search implementation
-        Add properly markdown preview
-            tips for invalid category
-    </pre>
-    <pre>
-        1. preview javascript disable
-        2. preview highlight code not show correct
-    </pre>
-    <small style="color:rgba(0, 0, 0, 0.3);">Or should I?</small>
-    {% if user.is_authenticated %}
-    <p class="lead">
-       Welcome {{ user.username }}
-    </p>
-    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=445300&auto=1&height=66"></iframe>
-    {% endif %}
-  </div>
+    <div class="cover-div">
+        <h1 class="cover-heading">网站全新改版啦</h1>
+        <p class="lead">
+            欢迎～ {{ user.username }}
+        </p>
+        <p class="lead">
+            <b>注意事项:</b><br/>
+            发博客需要登录, 没有账号请点击register进行注册<br/>
+            <b>目前增加的新功能:</b><br/>
+            1. 更新了背景图片<br/>
+            2. 更新了博客列表展示UI<br/>
+            3. 增加了返回顶部按钮（在右下角）<br/>
+            4. 博客支持markdown语法了<br/>
+            5. 发博客的入口在博客主页的搜索框左上角的加号上<br/>
+            {% if request.user.is_authenticated %}
+                或者<a href="{% url 'blogs:post' %}">点我</a>发博客<br/>
+            {% endif %}
+            6. 发博客有预览了, 避免写错语法<br/>
+            7. 增加了搜索功能, 可以根据内容和作者和标签进行搜索<br/>
+            8. 增加了代码高亮功能, 请配合markdown代码块使用<br/>
+            9. 增加<a href="{% url 'blogs:archive' 105 %}">markdown语法指导</a><br/>
+            <b>修正了以下问题</b><br/>
+            1. 更换时区, 现在都是UTC+8了<br/>
+            2. markdown禁止html标签, 为了安全考虑<br/>
+        </p>
+    </div>
 
 
 {% endblock %}

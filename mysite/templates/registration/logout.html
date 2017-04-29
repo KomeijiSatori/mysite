@@ -1,7 +1,9 @@
-{% extends "base.html" %}
+{% extends "mysite/base.html" %}
 {% load i18n %}
 
 {% block content %}
-<p class='text-align-center lead'>You have successfully logged out.</p>
-<p class='text-align-center lead'><a href="{% url 'auth_login' %}">Login</a></p></p>
+<div class='cover-div'>
+    <p class='text-align-center lead'>You have successfully logged out.</p>
+    <p class='text-align-center lead'><a href="{% url 'auth_login' %}">Login</a></p></p>
+</div>
 {% endblock %}

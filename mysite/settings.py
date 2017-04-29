@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'registration',
     'pagedown',
-    'markdown_deux',
 ]
 
 MIDDLEWARE = [
@@ -121,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -149,17 +148,3 @@ REGISTRATION_AUTO_LOGIN = True
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 SITE_ID = 1
-
-MARKDOWN_DEUX_STYLES = {
-    "default": {
-        "extras": {
-            "code-friendly": None,
-            "tables": None,
-            "footnotes": None,
-            "cuddled-lists": None,
-            "html-classes": {"pre": "prettyprint"},
-        },
-        "safe_mode": "escape",
-    },
-}
-

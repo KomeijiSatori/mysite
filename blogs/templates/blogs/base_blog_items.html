@@ -1,4 +1,6 @@
 <!--List a list of blogs-->
+{% load static %}
+
 
 {% for blog in blogs %}
     <div class="blog-div well">
@@ -6,9 +8,9 @@
             <a href="{% url 'blogs:archive' blog.id %}">{{ blog.title }}</a>
         </h2>
         <p class="lead">
-            by <a href="#">{{ blog.author }}</a>
+            by {{ blog.author }}
         </p>
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time.year }}-{{ blog.publish_time.month }}-{{blog.publish_time.day}} {{ blog.publish_time.hour }}:{{ blog.publish_time.minute }}:{{ blog.publish_time.second }}</p>
         {% if blog.blogcategory_set.all.count > 0 %}
         <p>
             Category:
@@ -19,7 +21,7 @@
         {% endif %}
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
-        <p class="lead"><div>{{ blog.get_markdown|truncatechars_html:120 }}</div></p>
+        <p class="lead"><div class="marked_truncate">{{ blog.text }}</div></p>
         <a class="btn btn-primary" href="{% url 'blogs:archive' blog.id %}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
 {% endfor %}
