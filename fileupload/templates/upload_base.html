@@ -1,0 +1,16 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+
+{% block title %}
+    Upload file
+{% endblock %}
+
+{% block additional_head %}
+
+    <link href="{% static 'fileupload/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'fileupload/css/blueimp-gallery.min.css' %}" rel="stylesheet">
+    <link href="{% static 'fileupload/css/jquery.fileupload-ui.css' %}" rel="stylesheet">
+    <noscript><link rel="stylesheet" href="{% static 'fileupload/css/jquery.fileupload-ui-noscript.css' %}"></noscript>
+    <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
+    <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+{% endblock %}

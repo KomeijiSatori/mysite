@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'mysite.apps.MysiteConfig',
     'blogs.apps.BlogsConfig',
+    'fileupload.apps.FileuploadConfig',
 
     'crispy_forms',
     'registration',
@@ -138,6 +139,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 #     os.path.join(BASE_DIR, "static_for_ind", "my_static"),
 # ]
 
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 LOGIN_REDIRECT_URL = '/'
