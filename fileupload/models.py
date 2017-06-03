@@ -1,5 +1,11 @@
 # encoding: utf-8
+import os
 from django.db import models
+from django.conf import settings
+
+
+def get_upload_path(instance, filename):
+    return os.path.join("user_%d" % instance.owner.id, filename)
 
 
 class Picture(models.Model):
@@ -9,8 +15,9 @@ class Picture(models.Model):
     problems installing pillow, use a more generic FileField instead.
 
     """
-    file = models.ImageField(upload_to="pictures")
+    file = models.ImageField(upload_to=get_upload_path)
     slug = models.SlugField(max_length=50, blank=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.file.name

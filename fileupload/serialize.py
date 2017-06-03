@@ -27,11 +27,12 @@ def serialize(instance, file_attr='file'):
     obj = getattr(instance, file_attr)
     return {
         'url': obj.url,
+        'full_url': instance.domain + obj.url,
         'name': order_name(obj.name),
         'type': mimetypes.guess_type(obj.path)[0] or 'image/png',
         'thumbnailUrl': obj.url,
         'size': obj.size,
-        'deleteUrl': reverse('upload-delete', args=[instance.pk]),
+        'deleteUrl': reverse('upload:upload-delete', args=[instance.pk]),
         'deleteType': 'DELETE',
     }
 

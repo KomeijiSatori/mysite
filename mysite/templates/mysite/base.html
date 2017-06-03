@@ -60,6 +60,7 @@
                         <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
                         <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">Blog</a></li>
                         <!--<li {% if '/game' in request.path %}class="active"{% endif %}><a href="#">Game</a></li>-->
+                        <li {% if '/upload' in request.path %}class="active"{% endif %}><a href="{% url 'upload:upload-new' %}">Upload</a></li>
                         <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="{% url 'contact' %}">Contact</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->

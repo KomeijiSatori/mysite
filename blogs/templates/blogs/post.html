@@ -23,6 +23,7 @@
             <form id="post_form" method="POST" action="">
                 {% csrf_token %}
                 {{ form|crispy }}
+                <a class="btn btn-success" href="{% url 'upload:upload-new' %}" target="_blank">Upload Image</a>
                 <input type="submit" class="btn btn-primary" value="Submit" />
             </form>
         </div>

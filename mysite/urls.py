@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^contact/', views.contact, name="contact"),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.default.urls')),
-    url(r'^upload/', include('fileupload.urls')),
+    url(r'^upload/', include('fileupload.urls', namespace="upload")),
 ]
 
 
