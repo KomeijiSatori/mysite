@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hqh9s)7yd2j^ygwjy@!er3vl=kx%#&i(2@3zb1eep^kfch9xf*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'chongliu.me', 'www.chongliu.me']
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'mysite.apps.MysiteConfig',
     'blogs.apps.BlogsConfig',
+    'fileupload.apps.FileuploadConfig',
 
     'crispy_forms',
     'registration',
@@ -138,8 +139,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 #     os.path.join(BASE_DIR, "static_for_ind", "my_static"),
 # ]
 
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_ACTIVATION_DAYS = 7

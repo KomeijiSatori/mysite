@@ -1,0 +1,13 @@
+{% extends "fileupload/upload_base.html" %}
+
+{% block content %}
+<div class="cover-div">
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to <b style="color:red">delete "{{ object }}"</b>?</p>
+        <button type="submit" class="btn btn-danger delete">
+            <i class="glyphicon glyphicon-trash"></i>
+            <span>Delete</span>
+        </button>
+    </form>
+</div>
+{% endblock %}

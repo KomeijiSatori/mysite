@@ -11,3 +11,8 @@
 	border: #ccc;
 	border-radius: 4px;
 }
+
+#div_id_text
+{
+    overflow: auto;
+}
