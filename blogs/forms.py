@@ -1,3 +1,4 @@
+import re
 from django import forms
 from pagedown.widgets import PagedownWidget
 
@@ -6,7 +7,7 @@ class BlogForm(forms.Form):
     title = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     text = forms.CharField(label='', widget=PagedownWidget(show_preview=False))
     categories = forms.CharField(required=False, label='', widget=forms.TextInput(
-        attrs={'placeholder': 'Tags\tDivide tags by space'}))
+        attrs={'placeholder': 'Tags\tDivide tags by space Could be empty'}))
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -18,6 +19,9 @@ class BlogForm(forms.Form):
         text = self.cleaned_data.get('text')
         if text == "":
             raise forms.ValidationError("Content cannot be empty!")
+        http_links = re.findall(r'\[\d+\]: http://[^\s]*', text)
+        if len(http_links) > 0:
+            raise forms.ValidationError("Http link found! Only Https link is allowed! " + " ".join(http_links))
         return text
 
     def clean_categories(self):

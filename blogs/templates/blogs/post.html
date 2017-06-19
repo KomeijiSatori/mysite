@@ -18,7 +18,7 @@
 {% block content %}
     <br/>
     <div class="blog_post_div well">
-        <div class="col-md-6">
+        <div class="container-fluid">
             <h1>Form</h1>
             <form id="post_form" method="POST" action="">
                 {% csrf_token %}
@@ -28,7 +28,7 @@
             </form>
         </div>
 
-        <div class="col-md-6">
+        <div class="container-fluid">
             <h1>Preview</h1>
             <div class="blog-detail_div well">
                 <h1 id="preview_title"></h1>
@@ -46,6 +46,14 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            $('textarea').each(function ()
+            {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;resize: none;');
+            }).on('input', function () {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
             function set_title()
             {
                 $("#preview_title").text($("#id_title").val());

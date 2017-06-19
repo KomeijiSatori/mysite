@@ -1115,7 +1115,7 @@
                 // Fixes common pasting errors.
                 text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
                 if (!/^(?:https?|ftp):\/\//.test(text))
-                    text = 'http://' + text;
+                    text = 'https://' + text;
             }
 
             dialog.parentNode.removeChild(dialog);
