@@ -5,7 +5,6 @@ from django.conf import settings
 
 
 def get_upload_path(instance, filename):
-    filename = ''.join([ch for ch in filename if ord(ch) < 128])
     return os.path.join("user_%d" % instance.owner.id, filename)
 
 
