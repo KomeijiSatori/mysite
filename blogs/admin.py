@@ -1,11 +1,11 @@
 from django.contrib import admin
+from mptt.admin import MPTTModelAdmin
 
 # Register your models here.
 
-from .models import Blog, BlogCategory, BlogComment, BlogNestedComment
+from .models import Blog, BlogCategory, Comment
 
 
 admin.site.register(Blog)
 admin.site.register(BlogCategory)
-admin.site.register(BlogComment)
-admin.site.register(BlogNestedComment)
+admin.site.register(Comment, MPTTModelAdmin)

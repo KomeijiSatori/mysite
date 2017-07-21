@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.utils import timezone
-from .models import Blog, BlogCategory, BlogComment, BlogNestedComment
+from .models import Blog, BlogCategory, Comment
 from .forms import BlogForm, BlogCommentForm
 
 # Create your views here.
@@ -74,38 +74,34 @@ def archive(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
 
     comment_form = BlogCommentForm()
-    nested_comment_form = BlogCommentForm()
-    return render(request, "blogs/detail.html", {"blog": blog, 'comment_form': comment_form,
-                                                 'nested_comment_form': nested_comment_form,
-                                                 },)
+    comments = Comment.objects.filter(blog=blog)
+    return render(request, "blogs/detail.html", {"blog": blog, 'comment_form': comment_form, 'nodes': comments, },)
 
 
 def addComment(request, blog_id):
     form = BlogCommentForm(request.POST)
+    blog = get_object_or_404(Blog, id=blog_id)
     if form.is_valid():
-        comment = BlogComment()
+        comment = Comment()
         comment.author = request.user
         comment.text = form.cleaned_data.get('text')
-        comment.blog = get_object_or_404(Blog, id=blog_id)
+        comment.blog = blog
         comment.save()
-        return HttpResponseRedirect(reverse('blogs:archive', args=(blog_id,)))
-    else:
-        raise Http404("Page not found")
+    return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
 
 
 def addNestedComment(request, comment_id):
     form = BlogCommentForm(request.POST)
+    parent_comment = get_object_or_404(Comment, id=comment_id)
+    blog = parent_comment.blog
     if form.is_valid():
-        nested_comment = BlogNestedComment()
-        nested_comment.author = request.user
-        nested_comment.text = form.cleaned_data.get('text')
-        nested_comment.blog_comment = get_object_or_404(BlogComment, id=comment_id)
-        nested_comment.save()
-
-        comment = get_object_or_404(BlogComment, id=comment_id)
-        return HttpResponseRedirect(reverse('blogs:archive', args=(comment.blog.id,)))
-    else:
-        raise Http404("Page not found")
+        comment = Comment()
+        comment.parent = parent_comment
+        comment.author = request.user
+        comment.text = form.cleaned_data.get('text')
+        comment.blog = blog
+        comment.save()
+    return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
 
 
 def categoryBlogs(request, category):

@@ -1,6 +1,7 @@
 {% extends "mysite/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load mptt_tags %}
 
 
 {% block title %}
@@ -93,54 +94,42 @@
         {% endif %}
         <!-- Posted Comments -->
 
-        {% for comment in blog.blogcomment_set.all %}
-        <!-- Comment -->
-        <div class="media">
-            <!--<a class="pull-left" href="#">-->
+        <!-- Use tree node to implement comment thread-->
+        {% recursetree nodes %}
+        <li class="comment-list">
+            <div class="comment-div">
                 <img class="media-object pull-left" src= "{% static 'blogs/images/trans-64_64.png' %}" alt=""/>
-            <!--</a>-->
-            <div class="media-body">
-                <h4 class="media-heading">{{ comment.author }}
-                    <small>
-                        {{ comment.publish_time }}
+                <div class="media-body">
+                    <h4 class="media-heading">{{ node.author }}
+                        <small>
+                            {{ node.publish_time }}
+                        </small>
+                    </h4>
+                    {{ node.text }}
 
-                    </small>
-                </h4>
-                {{ comment.text }}
+                    <!--post reply-->
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-link">
+                        <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                    </button>
 
-
-                {% if user.is_authenticated %}
-                <button class="btn btn-link">
-                    <spam>Reply</spam> <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                </button>
-
-                <form style="display: none;" role="form" method="POST" action="{% url 'blogs:addNestedComment' comment.id %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{ nested_comment_form|crispy }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-                {% endif %}
-
-                {% for nested_comment in comment.blognestedcomment_set.all %}
-                <!-- Nested Comment -->
-                <div class="media">
-                    <!--<a class="pull-left" href="#">-->
-                        <img class="media-object pull-left" src= "{% static 'blogs/images/trans-64_64.png' %}" alt=""/>
-                    <!--</a>-->
-                    <div class="media-body">
-                        <h4 class="media-heading">{{ nested_comment.author }}
-                            <small>{{ nested_comment.publish_time }}</small>
-                        </h4>
-                        {{ nested_comment.text }}
-                    </div>
+                    <form style="display: none;" role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ comment_form|crispy }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    {% endif %}
                 </div>
-                <!-- End Nested Comment -->
-                {% endfor %}
             </div>
-        </div>
-        {% endfor %}
+            {% if not node.is_leaf_node %}
+                <ul class="children comment-list">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+        {% endrecursetree %}
     </div>
 
 {% endblock %}
