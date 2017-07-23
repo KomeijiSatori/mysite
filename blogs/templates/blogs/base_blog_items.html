@@ -40,7 +40,7 @@
                 <a class="btn btn-info" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ i }}">{{ i }}</a>
             {% endif %}
         {% else %}
-            <spam>...</spam>
+            <span>...</span>
         {% endif %}
     {% endfor %}
 

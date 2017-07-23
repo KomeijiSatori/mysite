@@ -9,6 +9,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=500, null=False)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     publish_time = models.DateTimeField(auto_now_add=True, auto_now=False)
+    last_update_time = models.DateTimeField(null=True, blank=True)
     text = models.TextField()
 
     def __str__(self):
@@ -23,6 +24,7 @@ class Comment(MPTTModel):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     publish_time = models.DateTimeField(auto_now_add=True, auto_now=False)
+    last_update_time = models.DateTimeField(null=True, blank=True)
     text = models.TextField()
 
     def __str__(self):

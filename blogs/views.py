@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.forms.models import model_to_dict
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -167,6 +169,75 @@ def post(request):
     return render(request, "blogs/post.html", {"form": form})
 
 
+@login_required
+def blog_update(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    # check if it is the author
+    if not(request.user == blog.author or request.user.is_superuser):
+        raise PermissionDenied
+
+    category_str = " ".join([x.name for x in blog.blogcategory_set.all()])
+    blog_initial = {
+        'title': blog.title,
+        'text': blog.text,
+        'categories': category_str,
+    }
+    form = BlogForm(request.POST or None, initial=blog_initial)
+
+    if form.is_valid():
+        categories = form.cleaned_data.get('categories').split(' ')
+        categories = list(filter(None, categories))
+
+        blog.title = form.cleaned_data.get('title')
+        # the cleaned data will swallow space which would break markdown format
+        # blog.text = form.cleaned_data.get('text')
+        blog.text = request.POST.get("text")
+        blog.last_update_time = timezone.now()
+        blog.save()
+
+        former_categories = blog.blogcategory_set.all()
+        for former_category in former_categories:
+            # if old category is removed
+            if former_category.name not in categories:
+                former_category.blog.remove(blog)
+                # if the category has no associated blogs
+                if former_category.blog.count() == 0:
+                    former_category.delete()
+
+        for category in categories:
+            if category not in former_categories:
+                res = BlogCategory.objects.filter(name=category)
+                if res.count() == 0:
+                    blog_category = BlogCategory()
+                    blog_category.name = category
+                    blog_category.save()
+                else:
+                    blog_category = res[0]
+                # add new related categories
+                blog_category.blog.add(blog)
+        return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
+    return render(request, "blogs/post.html", {"form": form, "author": blog.author})
+
+
+def getComment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    data = model_to_dict(comment)
+    return JsonResponse(data)
+
+
+def updateComment(request, comment_id):
+    form = BlogCommentForm(request.POST)
+    comment = get_object_or_404(Comment, id=comment_id)
+    blog = comment.blog
+    if not(request.user == comment.author or request.user.is_superuser):
+        raise PermissionDenied
+    if form.is_valid():
+        comment.text = form.cleaned_data.get('text')
+        comment.last_update_time = timezone.now()
+        comment.save()
+    return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
+
+
 def search(request):
     search_text = request.GET.get('search')
     if search_text:
@@ -177,7 +248,6 @@ def search(request):
             Q(author__username__icontains=search_text)
         )
         cate = BlogCategory.objects.filter(name=search_text)
-        print(cate.count())
         if cate.count() > 0:
             blogs = cate[0].blog.all()
             query_list = query_list | blogs

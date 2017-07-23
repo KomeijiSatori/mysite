@@ -33,7 +33,7 @@
             <div class="blog-detail_div well">
                 <h1 id="preview_title"></h1>
                 <p class="lead">
-                    by <a>{{ request.user.username }}</a>
+                    by <a>{% if author %}{{author}}{% else %}{{ request.user.username }}{% endif %}</a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> <span id="preview_time">Posted on xxxx-xx-xx</span></p>
                 <p id="preview_category"></p>

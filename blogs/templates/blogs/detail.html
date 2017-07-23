@@ -16,18 +16,41 @@
     <!-- Custom JS-->
     <script type="text/javascript">
     $(document).ready(function(){
-        $("button[class='btn btn-link']").click(function(){
-            $(this).next('form').toggle(500);
+        $(".reply_div").hide();
+        $(".update_div").hide();
+
+        $("button[name='reply-comment']").click(function(){
+            var comment_id = $(this).attr('id').split("_")[1];
+            $("#reply-div_" + comment_id).toggle(500);
             if ($(this).children('i').attr('class') === 'fa fa-arrow-down')
             {
                 $(this).children('i').attr('class', 'fa fa-arrow-up');
-                $(this).children('spam').html('Retract')
+                $(this).children('span').html('Retract')
             }
             else
             {
                 $(this).children('i').attr('class', 'fa fa-arrow-down');
-                $(this).children('spam').html('Reply')
+                $(this).children('span').html('Reply')
             }
+        });
+
+        $("button[name='update-comment']").click(function(){
+            var comment_id = $(this).attr('id').split("_")[1];
+            $.ajax({
+                url: $("#update-div_" + comment_id).attr('data-comment-url'),
+                dataType: "json",
+                success: function (data) {
+                    $("#update-div_" + comment_id).find('textarea').val(data.text);
+                }
+            });
+            $("#comment-div_" + comment_id).hide();
+            $("#update-div_" + comment_id).show(500);
+        });
+
+        $("button[name='cancel-btn']").click(function(){
+            var comment_id = $(this).attr('id').split("_")[1];
+            $("#comment-div_" + comment_id).show();
+            $("#update-div_" + comment_id).hide(500);
         });
     });
     </script>
@@ -49,10 +72,11 @@
             by <a href="#">{{ blog.author }}</a>
         </p>
 
-        <!--<hr>-->
-
         <!-- Date/Time -->
         <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
+        {% if blog.last_update_time %}
+        <p><span class="glyphicon glyphicon-time"></span> Last Edit on {{ blog.last_update_time }}</p>
+        {% endif %}
 
         {% if blog.blogcategory_set.all.count is not 0 %}
             <p>
@@ -68,10 +92,13 @@
         <!--&lt;!&ndash; Preview Image &ndash;&gt;-->
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
 
-        <!--<hr>-->
-
         <!-- Post Content -->
         <p class="lead"><div class="blog_content">{{ blog.text }}</div></p>
+
+        <!--edit button-->
+        {% if user == blog.author or user.is_superuser %}
+        <a class="btn btn-primary" href="{% url 'blogs:blog_update' blog.id %}">Edit</a>
+        {% endif %}
 
         <hr>
 
@@ -104,22 +131,48 @@
                         <small>
                             {{ node.publish_time }}
                         </small>
+                        <br/>
+                        {% if node.last_update_time %}
+                        <small>
+                            Last Edit on {{ node.last_update_time }}
+                        </small>
+                        {% endif %}
                     </h4>
-                    {{ node.text }}
+                    <div class="inner-comment" id="comment-div_{{ node.id }}">
+                        {{ node.text }}
 
-                    <!--post reply-->
-                    {% if user.is_authenticated %}
-                    <button class="btn btn-link">
-                        <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                    </button>
-
-                    <form style="display: none;" role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            {{ comment_form|crispy }}
+                        <!--post reply-->
+                        {% if user.is_authenticated %}
+                        <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
+                            <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                        </button>
+                        {% if node.author == user or user.is_superuser %}
+                        <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
+                            <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </button>
+                        {% endif %}
+                        <div class="reply_div" id="reply-div_{{ node.id }}">
+                            <form role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {{ comment_form|crispy }}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                        {% endif %}
+                    </div>
+                    {% if user.is_authenticated and node.author == user or user.is_superuser %}
+                    <div class="update_div" id="update-div_{{ node.id }}" data-comment-url="{% url 'blogs:getComment' node.id %}">
+                        <form role="form" method="POST" action="{% url 'blogs:updateComment' node.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ comment_form|crispy }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
+                        </form>
+                    </div>
                     {% endif %}
                 </div>
             </div>
