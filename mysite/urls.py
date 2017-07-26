@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^blogs/', include('blogs.urls', namespace="blogs")),
     url(r'^contact/', views.contact, name="contact"),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^upload/', include('fileupload.urls', namespace="upload")),
 ]
 

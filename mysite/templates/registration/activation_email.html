@@ -1,8 +1,0 @@
-{% load i18n %}
-{% trans "激活该站点的账号: " %} {{ site.name }}:
-<p>您好，请您点击以下链接完成注册，谢谢！</p>
-<a href="http://{{ site.domain }}{% url 'registration_activate' activation_key %}"><p style="color:red;">点我完成注册</p></a>
-
-{% block trans %}<p>以上链接仅仅有效 {{ expiration_days }} 天。请您抓紧时间注册，谢谢。</p>{% endblock trans %}
-
--Komeiji Satori

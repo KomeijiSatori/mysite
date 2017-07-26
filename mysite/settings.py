@@ -38,6 +38,16 @@ EMAIL_USE_TLS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'mysite.apps.MysiteConfig',
+    'blogs.apps.BlogsConfig',
+    'fileupload.apps.FileuploadConfig',
+    'accounts.apps.AccountsConfig',
+
+    'crispy_forms',
+    'registration',
+    'pagedown',
+    'mptt',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,15 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'mysite.apps.MysiteConfig',
-    'blogs.apps.BlogsConfig',
-    'fileupload.apps.FileuploadConfig',
-
-    'crispy_forms',
-    'registration',
-    'pagedown',
-    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -144,7 +145,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+#LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
