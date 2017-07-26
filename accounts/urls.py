@@ -11,7 +11,7 @@ class RegistrationViewUniqueEmail(RegistrationView):
     form_class = RegistrationFormUniqueEmail
 
 urlpatterns = [
-    # modify default accounts url
+    # modify default django auth url
     url(r'^register/$', RegistrationViewUniqueEmail.as_view(),
         name='registration_register'),
     url(r'^password/reset/$', auth_views.password_reset,
@@ -19,6 +19,12 @@ urlpatterns = [
             'post_reset_redirect': reverse_lazy('auth_password_reset_done'),
             'html_email_template_name': 'registration/password_reset_email.html',
         }, name='auth_password_reset'),
+
+    # other profile urls
+    url(r'^profile/$', views.dashboard, name="dashboard"),
+
+    # avatar urls
+    url(r'^profile/avatar/', include('avatar.urls')),
 
     # make included account url at the bottom
     url(r'', include('registration.backends.default.urls')),

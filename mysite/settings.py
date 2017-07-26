@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'registration',
     'pagedown',
     'mptt',
+    'avatar',
 
     'django.contrib.admin',
     'django.contrib.auth',

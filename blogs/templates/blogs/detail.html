@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load mptt_tags %}
+{% load avatar_tags %}
 
 
 {% block title %}
@@ -123,65 +124,65 @@
 
         <!-- Use tree node to implement comment thread-->
         {% recursetree nodes %}
-        <li class="comment-list">
-            <div class="comment-div">
-                <img class="media-object pull-left" src= "{% static 'blogs/images/trans-64_64.png' %}" alt=""/>
-                <div class="media-body">
-                    <h4 class="media-heading">{{ node.author }}
-                        <small>
-                            {{ node.publish_time }}
-                        </small>
-                        <br/>
-                        {% if node.last_update_time %}
-                        <small>
-                            Last Edit on {{ node.last_update_time }}
-                        </small>
-                        {% endif %}
-                    </h4>
-                    <div class="inner-comment" id="comment-div_{{ node.id }}">
-                        {{ node.text }}
+        <div class="media">
+            <div class="media-left">
+                {% avatar node.author 64 %}
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{ node.author }}
+                    <small>
+                        {{ node.publish_time }}
+                    </small>
+                    <br/>
+                    {% if node.last_update_time %}
+                    <small>
+                        Last Edit on {{ node.last_update_time }}
+                    </small>
+                    {% endif %}
+                </h4>
+                <div class="inner-comment" id="comment-div_{{ node.id }}">
+                    {{ node.text }}
 
-                        <!--post reply-->
-                        {% if user.is_authenticated %}
-                        <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
-                            <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                        </button>
-                        {% if node.author == user or user.is_superuser %}
-                        <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
-                            <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        </button>
-                        {% endif %}
-                        <div class="reply_div" id="reply-div_{{ node.id }}">
-                            <form role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {{ comment_form|crispy }}
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% if user.is_authenticated and node.author == user or user.is_superuser %}
-                    <div class="update_div" id="update-div_{{ node.id }}" data-comment-url="{% url 'blogs:getComment' node.id %}">
-                        <form role="form" method="POST" action="{% url 'blogs:updateComment' node.id %}">
+                    <!--post reply-->
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
+                        <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                    </button>
+                    {% if node.author == user or user.is_superuser %}
+                    <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
+                        <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>
+                    {% endif %}
+                    <div class="reply_div" id="reply-div_{{ node.id }}">
+                        <form role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
                             {% csrf_token %}
                             <div class="form-group">
                                 {{ comment_form|crispy }}
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
                         </form>
                     </div>
                     {% endif %}
                 </div>
+                {% if user.is_authenticated and node.author == user or user.is_superuser %}
+                <div class="update_div" id="update-div_{{ node.id }}" data-comment-url="{% url 'blogs:getComment' node.id %}">
+                    <form role="form" method="POST" action="{% url 'blogs:updateComment' node.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ comment_form|crispy }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
+                    </form>
+                </div>
+                {% endif %}
+                {% if not node.is_leaf_node %}
+                    <div class="children media">
+                        {{ children }}
+                    </div>
+                {% endif %}
             </div>
-            {% if not node.is_leaf_node %}
-                <ul class="children comment-list">
-                    {{ children }}
-                </ul>
-            {% endif %}
-        </li>
+        </div>
         {% endrecursetree %}
     </div>
 
