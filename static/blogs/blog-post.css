@@ -10,9 +10,10 @@
     text-align: left;
 }
 
-.comment-div {
-    margin-top: 10px;
+.media-left {
+    min-width: 80px;
 }
+
 .btn:focus, .btn-link:focus {
   outline: none !important;
 }
