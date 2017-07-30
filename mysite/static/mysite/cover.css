@@ -1,26 +1,28 @@
 html,
 body {
-  font-family: Helvetica, Arial, PingFang SC, Microsoft Yahei, Hiragino Sans GB,
+    font-family: Helvetica, Arial, PingFang SC, Microsoft Yahei, Hiragino Sans GB,
     WenQuanYi Micro Hei, NSimSun, Simsun, sans-serif !important;
-  font-size: 16px;
-  height: 100%;
-  background-image: url("images/bg-img.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+    font-size: 16px;
+    height: 100%;
+    background-image: url("images/bg-img.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .navbar-default .navbar-text {
-  font-weight: bold;
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 12px;
 }
 
 .navbar-default {
-  background-color: rgba(248, 248, 248, 0.8)
+    background-color: rgba(248, 248, 248, 0.8)
 }
 
 .navbar-default .navbar-nav > .active > a {
-  background-color: rgba(248, 248, 248, 0.8);
-  color: #000;
+    background-color: rgba(248, 248, 248, 0.8);
+    color: #000;
 }
 
 #zan-gotop {

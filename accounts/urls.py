@@ -26,6 +26,11 @@ urlpatterns = [
     # avatar urls
     url(r'^profile/avatar/', include('avatar.urls')),
 
+    # ajax urls
+    url(r'ajax/blog/posts', views.get_blog_posts_content, name="user_blog_posts"),
+    url(r'ajax/comment/posts', views.get_comments_posts_content, name="user_comment_posts"),
+    url(r'ajax/comment/received', views.get_comments_received_content, name="user_comment_received"),
+
     # make included account url at the bottom
     url(r'', include('registration.backends.default.urls')),
 ]

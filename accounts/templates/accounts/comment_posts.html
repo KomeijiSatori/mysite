@@ -1,0 +1,59 @@
+<!--List a list of blogs-->
+{% load static %}
+{% load blog_tags %}
+
+
+{% for comment in comments %}
+    <div class="blog-div well">
+        <p class="lead"><b>{{ comment.author }}</b>: {{ comment.text|truncatewords:30 }}</p>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ comment.publish_time }}</p>
+        {% if comment.parent %}
+        <pre><b>{{ comment.parent.author }}</b>: {{ comment.parent.text|truncatewords:30 }}<span style="color:grey"> On {{ comment.parent.publish_time }}</span></pre>
+        {% else %}
+        <pre><a href="{% url 'blogs:archive' comment.blog.id %}" target="_blank"><b><i>{{ comment.blog.title }}</i></b></a> <span style="color:grey">written by {{ comment.blog.author }} On {{ comment.blog.publish_time }}</span></pre>
+        {% endif %}
+        <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
+        <!--<hr>-->
+        <a class="btn btn-primary" href="{% url 'blogs:archive' comment.blog.id %}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div>
+{% endfor %}
+
+<!-- Pager -->
+<ul class="pager">
+    {% if comments.has_previous %}
+        <a class="btn btn-default page-link" href="{% url_replace page=comments.previous_page_number %}">&lt;</a>
+    {% endif %}
+
+    {% for i in page_list %}
+        {% if i != '...' %}
+            {% if i != comments.number %}
+                <a class="btn btn-default page-link" href="{% url_replace page=i %}">{{ i }}</a>
+            {% else %}
+                <a class="btn btn-info page-link" href="{% url_replace page=i %}">{{ i }}</a>
+            {% endif %}
+        {% else %}
+            <span>...</span>
+        {% endif %}
+    {% endfor %}
+
+    {% if comments.has_next %}
+        <a class="btn btn-default page-link" href="{% url_replace page=comments.next_page_number %}">&gt;</a>
+    {% endif %}
+</ul>
+
+<script>
+    $(".page-link").click(function(){
+        event.preventDefault();
+        var ajax_url = $(this).attr("href");
+        $.ajax({
+            type:"GET",
+            url: ajax_url,
+            success: function(result) {
+                $('#comment-posts').html(result);
+            },
+            error: function(jqXHR, exception) {
+                $('#comment-posts').html(exception);
+            }
+        });
+    });
+</script>

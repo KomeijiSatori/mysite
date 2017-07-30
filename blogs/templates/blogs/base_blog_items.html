@@ -1,5 +1,6 @@
 <!--List a list of blogs-->
 {% load static %}
+{% load blog_tags %}
 
 
 {% for blog in blogs %}
@@ -29,15 +30,15 @@
 <!-- Pager -->
 <ul class="pager">
     {% if blogs.has_previous %}
-        <a class="btn btn-default" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ blogs.previous_page_number }}">&lt;</a>
+        <a class="btn btn-default" href="?{% url_replace page=blogs.previous_page_number %}">&lt</a>
     {% endif %}
 
     {% for i in page_list %}
         {% if i != '...' %}
             {% if i != blogs.number %}
-                <a class="btn btn-default" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ i }}">{{ i }}</a>
+                <a class="btn btn-default" href="?{% url_replace page=i %}">{{ i }}</a>
             {% else %}
-                <a class="btn btn-info" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ i }}">{{ i }}</a>
+                <a class="btn btn-info" href="?{% url_replace page=i %}">{{ i }}</a>
             {% endif %}
         {% else %}
             <span>...</span>
@@ -45,6 +46,6 @@
     {% endfor %}
 
     {% if blogs.has_next %}
-        <a class="btn btn-default" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ blogs.next_page_number }}">&gt;</a>
+        <a class="btn btn-default" href="?{% url_replace page=blogs.next_page_number %}">&gt;</a>
     {% endif %}
 </ul>

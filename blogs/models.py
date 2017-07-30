@@ -39,7 +39,6 @@ class Comment(MPTTModel):
         order_insertion_by = ['-publish_time']
 
 
-
 class BlogCategory(models.Model):
     blog = models.ManyToManyField(Blog)
     name = models.CharField(max_length=50)

@@ -270,7 +270,8 @@ def search(request):
 
     for blog in blogs:
         blog.publish_time = timezone.localtime(blog.publish_time)
-
+        if blog.last_update_time:
+            blog.last_update_time = timezone.localtime(blog.last_update_time)
     page_list = getPageList(page, paginator.num_pages)
 
     context = {}

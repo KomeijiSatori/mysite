@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function update_marked_truncate() {
     marked.setOptions({
            gfm: true,
            tables: true,
@@ -19,4 +19,8 @@ $(document).ready(function () {
         var rendered_html = marked(content);
         $(this).html(rendered_html);
     });
+}
+
+$(document).ready(function () {
+    update_marked_truncate();
 });
