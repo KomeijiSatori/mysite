@@ -12,3 +12,18 @@
     margin-bottom: 20px;
     box-shadow: 0px 0px 8px black;
 }
+
+.profile-avatar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-nav {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+pre {
+    white-space: pre-wrap;
+}

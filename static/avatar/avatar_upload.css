@@ -1,0 +1,22 @@
+input[type="file"] {
+    display: inline;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+    position: absolute;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+#id_choice, #id_choices {
+    list-style: none;
+    margin-left: -50px;
+}

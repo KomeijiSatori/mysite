@@ -1,6 +1,7 @@
 {% extends "mysite/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load avatar_tags %}
 
 {% block title %}
     {{ title }}
@@ -91,6 +92,15 @@
 
 {% block content %}
 <div class="accounts-panel-div">
+    <div class="profile-avatar text-center">
+        {% avatar user 96 %}<br/>
+        <div class="profile-nav">
+            <a href="{% url 'avatar_change' %}" class="btn btn-success">Change Avatar</a>
+            <a href="{% url 'avatar_delete' %}" class="btn btn-danger">Manage Avatar</a>
+            <a href="{% url 'profile_edit' %}" class="btn btn-info">Edit Profile</a>
+        </div>
+    </div>
+
     <ul class="nav nav-pills">
         <li class="active"><a href="#blog-posts-tab" data-toggle="pill">My blog posts</a></li>
         <li><a href="#blog-comments-tab" data-toggle="pill">My blog comments</a></li>

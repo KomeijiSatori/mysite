@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     gender = models.CharField(blank=True, null=True, max_length=100, choices=(("male", "Male"), ("female", "Female")))
-    birthday = models.DateField(blank=True, null=True)
+    birthday = models.DateField(blank=True, null=True, help_text="yyyy-mm-dd")
     mobile = models.CharField(blank=True, null=True, max_length=100, help_text="Your mobile number")
     residence = models.CharField(blank=True, null=True, max_length=500, help_text="Where you live in")
     website = models.URLField(blank=True, null=True, help_text="Your personal website")

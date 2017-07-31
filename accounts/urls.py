@@ -22,6 +22,7 @@ urlpatterns = [
 
     # other profile urls
     url(r'^profile/$', views.dashboard, name="dashboard"),
+    url(r'^profile/edit/$', views.profile_edit, name="profile_edit"),
 
     # avatar urls
     url(r'^profile/avatar/', include('avatar.urls')),
