@@ -93,7 +93,7 @@
 {% block content %}
 <div class="accounts-panel-div">
     <div class="profile-avatar text-center">
-        {% avatar user 96 %}<br/>
+        {% avatar request.user 96 %}<br/>
         <div class="profile-nav">
             <a href="{% url 'avatar_change' %}" class="btn btn-success">Change Avatar</a>
             <a href="{% url 'avatar_delete' %}" class="btn btn-danger">Manage Avatar</a>

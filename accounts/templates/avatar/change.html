@@ -32,7 +32,7 @@
 
 <div class="accounts-panel-div" style="text-align: center;">
     <h3>Your current avatar:</h3>
-    {% avatar user %}
+    {% avatar request.user %}
     <hr/>
     {% if not avatars %}
         <p class="lead">You haven't uploaded an avatar yet. Please upload one now.</p>

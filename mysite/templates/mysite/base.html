@@ -45,7 +45,7 @@
                 <div class="navbar-header">
                     <div class="navbar-header navbar-text">
                         {% if user.is_authenticated %}
-                            <a href="{% url 'dashboard' %}" style="text-decoration: none;">{% avatar user 27 %} {{ user.username }}</a>
+                            <a href="{% url 'dashboard' %}" style="text-decoration: none;">{% avatar request.user 27 %} {{ request.user.username }}</a>
                         {% endif %}
                     </div>
                 </div>
