@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
+from django.db.models import Q
 
 from .models import Blog, BlogCategory, Comment
 
@@ -41,9 +44,9 @@ class BlogService(object):
     def get_paginated_items(cls, item_list, current_page):
         """
         Get paginated items with page list.
-        @param item_list: type: array, array that contains all items, maybe Blog or Comments
-        @param current_page: type: str or int, the current page number
-        @return: [items, page_list], items: array, page_list: array
+        :param item_list: type: array, array that contains all items, maybe Blog or Comments
+        :param current_page: type: str or int, the current page number
+        :return: [items, page_list], items: array, page_list: array
         """
         paginator = Paginator(item_list, cls.item_show_per_page)
 
@@ -71,11 +74,11 @@ class BlogService(object):
     def create_blog_from_string(cls, user, title_str, text_str, category_str):
         """
         Create blog from string.
-        @param user: type: User, the author of the blog
-        @param title_str: type: str, the new title of the blog
-        @param text_str: type: str, the new content of the blog
-        @param category_str: type: str, the new categories of the blog
-        @return: blog: type: Blog, the updated blog
+        :param user: type: User, the author of the blog
+        :param title_str: type: str, the new title of the blog
+        :param text_str: type: str, the new content of the blog
+        :param category_str: type: str, the new categories of the blog
+        :return: blog: type: Blog, the created blog
         """
         categories = []
         if category_str:
@@ -85,8 +88,6 @@ class BlogService(object):
         blog = Blog()
         blog.title = title_str
         blog.author = user
-        # the cleaned data will swallow space which would break markdown format
-        # blog.text = form.cleaned_data.get('text')
         blog.text = text_str
         blog.save()
 
@@ -105,14 +106,14 @@ class BlogService(object):
     def update_blog_from_string(cls, blog_id, title_str, text_str, category_str):
         """
         Update blog from string.
-        @param blog_id: type: num, the id of the blog
-        @param title_str: type: str, the new title of the blog
-        @param text_str: type: str, the new content of the blog
-        @param category_str: type: str, the new categories of the blog
-        @return: blog: type: Blog, the updated blog
+        :param blog_id: type: num, the id of the blog
+        :param title_str: type: str, the new title of the blog
+        :param text_str: type: str, the new content of the blog
+        :param category_str: type: str, the new categories of the blog
+        :return: blog: type: Blog, the updated blog
         """
         categories = []
-        if category_str:
+        if category_str is not None:
             categories_str = category_str.split(' ')
             categories = list(filter(None, categories_str))
 
@@ -150,12 +151,104 @@ class BlogService(object):
     def update_comment_from_string(cls, comment_id, comment_str):
         """
         Update comments from string.
-        @param comment_id: type: num, the id of the comment
-        @param comment_str: type: str, the new content of the comment
-        @return: comment: type: Comment, the updated comment
+        :param comment_id: type: num, the id of the comment
+        :param comment_str: type: str, the new content of the comment
+        :return: comment: type: Comment, the updated comment
         """
         comment = Comment.objects.get(id=comment_id)
         comment.text = comment_str
         comment.last_update_time = timezone.now()
         comment.save()
 
+    @classmethod
+    def create_comment_from_string(cls, user, blog, comment_str, parent=None):
+        """
+        Create comment from string.
+        :param user: type: User, the author of the comment
+        :param blog: type: Blog, the blog which comment belongs to
+        :param comment_str: type: str, the new content of the comment
+        :param parent: type: Comment, the parent of the comment
+        :return: comment: type: Comment, the created Comment
+        """
+        comment = Comment()
+        comment.author = user
+        comment.blog = blog
+        comment.parent = parent
+        comment.text = comment_str
+        comment.save()
+        return comment
+
+    @classmethod
+    def search_blogs(cls, *args, **kwargs):
+        """
+        Get search blog list.
+        :param args: leave for None
+        :param kwargs: dict of keys in ["search", "title", "text", "author", "category",
+        "publish_from_date", "publish_to_date", "update_from_date", "update_to_date"]
+        example: {'search': ['test'], 'title': [''], 'update_from_date': ['2017-8-8'], "update_to_date": ['2017-8-9']}
+        :return: [blogs], blogs: array
+        """
+        search = kwargs.get("search")
+        optional_fields = ["title", "text", "author", "category"]
+        time_fields = ["publish_from_date", "publish_to_date", "update_from_date", "update_to_date"]
+        allowed_kwarg_fields = optional_fields + time_fields + ['search', 'page', 'page_size']
+        res = dict()
+
+        invalid_keys = [key for key in kwargs.keys() if key not in allowed_kwarg_fields]
+        if len(invalid_keys) > 0:
+            raise Exception("Invalid field: {}".format(invalid_keys))
+
+        if search is None:
+            raise Exception("Search field is None")
+        if len(search) > 1:
+            raise Exception("Multiple search fields")
+        search = search[0]
+        if search == "":
+            raise Exception("Empty search fields")
+
+        for field_name in optional_fields:
+            field = kwargs.get(field_name)
+            if field:
+                if len(field) > 1:
+                    raise Exception("Multiple {} fields".format(field_name))
+                else:
+                    res[field_name] = True
+            else:
+                res[field_name] = False
+
+        for field_name in time_fields:
+            field = kwargs.get(field_name)
+            if field:
+                if len(field) > 1:
+                    raise Exception("Multiple {} fields".format(field_name))
+                else:
+                    res[field_name] = datetime.strptime(field[0], "%Y-%m-%d")
+            else:
+                res[field_name] = None
+
+        # then select blogs by the time
+        q = Q()
+        if res['title']:
+            q |= Q(title__icontains=search)
+        if res['text']:
+            q |= Q(text__icontains=search)
+        if res['author']:
+            q |= Q(author__username__icontains=search)
+        if res['category']:
+            q |= Q(blogcategory__name__icontains=search)
+
+        # if no optional field, default to search all these fields
+        if len(q) == 0:
+            q = Q(title__icontains=search) | Q(text__icontains=search) | Q(author__username__icontains=search) \
+                | Q(blogcategory__name__icontains=search)
+
+        if res['publish_from_date']:
+            q &= Q(publish_time__gte=res['publish_from_date'])
+        if res['publish_to_date']:
+            q &= Q(publish_time__lt=res['publish_to_date'])
+        if res['update_from_date']:
+            q &= Q(update_time__gte=res['update_from_date'])
+        if res['update_to_date']:
+            q &= Q(update_time__lt=res['update_to_date'])
+
+        return Blog.objects.filter(q)

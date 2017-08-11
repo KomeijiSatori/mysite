@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
+
+from rest_framework.authtoken.models import Token
 
 from .forms import ProfileForm
 from .models import Profile
@@ -15,7 +17,11 @@ from blogs.service import BlogService
 
 @login_required
 def dashboard(request):
-    return render(request, "accounts/dashboard.html")
+    try:
+        api_key = Token.objects.get(user=request.user)
+    except Exception:
+        api_key = None
+    return render(request, "accounts/dashboard.html", {"api_key": api_key})
 
 
 def get_blog_posts_content(request):
@@ -60,7 +66,8 @@ def get_comments_received_content(request):
     if request.is_ajax():
         user_id = request.GET.get("user_id")
         user = get_object_or_404(User, id=user_id)
-        comment_list = Comment.objects.filter(Q(blog__author=user) | Q(parent__author=user)).distinct().order_by('-publish_time')
+        q = (~Q(author=user)) & (Q(blog__author=user) | Q(parent__author=user))
+        comment_list = Comment.objects.filter(q).distinct().order_by('-publish_time')
 
         page = request.GET.get('page')
         comments, page_list = BlogService.get_paginated_items(comment_list, page)
@@ -101,3 +108,14 @@ def profile_edit(request):
     else:
         form = ProfileForm(instance=user_profile)
     return render(request, "accounts/profile_edit.html", {"form": form})
+
+
+@login_required
+def generate_api_key(request):
+    origin_token = Token.objects.filter(user=request.user)
+    if len(origin_token) == 1:
+        origin_token[0].delete()
+    elif len(origin_token) > 1:
+        raise Exception("Get token failed, Please contact the admin team")
+    token = Token.objects.create(user=request.user)
+    return JsonResponse({"api-key": token.key})

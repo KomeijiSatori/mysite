@@ -2,14 +2,16 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.BlogListView.as_view(), name="list"),
-    url(r'^archive/(?P<pk>\d+)/$', views.BlogDetailView.as_view(), name="detail"),
+    url(r'^$', views.BlogListView.as_view(), name="blog_list"),
+    url(r'^archive/(?P<pk>\d+)/$', views.BlogDetailView.as_view(), name="blog_detail"),
     url(r'^archive/(?P<pk>\d+)/edit/$', views.BlogUpdateView.as_view(), name="blog_update"),
-    url(r'^post/$', views.BlogCreateView.as_view(), name="post"),
-    # url(r'^search/$', views.search, name="search"),
-    # url(r'^comment/(?P<comment_id>[0-9]+)/$', views.getComment, name="getComment"),
-    # url(r'^addComment/(?P<blog_id>[0-9]+)/$', views.addComment, name="addComment"),
-    # url(r'^addNestedComment/(?P<comment_id>[0-9]+)/$', views.addNestedComment, name="addNestedComment"),
-    # url(r'^updateComment/(?P<comment_id>[0-9]+)/$', views.updateComment, name="updateComment"),
-    # url(r'^category/(?P<category>.+)/$', views.categoryBlogs, name="category"),
+    url(r'^post/$', views.BlogCreateView.as_view(), name="blog_post"),
+    url(r'^search/$', views.BlogSearchView.as_view(), name="search"),
+    url(r'^archive/(?P<pk>\d+)/comment/$', views.BlogCommentView.as_view(), name="blog_comment_list"),
+    url(r'^comment/(?P<pk>\d+)/$', views.CommentListView.as_view(), name="comment_list"),
+    url(r'^addComment/(?P<blog_id>[0-9]+)/$', views.CommentCreateView.as_view(), name="comment_post"),
+    url(r'^addNestedComment/(?P<comment_id>[0-9]+)/$', views.NestedCommentCreateView.as_view(),
+        name="nested_comment_post"),
+    url(r'^comment/(?P<pk>\d+)/edit/$', views.CommentUpdateView.as_view(), name="comment_update"),
+    url(r'^category/(?P<name>.+)/$', views.BlogCategoryListView.as_view(), name="category_list"),
 ]

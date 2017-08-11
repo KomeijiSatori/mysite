@@ -9,17 +9,22 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">增加用户界面啦</h1>
+        <h1 class="cover-heading">可以使用Blog API啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
         <p class="lead">
             <b>注意事项:</b><br/>
             1. 发博客和上传图片需要登录, 没有账号请点击register进行注册<br/>
-            2. 点击左上角头像即可进入用户界面
+            2. 点击左上角头像即可进入用户界面, 在用户界面能生成API key
             {% if request.user.is_authenticated %}
                 , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
             {% endif %}
+            <br/>
+            <b>2017年8月11日----版本更新:</b><br/>
+            1. 添加了blog api, 现在能通过访问api的方式玩博客了<br/>
+            2. 增加<a href="{% url 'blogs:archive' 125 %}">API使用指导手册</a><br/>
+            3. 修复了查看回复我的时候看到自己发出评论的问题<br/>
             <br/>
             <b>2017年7月31日----版本更新:</b><br/>
             1. 增加了用戶头像上传, 切换以及删除功能<br/>
@@ -65,9 +70,8 @@
             7. 增加了搜索功能, 可以根据内容和作者和标签进行搜索<br/>
             8. 增加了代码高亮功能, 请配合markdown代码块使用<br/>
             9. 增加<a href="{% url 'blogs:archive' 105 %}">markdown语法指导</a><br/>
-            <b>修正了以下问题</b><br/>
-            1. 更换时区, 现在都是UTC+8了<br/>
-            2. markdown禁止html标签, 为了安全考虑<br/>
+            10. 更换时区, 现在都是UTC+8了<br/>
+            11. markdown禁止html标签, 为了安全考虑<br/>
         </p>
     </div>
 
