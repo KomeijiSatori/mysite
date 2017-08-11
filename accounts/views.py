@@ -1,22 +1,27 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+from rest_framework.authtoken.models import Token
 
 from .forms import ProfileForm
 from .models import Profile
-from blogs.views import Blog, Comment, \
-    Paginator, PageNotAnInteger, EmptyPage, blog_show_per_page, getPageList, timezone
+from blogs.views import Blog, Comment
+from blogs.service import BlogService
 
 # Create your views here.
 
 
 @login_required
 def dashboard(request):
-    return render(request, "accounts/dashboard.html")
+    try:
+        api_key = Token.objects.get(user=request.user)
+    except Exception:
+        api_key = None
+    return render(request, "accounts/dashboard.html", {"api_key": api_key})
 
 
 def get_blog_posts_content(request):
@@ -25,27 +30,10 @@ def get_blog_posts_content(request):
         user = get_object_or_404(User, id=user_id)
         blog_list = Blog.objects.filter(author=user).order_by('-publish_time')
 
-        context = {}
-        paginator = Paginator(blog_list, blog_show_per_page)
         page = request.GET.get('page')
-        try:
-            blogs = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            page = 1
-            blogs = paginator.page(page)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            page = paginator.num_pages
-            blogs = paginator.page(page)
+        blogs, page_list = BlogService.get_paginated_items(blog_list, page)
 
-        page_list = getPageList(page, paginator.num_pages)
-
-        for blog in blogs:
-            blog.publish_time = timezone.localtime(blog.publish_time)
-            if blog.last_update_time:
-                blog.last_update_time = timezone.localtime(blog.last_update_time)
-
+        context = {}
         context['blogs'] = blogs
         context['page_list'] = page_list
         context['origin_ajax_url'] = request.get_full_path()
@@ -61,29 +49,10 @@ def get_comments_posts_content(request):
         user = get_object_or_404(User, id=user_id)
         comment_list = Comment.objects.filter(author=user).order_by('-publish_time')
 
-        context = {}
-        # use blog_show_per_page as the comment_show_per_page
-        comment_show_per_page = blog_show_per_page
-        paginator = Paginator(comment_list, comment_show_per_page)
         page = request.GET.get('page')
-        try:
-            comments = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            page = 1
-            comments = paginator.page(page)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            page = paginator.num_pages
-            comments = paginator.page(page)
+        comments, page_list = BlogService.get_paginated_items(comment_list, page)
 
-        page_list = getPageList(page, paginator.num_pages)
-
-        for comment in comments:
-            comment.publish_time = timezone.localtime(comment.publish_time)
-            if comment.last_update_time:
-                comment.last_update_time = timezone.localtime(comment.last_update_time)
-
+        context = {}
         context['comments'] = comments
         context['page_list'] = page_list
         context['origin_ajax_url'] = request.get_full_path()
@@ -97,31 +66,12 @@ def get_comments_received_content(request):
     if request.is_ajax():
         user_id = request.GET.get("user_id")
         user = get_object_or_404(User, id=user_id)
-        comment_list = Comment.objects.filter(Q(blog__author=user) | Q(parent__author=user)).distinct().order_by('-publish_time')
+        q = (~Q(author=user)) & (Q(blog__author=user) | Q(parent__author=user))
+        comment_list = Comment.objects.filter(q).distinct().order_by('-publish_time')
 
-        context = {}
-        # use blog_show_per_page as the comment_show_per_page
-        comment_show_per_page = blog_show_per_page
-        paginator = Paginator(comment_list, comment_show_per_page)
         page = request.GET.get('page')
-        try:
-            comments = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            page = 1
-            comments = paginator.page(page)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            page = paginator.num_pages
-            comments = paginator.page(page)
-
-        page_list = getPageList(page, paginator.num_pages)
-
-        for comment in comments:
-            comment.publish_time = timezone.localtime(comment.publish_time)
-            if comment.last_update_time:
-                comment.last_update_time = timezone.localtime(comment.last_update_time)
-
+        comments, page_list = BlogService.get_paginated_items(comment_list, page)
+        context = {}
         context['comments'] = comments
         context['page_list'] = page_list
         context['origin_ajax_url'] = request.get_full_path()
@@ -158,3 +108,14 @@ def profile_edit(request):
     else:
         form = ProfileForm(instance=user_profile)
     return render(request, "accounts/profile_edit.html", {"form": form})
+
+
+@login_required
+def generate_api_key(request):
+    origin_token = Token.objects.filter(user=request.user)
+    if len(origin_token) == 1:
+        origin_token[0].delete()
+    elif len(origin_token) > 1:
+        raise Exception("Get token failed, Please contact the admin team")
+    token = Token.objects.create(user=request.user)
+    return JsonResponse({"api-key": token.key})

@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'pagedown',
     'mptt',
     'avatar',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -153,5 +155,19 @@ REGISTRATION_AUTO_LOGIN = True
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 AVATAR_CACHE_ENABLED = False
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        # 'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+}
+
+APPEND_SLASH = False
 
 SITE_ID = 1
