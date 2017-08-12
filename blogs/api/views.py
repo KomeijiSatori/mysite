@@ -29,7 +29,7 @@ class BlogUpdateView(UpdateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogUpdateSerializer
     permission_classes = [IsOwnerOrSuperUser]
-    http_method_names = ['put', 'post']
+    http_method_names = ['put']
 
     # override the default update method to avoid get_serializer with 'instance' as parameter(which will cause 500)
     def update(self, request, *args, **kwargs):
@@ -124,7 +124,7 @@ class CommentUpdateView(UpdateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentPostSerializer
     permission_classes = [IsOwnerOrSuperUser]
-    http_method_names = ['put', 'post']
+    http_method_names = ['put']
 
     def perform_update(self, serializer):
         text_str = serializer.validated_data.get('text')
