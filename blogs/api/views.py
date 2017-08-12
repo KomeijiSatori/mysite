@@ -7,7 +7,7 @@ from blogs.models import Blog, Comment, BlogCategory
 from blogs.service import BlogService
 from .serializers import BlogListSerializer, BlogDetailSerializer, \
     BlogPostSerializer, BlogUpdateSerializer, BlogCommentListSerializer, \
-    CommentPostSerializer, BlogCategoryListSerializer, CommentListSerializer
+    CommentPostSerializer, CommentListSerializer
 from .permissions import IsOwnerOrSuperUser
 from .pagination import BlogNumberPagination
 
@@ -67,6 +67,7 @@ class BlogCreateView(CreateAPIView):
         # the cleaned data will swallow space which would break markdown format
         # blog.text = form.cleaned_data.get('text')
         blog = BlogService.create_blog_from_string(user, title_str, text_str, category_str)
+        serializer.validated_data['id'] = blog.id
 
 
 class BlogCommentView(RetrieveAPIView):
@@ -96,6 +97,7 @@ class CommentCreateView(CreateAPIView):
         if blog:
             text = serializer.validated_data.get("text")
             comment = BlogService.create_comment_from_string(user, blog, text, None)
+            serializer.validated_data['id'] = comment.id
         else:
             raise NotFound(detail="Blog does not exist", code=404)
 
@@ -116,6 +118,7 @@ class NestedCommentCreateView(CreateAPIView):
             text = serializer.validated_data.get("text")
             blog = parent_comment.blog
             comment = BlogService.create_comment_from_string(user, blog, text, parent_comment)
+            serializer.validated_data['id'] = comment.id
         else:
             raise NotFound(detail="Comment does not exist", code=404)
 
@@ -147,15 +150,18 @@ class CommentUpdateView(UpdateAPIView):
 
 
 class BlogCategoryListView(ListAPIView):
-    serializer_class = BlogCategoryListSerializer
+    serializer_class = BlogListSerializer
+    pagination_class = BlogNumberPagination
     http_method_names = ['get']
+    lookup_field = "name"
 
     def get_queryset(self):
         name = self.kwargs.get('name')
-        return BlogCategory.objects.filter(name=name)
-
-    def get_serializer_context(self):
-        return {'request': self.request}
+        cate = BlogCategory.objects.filter(name=name)
+        if len(cate) == 1:
+            return cate[0].blog.all()
+        else:
+            return []
 
 
 class BlogSearchView(ListAPIView):

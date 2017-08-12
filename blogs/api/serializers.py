@@ -76,6 +76,7 @@ class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = [
+            'id',
             'title',
             'text',
             'categories',
@@ -168,30 +169,6 @@ class CommentPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
+            'id',
             'text',
         ]
-
-
-class BlogCategoryListSerializer(serializers.ModelSerializer):
-    blogs = serializers.SerializerMethodField()
-
-    class Meta:
-        model = BlogCategory
-        fields = [
-            'name',
-            'blogs',
-        ]
-
-    def get_blogs(self, obj):
-        category_blogs = obj.blog.all()
-        paginator = BlogNumberPagination()
-        blogs = paginator.paginate_queryset(category_blogs, self.context['request'])
-        serializer = BlogListSerializer(blogs, many=True, context={'request': self.context['request']})
-
-        res = OrderedDict([
-            ('count', paginator.page.paginator.count),
-            ('next', paginator.get_next_link()),
-            ('previous', paginator.get_previous_link()),
-            ('results', serializer.data)
-        ])
-        return res
