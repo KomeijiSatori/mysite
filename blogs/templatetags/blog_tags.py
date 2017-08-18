@@ -3,6 +3,8 @@ from django import template
 
 
 register = template.Library()
+
+
 @register.simple_tag(takes_context=True)
 def url_replace(context, **kwargs):
     origin_ajax_url = context.get('origin_ajax_url')

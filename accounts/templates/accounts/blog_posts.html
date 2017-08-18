@@ -5,6 +5,9 @@
 
 {% for blog in blogs %}
     <div class="blog-div well">
+        {% if blog.unread %}
+        <span class="label label-danger brand-new">New</span>
+        {% endif %}
         <h2>
             <a href="{% url 'blogs:archive' blog.id %}" target="_blank">{{ blog.title }}</a>
         </h2>
@@ -23,7 +26,7 @@
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
         <p class="lead"><div class="marked_truncate">{{ blog.text }}</div></p>
-        <a class="btn btn-primary" href="{% url 'blogs:archive' blog.id %}" target="_blank">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="btn btn-primary read-blog" id="notification_{{ blog.related_notification_id }}" href="{% url 'blogs:archive' blog.id %}" target="_blank">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
 {% endfor %}
 
@@ -69,4 +72,21 @@
             }
         });
     });
+
+    $(".read-blog").bind('click', function(event){
+        var notification = $(this).attr("id");
+        var notification_id = notification.split("_")[1];
+        $.ajax({
+            type: "GET",
+            url: "{% url 'read_notification' %}",
+            data: {"notification_id": notification_id},
+            success: function(result) {
+                ajax_unread_blogs_count();
+                get_notification_count();
+                ajax_subscribe_blogs_content();
+                $(this).click();
+            }
+        });
+    });
+
 </script>

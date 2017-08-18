@@ -5,10 +5,10 @@
 
 {% for comment in comments %}
     <div class="blog-div well">
-        <p class="lead"><b>{{ comment.author }}</b>: {{ comment.text|truncatewords:30 }}</p>
+        <p class="lead"><b>{{ comment.author }}</b>: {{ comment.text|linebreaksbr|truncatewords:30 }}</p>
         <p><span class="glyphicon glyphicon-time"></span> Posted on {{ comment.publish_time }}</p>
         {% if comment.parent %}
-        <pre><b>{{ comment.parent.author }}</b>: {{ comment.parent.text|truncatewords:30 }}<span style="color:grey"> On {{ comment.parent.publish_time }}</span></pre>
+        <pre><b>{{ comment.parent.author }}</b>: {{ comment.parent.text|linebreaksbr|truncatewords:30 }}<span style="color:grey"> On {{ comment.parent.publish_time }}</span></pre>
         {% else %}
         <pre><a href="{% url 'blogs:archive' comment.blog.id %}" target="_blank"><b><i>{{ comment.blog.title }}</i></b></a> <span style="color:grey">written by {{ comment.blog.author }} On {{ comment.blog.publish_time }}</span></pre>
         {% endif %}

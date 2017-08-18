@@ -65,6 +65,60 @@
             });
         }
 
+        function ajax_unread_replies_count() {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'unread_comment_count' %}",
+                success: function(result) {
+                    var count = result['count'];
+                    if (count > 0)
+                    {
+                        $('#unread-replies').html(count);
+                    }
+                    else
+                    {
+                        $('#unread-replies').html("");
+                    }
+                }
+            });
+        }
+
+        function ajax_subscribe_blogs_content() {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'unread_blogs' %}",
+                data: {"user_id": {{ request.user.id }} },
+                success: function(result) {
+                    $('#blog-subscriptions-div').html(result);
+                    update_marked_truncate();
+                    $('pre code').each(function(i, block) {
+                        hljs.highlightBlock(block);
+                    });
+                },
+                error: function(jqXHR, exception) {
+                    $('#blog-subscriptions-div').html(exception);
+                }
+            });
+        }
+
+        function ajax_unread_blogs_count() {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'unread_blog_count' %}",
+                success: function(result) {
+                    var count = result['count'];
+                    if (count > 0)
+                    {
+                        $('#unread-blogs').html(count);
+                    }
+                    else
+                    {
+                        $('#unread-blogs').html("");
+                    }
+                }
+            });
+        }
+
 
         $(document).ready(function () {
             $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
@@ -76,6 +130,10 @@
                 else if (target == "#blog-comments-tab")
                 {
                     ajax_comment_posts();
+                }
+                else if (target == "#blog-subscription-tab")
+                {
+                    ajax_subscribe_blogs_content();
                 }
                 else if (target == "#blog-replies-receive-tab")
                 {
@@ -98,6 +156,8 @@
             });
             // default render blog_post
             ajax_blog_posts();
+            ajax_unread_replies_count();
+            ajax_unread_blogs_count();
         });
     </script>
 
@@ -118,7 +178,12 @@
     <ul class="nav nav-pills">
         <li class="active"><a href="#blog-posts-tab" data-toggle="pill">My blog posts</a></li>
         <li><a href="#blog-comments-tab" data-toggle="pill">My blog comments</a></li>
-        <li><a href="#blog-replies-receive-tab" data-toggle="pill">Replies to me</a></li>
+        <li><a href="#blog-subscription-tab" data-toggle="pill">
+            Blog subscriptions <span class="badge" id="unread-blogs"></span>
+        </a></li>
+        <li><a href="#blog-replies-receive-tab" data-toggle="pill">
+            Replies to me <span class="badge" id="unread-replies"></span>
+        </a></li>
         <li><a href="#api-key-tab" data-toggle="pill">API key</a></li>
     </ul>
     <div class="tab-content">
@@ -131,6 +196,12 @@
 
         <div class="tab-pane fade" id="blog-comments-tab">
             <div class="profile-content-div" id="comment-posts">
+                <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="blog-subscription-tab">
+            <div class="profile-content-div" id="blog-subscriptions-div">
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
                 <span class="sr-only">Loading...</span>
             </div>
