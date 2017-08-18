@@ -29,9 +29,17 @@ urlpatterns = [
     url(r'^profile/avatar/', include('avatar.urls')),
 
     # ajax urls
-    url(r'ajax/blog/posts', views.get_blog_posts_content, name="user_blog_posts"),
-    url(r'ajax/comment/posts', views.get_comments_posts_content, name="user_comment_posts"),
-    url(r'ajax/comment/received', views.get_comments_received_content, name="user_comment_received"),
+    url(r'ajax/blog/posts/$', views.get_blog_posts_content, name="user_blog_posts"),
+    url(r'ajax/comment/posts/$', views.get_comments_posts_content, name="user_comment_posts"),
+    url(r'ajax/comment/received/$', views.get_comments_received_content, name="user_comment_received"),
+    url(r'ajax/account/unread_reply_count/$', views.get_unread_comment_count, name="unread_comment_count"),
+    url(r'ajax/account/mark_notification/$', views.read_notification, name="read_notification"),
+    url(r'ajax/account/add_follow/$', views.add_follow, name="add_follow"),
+    url(r'ajax/account/delete_follow/$', views.delete_follow, name="delete_follow"),
+    url(r'ajax/account/unread_blog_posts/$', views.get_unread_blogs_content, name="unread_blogs"),
+    url(r'ajax/account/unread_blog_count/$', views.get_unread_blog_count, name="unread_blog_count"),
+    url(r'ajax/account/unread_notification_count/$', views.get_unread_notification_count,
+        name="unread_notification_count"),
 
     # make included account url at the bottom
     url(r'', include('registration.backends.default.urls')),

@@ -7,8 +7,10 @@ from django.urls import reverse
 from django.db.models import Q
 
 from .models import Blog, BlogCategory, Comment
+from accounts.models import Profile
 from .forms import BlogForm, BlogCommentForm
 from .service import BlogService
+from accounts.service import FollowService
 
 # Create your views here.
 
@@ -26,10 +28,21 @@ def index(request):
 
 def archive(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
-
+    profile = get_object_or_404(Profile, user=blog.author)
     comment_form = BlogCommentForm()
     comments = Comment.objects.filter(blog=blog)
-    return render(request, "blogs/detail.html", {"blog": blog, 'comment_form': comment_form, 'nodes': comments, },)
+    if request.user.is_authenticated and request.user != blog.author:
+        is_follow = FollowService.is_fan_star(request.user, blog.author)
+    else:
+        is_follow = None
+    context = {
+        "blog": blog,
+        'comment_form': comment_form,
+        'nodes': comments,
+        'is_follow': is_follow,
+        'profile': profile,
+    }
+    return render(request, "blogs/detail.html", context)
 
 
 def addComment(request, blog_id):

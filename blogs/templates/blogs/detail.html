@@ -53,10 +53,41 @@
             $("#comment-div_" + comment_id).show();
             $("#update-div_" + comment_id).hide(500);
         });
+
+        $("button[name='follow-btn']").click(function(){
+            var followed = $(this).attr("data-followed");
+            if (followed === "F")
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'add_follow' %}",
+                    data: { "fan": {{ request.user.id }}, "star": {{ blog.author.id }} },
+                    success: function(result) {
+                        $("button[name='follow-btn']").attr("class", "btn btn-warning");
+                        $("button[name='follow-btn']").html("- Unfollow");
+                        $("button[name='follow-btn']").attr("data-followed", "T");
+                    }
+                });
+            }
+            else
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'delete_follow' %}",
+                    data: { "fan": {{ request.user.id }}, "star": {{ blog.author.id }} },
+                    success: function(result) {
+                        $("button[name='follow-btn']").attr("class", "btn btn-success");
+                        $("button[name='follow-btn']").html("+ Follow");
+                        $("button[name='follow-btn']").attr("data-followed", "F");
+                    }
+                });
+            }
+        });
     });
     </script>
     <script src="{% static 'blogs/jquery.truncate.js' %}"></script>
     <script src="{% static 'blogs/render-content.js' %}"></script>
+    <script src="{% static 'blogs/render-modal.js' %}"></script>
 {% endblock %}
 
 
@@ -70,7 +101,14 @@
 
         <!-- Author -->
         <p class="lead">
-            by <a href="#">{{ blog.author }}</a>
+            by <a id="author" style="text-decoration: none;">{% avatar blog.author 27 %} {{ blog.author }}</a>
+            {% if is_follow is not None %}
+                {% if not is_follow %}
+                <button type="button" name="follow-btn" class="btn btn-success" data-followed="F" style="margin-left: 10px;">+ Follow</button>
+                {% else %}
+                <button type="button" name="follow-btn" class="btn btn-warning" data-followed="T" style="margin-left: 10px;">- Unfollow</button>
+                {% endif %}
+            {% endif %}
         </p>
 
         <!-- Date/Time -->
@@ -89,6 +127,33 @@
         {% endif %}
 
         <br/>
+
+        <div id="profile-modal" class="modal">
+        <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <div class="modal-avatar">
+                    {% avatar blog.author 80 %}
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p>Name: {{ profile.user.username }}</p><hr/>
+                    <p>Gender: {{ profile.gender }}</p><hr/>
+                    <p>Birthday: {{ profile.birthday }}</p><hr/>
+                    <p>Mobile: {{ profile.mobile }}</p><hr/>
+                    <p>Residence: {{ profile.residence }}</p><hr/>
+                    <p>Website: {{ profile.website }}</p><hr/>
+                    <p>Microblog: {{ profile.microblog }}</p><hr/>
+                    <p>QQ: {{ profile.qq }}</p><hr/>
+                    <p>Wechat: {{ profile.wechat }}</p><hr/>
+                    <p>Introduction: {{ profile.introduction }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="profile-close" class="btn-lg btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
 
         <!--&lt;!&ndash; Preview Image &ndash;&gt;-->
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
@@ -141,7 +206,7 @@
                     {% endif %}
                 </h4>
                 <div class="inner-comment" id="comment-div_{{ node.id }}">
-                    {{ node.text }}
+                    {{ node.text|linebreaksbr }}
 
                     <!--post reply-->
                     {% if user.is_authenticated %}

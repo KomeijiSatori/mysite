@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
-from django.db.models.signals import post_save
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 
@@ -21,11 +22,20 @@ class Profile(models.Model):
         return str(self.user.username)
 
 
-def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
-    if created:
-        try:
-            Profile.objects.create(user=instance)
-        except:
-            pass
+class Notification(models.Model):
+    unread = models.BooleanField(default=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
-post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)
+    def __str__(self):
+        return str(self.content_object)
+
+
+class Follow(models.Model):
+    fan = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="star")
+    star = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="fan")
+
+    def __str__(self):
+        return str(self.star.username) + "<--" + str(self.fan.username)
