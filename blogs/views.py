@@ -45,6 +45,7 @@ def archive(request, blog_id):
     return render(request, "blogs/detail.html", context)
 
 
+@login_required
 def addComment(request, blog_id):
     form = BlogCommentForm(request.POST)
     blog = get_object_or_404(Blog, id=blog_id)
@@ -57,6 +58,7 @@ def addComment(request, blog_id):
     return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
 
 
+@login_required
 def addNestedComment(request, comment_id):
     form = BlogCommentForm(request.POST)
     parent_comment = get_object_or_404(Comment, id=comment_id)
@@ -139,6 +141,7 @@ def getComment(request, comment_id):
     return JsonResponse(data)
 
 
+@login_required
 def updateComment(request, comment_id):
     form = BlogCommentForm(request.POST)
     comment = get_object_or_404(Comment, id=comment_id)

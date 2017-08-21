@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">可以使用Blog API啦</h1>
+        <h1 class="cover-heading">可以查看消息提醒啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
@@ -20,6 +20,10 @@
             {% if request.user.is_authenticated %}
                 , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
             {% endif %}
+            <br/>
+            <b>2017年8月21日----版本更新:</b><br/>
+            1. 修正小屏幕评论显示不全问题<br/>
+            2. 修正评论逻辑, 提高安全性<br/>
             <br/>
             <b>2017年8月18日----版本更新:</b><br/>
             1. 增加消息提醒功能, 在导航栏和用户界面能看到新消息的条数, 并在用户界面标注新消息<br/>

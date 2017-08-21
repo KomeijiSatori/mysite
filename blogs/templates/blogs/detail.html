@@ -26,12 +26,12 @@
             if ($(this).children('i').attr('class') === 'fa fa-arrow-down')
             {
                 $(this).children('i').attr('class', 'fa fa-arrow-up');
-                $(this).children('span').html('Retract')
+                $(this).children('span').html('Retract');
             }
             else
             {
                 $(this).children('i').attr('class', 'fa fa-arrow-down');
-                $(this).children('span').html('Reply')
+                $(this).children('span').html('Reply');
             }
         });
 
@@ -44,7 +44,10 @@
                     $("#update-div_" + comment_id).find('textarea').val(data.text);
                 }
             });
+            $("#reply-div_" + comment_id).hide();
             $("#comment-div_" + comment_id).hide();
+            $("#reply-btn_" + comment_id).children('i').attr('class', 'fa fa-arrow-down');
+            $("#reply-btn_" + comment_id).children('span').html('Reply');
             $("#update-div_" + comment_id).show(500);
         });
 
@@ -188,36 +191,48 @@
         <!-- Posted Comments -->
 
         <!-- Use tree node to implement comment thread-->
-        {% recursetree nodes %}
-        <div class="media">
-            <div class="media-left">
-                {% avatar node.author 64 %}
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">{{ node.author }}
-                    <small>
-                        {{ node.publish_time }}
-                    </small>
-                    <br/>
-                    {% if node.last_update_time %}
-                    <small>
-                        Last Edit on {{ node.last_update_time }}
-                    </small>
-                    {% endif %}
-                </h4>
-                <div class="inner-comment" id="comment-div_{{ node.id }}">
-                    {{ node.text|linebreaksbr }}
+        <ol class="commentlist">
+            {% recursetree nodes %}
+            <li>
+                <article class="comment-body">
+                    <footer class="comment-meta">
+                        <div class="comment-author">
+                            {% avatar node.author 64 %}
+                            <b>{{ node.author }}</b>
+                            <span class="says">Says: </span>
+                        </div>
+                        <div class="comment-metadata">
+                            {{ node.publish_time }}
+                            {% if node.last_update_time %}
+                            <div class="comment-update-time">
+                            Last Edit on {{ node.last_update_time }}
+                            </div>
+                            {% endif %}
 
-                    <!--post reply-->
+                        </div>
+                    </footer>
+                    <div class="comment-content">
+                        <p>{{ node.text|linebreaksbr }}</p>
+                    </div>
+
+                    <div class="comment-operation">
+                        <div id="comment-div_{{ node.id }}">
+                            {% if user.is_authenticated %}
+                            <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
+                                <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </button>
+                            {% if node.author == user or user.is_superuser %}
+                            <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
+                                <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+
+                <div class="comment-reply-edit">
                     {% if user.is_authenticated %}
-                    <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
-                        <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                    </button>
-                    {% if node.author == user or user.is_superuser %}
-                    <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
-                        <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
-                    {% endif %}
                     <div class="reply_div" id="reply-div_{{ node.id }}">
                         <form role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
                             {% csrf_token %}
@@ -228,27 +243,28 @@
                         </form>
                     </div>
                     {% endif %}
-                </div>
-                {% if user.is_authenticated and node.author == user or user.is_superuser %}
-                <div class="update_div" id="update-div_{{ node.id }}" data-comment-url="{% url 'blogs:getComment' node.id %}">
-                    <form role="form" method="POST" action="{% url 'blogs:updateComment' node.id %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            {{ comment_form|crispy }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
-                    </form>
-                </div>
-                {% endif %}
-                {% if not node.is_leaf_node %}
-                    <div class="children media">
-                        {{ children }}
+                    {% if user.is_authenticated and node.author == user or user.is_superuser %}
+                    <div class="update_div" id="update-div_{{ node.id }}" data-comment-url="{% url 'blogs:getComment' node.id %}">
+                        <form role="form" method="POST" action="{% url 'blogs:updateComment' node.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ comment_form|crispy }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
+                        </form>
                     </div>
+                    {% endif %}
+                </div>
+
+                {% if not node.is_leaf_node %}
+                    <ol class="children">
+                        {{ children }}
+                    </ol>
                 {% endif %}
-            </div>
-        </div>
-        {% endrecursetree %}
+            </li>
+            {% endrecursetree %}
+        </ol>
     </div>
 
 {% endblock %}

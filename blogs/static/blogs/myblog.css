@@ -107,3 +107,127 @@
 #profile-close {
     margin: 10px;
 }
+
+.comment-area {
+    margin-top: 50px;
+}
+
+ul ul, ol ul, ul ol, ol ol {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.commentlist {
+    padding: 0;
+    display: block;
+}
+
+.commentlist li {
+    margin: 10px 0px 10px 0px;
+    list-style: none;
+    padding: 2px;
+    border-radius: 4px;
+    -moz-box-shadow: 0px 0px 8px black;
+    -webkit-box-shadow: 0px 0px 8px black;
+    background-color: rgba(230, 238, 232, 0.5);
+    box-shadow: 0px 0px 8px black;
+    transition: background-color 0.3s ease-in-out,box-shadow 0.3s ease-in-out;
+    -moz-transition: background-color 0.3s ease-in-out,box-shadow 0.3s ease-in-out;
+    -webkit-transition: background-color 0.3s ease-in-out,box-shadow 0.3s ease-in-out;
+    -o-transition: background-color 0.3s ease-in-out,box-shadow 0.3s ease-in-out;
+}
+
+.commentlist li:hover {
+    box-shadow: 0 0 24px;
+    background-color: white;
+}
+
+.commentlist .comment-body {
+    position: relative;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+    display: block;
+}
+
+.commentlist ol {
+    padding-left: 20px;
+}
+
+.commentlist .comment-body .comment-meta {
+    background: rgba(113, 194, 234, 0.6);
+    position: relative;
+    height: auto;
+    min-height: 37px;
+    line-height: 37px;
+    padding-left: 45px;
+}
+
+.commentlist .comment-body .comment-meta .comment-author {
+    float: left;
+}
+
+.commentlist .comment-body .comment-meta .comment-author img {
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    left: -40px;
+    top: 10px;
+    margin: 0;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.commentlist .comment-body .comment-meta .comment-author .says {
+    margin-left: 10px;
+}
+
+.commentlist .comment-body .comment-metadata {
+    float: right;
+    margin-right: 10px;
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.commentlist .comment-body .comment-content {
+    padding: 20px 55px 30px 45px;
+    position: relative;
+}
+
+.comment-operation {
+    position: absolute;
+    bottom: 3px;
+    right: 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    display: block;
+}
+
+.comment-metadata {
+    text-align: right;
+}
+
+.comment-update-time {
+    font-weight: normal;
+    line-height: 2;
+    color: #777;
+}
+
+.reply_div, .update_div {
+    padding: 0px 16px 16px 16px;
+}
+
+@media (max-width: 767px) {
+    .commentlist .comment-body .comment-metadata {
+        display: none;
+    }
+    .commentlist ol {
+    padding-left: 5px;
+}
+}
