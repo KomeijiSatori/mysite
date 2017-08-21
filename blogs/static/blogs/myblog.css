@@ -223,11 +223,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
     padding: 0px 16px 16px 16px;
 }
 
+.comment-text {
+    display: inline-block;
+}
+
 @media (max-width: 767px) {
     .commentlist .comment-body .comment-metadata {
         display: none;
     }
     .commentlist ol {
-    padding-left: 5px;
-}
+        padding-left: 5px;
+    }
 }
