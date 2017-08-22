@@ -9,7 +9,7 @@
         <span class="label label-danger brand-new">New</span>
         {% endif %}
         <h2>
-            <a href="{% url 'blogs:archive' blog.id %}" target="_blank">{{ blog.title }}</a>
+            {{ blog.title }}
         </h2>
         <p class="lead">
             by {{ blog.author }}

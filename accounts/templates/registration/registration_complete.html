@@ -1,6 +1,10 @@
 {% extends "mysite/base.html" %}
 {% load i18n %}
 
+{% block title %}
+    Registration Completed
+{% endblock %}
+
 {% block content %}
 <div class='cover-div'>
     <p>{% trans "You are now registered. Activation email sent." %}</p>

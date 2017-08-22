@@ -1,5 +1,6 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 
 from .models import Profile, Notification
 from blogs.models import Comment, Blog
@@ -33,6 +34,13 @@ def post_save_blog_receiver(sender, instance, created, *args, **kwargs):
             Notification.objects.create(content_object=instance, user=fan)
 
 
+def post_delete_notification_receiver(sender, instance, *args, **kwargs):
+    ctype = ContentType.objects.get_for_model(instance)
+    Notification.objects.filter(content_type=ctype).filter(object_id=instance.id).delete()
+
+
 post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)
 post_save.connect(post_save_comment_receiver, sender=Comment)
 post_save.connect(post_save_blog_receiver, sender=Blog)
+post_delete.connect(post_delete_notification_receiver, sender=Comment)
+post_delete.connect(post_delete_notification_receiver, sender=Blog)
