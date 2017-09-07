@@ -1,0 +1,19 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+
+{% block title %}
+    /(ㄒoㄒ)/~~
+{% endblock %}
+
+
+{% block content %}
+<div class="cover-div">
+    <div>
+        <img src="{% static 'mysite/images/404-1.png' %}"/>
+        <img src="{% static 'mysite/images/404-2.png' %}"/>
+    </div>
+    <div>
+        <h2>Sorry, the page you request is not found!</h2>
+    </div>
+</div>
+{% endblock %}

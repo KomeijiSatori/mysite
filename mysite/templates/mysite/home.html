@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">可以查看消息提醒啦</h1>
+        <h1 class="cover-heading">错误界面更新啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
@@ -20,6 +20,11 @@
             {% if request.user.is_authenticated %}
                 , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
             {% endif %}
+            <br/>
+            <b>2017年9月7日----版本更新:</b><br/>
+            1. 修正文件上传url<br/>
+            2. 修正文件上传请求类型错误的处理<br/>
+            3. 更新了400, 403, 404, 500错误的页面<br/>
             <br/>
             <b>2017年8月21日----版本更新:</b><br/>
             1. 修正小屏幕评论显示不全问题<br/>

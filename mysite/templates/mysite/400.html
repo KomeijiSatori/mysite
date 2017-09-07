@@ -1,0 +1,19 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+
+{% block title %}
+    (* ￣ー￣)
+{% endblock %}
+
+
+{% block content %}
+<div class="cover-div">
+    <div>
+        <img src="{% static 'mysite/images/400-1.png' %}"/>
+        <img src="{% static 'mysite/images/400-2.png' %}"/>
+    </div>
+    <div>
+        <h2>Oops, you've got a bad request!</h2>
+    </div>
+</div>
+{% endblock %}

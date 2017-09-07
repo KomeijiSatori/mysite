@@ -1,0 +1,19 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+
+{% block title %}
+    (｡・`ω´･)
+{% endblock %}
+
+
+{% block content %}
+<div class="cover-div">
+    <div>
+        <img src="{% static 'mysite/images/403-1.png' %}"/>
+        <img src="{% static 'mysite/images/403-2.png' %}"/>
+    </div>
+    <div>
+        <h2>Sorry, you don't have the permission!</h2>
+    </div>
+</div>
+{% endblock %}
