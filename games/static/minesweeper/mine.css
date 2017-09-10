@@ -1,0 +1,136 @@
+body {
+	margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#mineDiv span
+{
+	margin-top: 5px;
+	text-shadow: 0px 0px 2px darkblue;
+	font-size: 36px;
+	font-weight: bold;
+	float: left;
+}
+
+#mineDiv tr
+{
+	overflow: scroll;
+	white-space: nowrap;
+}
+
+#mineDiv td
+{  
+	width: 40px;
+    height: 40px;
+	margin: 2px;
+    display: inline-block;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
+	user-select:none;
+	-o-user-select:none;
+}
+
+input[type=number] {
+    width: 10%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555;
+    padding-left: 5px;
+	min-width: 64px;
+}
+
+input[type=number]:focus {
+	outline: none;
+	border: 1px solid #00d0d2;
+}
+
+#mineDiv img:hover
+{
+    box-shadow: 0 0 10px #33CCFF;
+	border-radius: 11px;
+}
+
+#mineDiv img:active
+{
+    box-shadow: 0 0 10px #FF46FA;
+	border-radius: 11px;
+}
+
+#setDiv
+{
+	margin: auto;
+	text-align: center;
+}
+
+.clear
+{
+	clear: both;
+}
+
+.mineIcon
+{
+	margin-right: 5px;
+}
+
+.clkIcon
+{
+	margin-left: 100px;
+	margin-right: 10px;
+}
+
+.numtd
+{
+	background: radial-gradient(rgba(255, 176, 176, 0.4) 30%, #d9d9ff 70%); 
+}
+
+.untd
+{
+	background: #E4E4E4;
+}
+
+.blktd
+{
+	background: radial-gradient(#F8F8F8 60%, #EAEAEA 90%)
+}
+
+.flgtd
+{
+	background: radial-gradient(#FF8484 30%, rgba(255, 148, 148, 0.4) 70%);
+}
+
+img {
+    max-width: inherit;
+}
+
+table {
+	background-color: inherit;
+}
+
+table td, table th {
+    border: inherit;
+    padding: inherit;
+}
+
+table tr:nth-child(even){background-color: inherit;}
+
+table tr:hover {background-color: inherit;}
+
+table th {
+    padding-top: inherit;
+    padding-bottom: inherit;
+    text-align: inherit;
+    background-color: inherit;
+    color: inherit;
+}
+
+#content-div {
+	padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    text-align: center;
+    background-color: rgb(230, 238, 232);
+    box-shadow: 0px 0px 8px black;
+    display: inline-block;
+}

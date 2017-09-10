@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^upload/', include('fileupload.urls', namespace="upload")),
+    url(r'^games/', include('games.urls', namespace="games")),
     url(r'^api/blogs/', include("blogs.api.urls", namespace="blogs-api")),
 ]
 

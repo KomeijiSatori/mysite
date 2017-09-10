@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hqh9s)7yd2j^ygwjy@!er3vl=kx%#&i(2@3zb1eep^kfch9xf*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'chongliu.me', 'www.chongliu.me']
 
@@ -34,6 +34,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_PORT = os.environ.get("MailPort", '')
 EMAIL_USE_TLS = True
 
+ADMINS = (("Satori", "KomeijiSatori07@gmail.com"),)
+
 
 # Application definition
 
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'blogs.apps.BlogsConfig',
     'fileupload.apps.FileuploadConfig',
     'accounts.apps.AccountsConfig',
+    'games.apps.GamesConfig',
 
     'crispy_forms',
     'registration',

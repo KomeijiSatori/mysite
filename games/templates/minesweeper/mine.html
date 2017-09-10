@@ -1,0 +1,31 @@
+{% extends "mysite/base.html" %}
+{% load static %}
+
+
+{% block title %}
+    Minesweeper
+{% endblock %}
+
+{% block additional_head %}
+	<link href="{% static 'minesweeper/mine.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+<div id="content-div">
+	<div id="setDiv">
+		Height
+		<input type="number" value="16" min="4" max="64" on id="height">
+		Width
+		<input type="number" value="30" min="4" max="120" id="width">
+		Mine Count
+		<input type="number" value="99" min="1" max="471" id="count")>
+		<input class="btn btn-primary" type="button" value="New Game" id="confirm" onclick="start()">
+	</div>
+	<div id="mineDiv"></div>
+</div>
+
+<script src="{% static 'minesweeper/mine.js' %}">
+</script>
+{% endblock %}
+
