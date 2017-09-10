@@ -34,6 +34,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_PORT = os.environ.get("MailPort", '')
 EMAIL_USE_TLS = True
 
+ADMINS = (("Satori", "KomeijiSatori07@gmail.com"),)
+
 
 # Application definition
 
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'blogs.apps.BlogsConfig',
     'fileupload.apps.FileuploadConfig',
     'accounts.apps.AccountsConfig',
+    'games.apps.GamesConfig',
 
     'crispy_forms',
     'registration',

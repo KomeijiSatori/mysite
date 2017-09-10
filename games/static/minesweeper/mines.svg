@@ -1,0 +1,8 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<polygon points="11.25,11.25 18.75,15 20.625,7.5 22.5,15 30,11.25 26.25,18.75 33.75,20.625 26.25,22.5 30,30 22.5,26.25 20.625,33.75 18.75,26.25 11.25,30 15,22.5 7.5,20.625 15,18.75" style="fill:red;stroke:purple;stroke-width:0" />
+</svg>

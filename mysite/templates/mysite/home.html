@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">错误界面更新啦</h1>
+        <h1 class="cover-heading">增加游戏界面啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
@@ -20,6 +20,10 @@
             {% if request.user.is_authenticated %}
                 , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
             {% endif %}
+            <br/>
+            <b>2017年9月9日----版本更新:</b><br/>
+            1. 增加扫雷游戏, 最大64 × 120, 最小4 × 4<br/>
+            2. 增加500错误发送给管理员的设置<br/>
             <br/>
             <b>2017年9月7日----版本更新:</b><br/>
             1. 修正文件上传url<br/>
