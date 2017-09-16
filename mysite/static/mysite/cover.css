@@ -17,12 +17,14 @@ body {
 }
 
 .navbar-default {
+    border: 0;
     background-color: rgba(248, 248, 248, 0.8)
 }
 
 .navbar-default .navbar-nav > .active > a {
     background-color: rgba(248, 248, 248, 0.8);
     color: #000;
+    font-weight: bold;
 }
 
 #zan-gotop {
