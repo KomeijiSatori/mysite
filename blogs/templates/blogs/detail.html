@@ -185,9 +185,12 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
-
-        <hr>
+        {% else %}
+        <a class="btn btn-link" href="{% url 'auth_login' %}?next={{ request.path }}">
+            <span>LOGIN TO LEAVE A COMMENT</span> <i class="fa fa-sign-in" aria-hidden="true"></i>
+        </a>
         {% endif %}
+        <hr>
         <!-- Posted Comments -->
 
         <!-- Use tree node to implement comment thread-->
@@ -221,11 +224,15 @@
                             <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
                                 <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
                             </button>
-                            {% if node.author == user or user.is_superuser %}
-                            <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
-                                <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </button>
-                            {% endif %}
+                                {% if node.author == user or user.is_superuser %}
+                                <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
+                                    <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                                {% endif %}
+                            {% else %}
+                            <a class="btn btn-link" href="{% url 'auth_login' %}?next={{ request.path }}">
+                                <span>Login to Reply</span> <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            </a>
                             {% endif %}
                         </div>
                     </div>
