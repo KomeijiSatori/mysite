@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">增加游戏界面啦</h1>
+        <h1 class="cover-heading">有动态背景啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
@@ -20,6 +20,15 @@
             {% if request.user.is_authenticated %}
                 , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
             {% endif %}
+            <br/>
+            <b>2017年9月16日----版本更新:</b><br/>
+            1. 调整博客正文首行缩进和行距<br/>
+            2. 修正评论文字可能溢出的问题<br/>
+            3. 标题栏进行了调整, 使当前标题更加清楚<br/>
+            4. 评论时没登录时会提示登录<br/>
+            5. 修正评论的类有重复的情况<br/>
+            6. 实现了动态背景<br/>
+            7. 实现了博客条目滚动进入和退出效果<br/>
             <br/>
             <b>2017年9月9日----版本更新:</b><br/>
             1. 增加扫雷游戏, 最大64 × 120, 最小4 × 4<br/>

@@ -1,5 +1,6 @@
 {% load static %}
 {% load avatar_tags %}
+{% load mysite_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,11 +36,13 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
         <link href="{% static 'mysite/cover.css' %}" rel="stylesheet">
+        <link href="{% static 'mysite/background.css' %}" rel="stylesheet">
         {% block additional_head %}
         {% endblock %}
     </head>
 
     <body>
+        {% load_background %}
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
@@ -73,10 +76,11 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-12">
+                <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
                     {% block content %}
                     {% endblock %}
                     <div class="footer">
+                        <a class="btn btn-info" href="https://www.mygalgame.com" target="_blank">Theme inspired by 忧郁的弟弟</a>
                         <a class="btn btn-success" href="https://github.com/KomeijiSatori/mysite" target="_blank">Developed by Satori. All rights reserved.</a>
                     </div>
                 </div>
