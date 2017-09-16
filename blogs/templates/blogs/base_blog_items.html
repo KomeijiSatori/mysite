@@ -2,9 +2,17 @@
 {% load static %}
 {% load blog_tags %}
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-back'
+        });
+    });
+</script>
 
 {% for blog in blogs %}
-    <div class="blog-div well">
+    <div class="blog-div well" data-aos="flip-up">
         <h2>
             <a href="{% url 'blogs:archive' blog.id %}">{{ blog.title }}</a>
         </h2>
