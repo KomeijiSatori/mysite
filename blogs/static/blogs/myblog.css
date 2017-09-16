@@ -25,6 +25,15 @@
     overflow: hidden;
 }
 
+.blog_content {
+    line-height: 2.2em;
+}
+
+.blog_content p {
+    text-indent: 2em;
+}
+
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -198,6 +207,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .commentlist .comment-body .comment-content {
     padding: 20px 55px 30px 45px;
     position: relative;
+    word-break: break-all;
 }
 
 .comment-operation {

@@ -162,7 +162,7 @@
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
 
         <!-- Post Content -->
-        <p class="lead"><div class="blog_content">{{ blog.text }}</div></p>
+        <div class="blog_content">{{ blog.text }}</div>
 
         <!--edit button-->
         {% if user == blog.author or user.is_superuser %}
@@ -237,7 +237,7 @@
                         <form role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
                             {% csrf_token %}
                             <div class="form-group">
-                                {{ comment_form|crispy }}
+                                {{ comment_form }}
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
@@ -248,7 +248,7 @@
                         <form role="form" method="POST" action="{% url 'blogs:updateComment' node.id %}">
                             {% csrf_token %}
                             <div class="form-group">
-                                {{ comment_form|crispy }}
+                                {{ comment_form }}
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
