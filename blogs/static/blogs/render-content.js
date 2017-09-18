@@ -19,6 +19,41 @@ function update_marked_truncate() {
         var rendered_html = marked(content);
         $(this).html(rendered_html);
     });
+    $(".marked_truncate p:not(:has(img))").css("text-indent", "2em");
+    $(".blog_content p:not(:has(img))").css("text-indent", "2em");
+}
+
+function color_to_ele(curEle, next)
+{
+    if (next.size() === 1)
+    {
+        if (curEle !== null)
+        {
+            curEle.removeClass("kb");
+        }
+        next.addClass("kb");
+    }
+}
+
+function move_to_ele(ele, time) {
+    // scroll to ele
+    if (ele.size() === 1)
+    {
+        var elOffset = ele.offset().top;
+        var elHeight = ele.height();
+        var windowHeight = $(window).height();
+        var offset;
+
+        if (elHeight < windowHeight) {
+            offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+        }
+        else {
+            offset = elOffset;
+        }
+        $('html, body').animate({
+            scrollTop: offset
+        }, time);
+    }
 }
 
 $(document).ready(function () {
