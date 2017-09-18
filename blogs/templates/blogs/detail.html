@@ -88,6 +88,119 @@
         });
     });
     </script>
+
+    <script>
+    // key `h j k l` item selection
+    // get current kb element
+
+    function getCurrentElement()
+    {
+        var ele = $(".kb .comment-body").first();
+        if (ele.size() !== 1)
+        {
+            return null;
+        }
+        else
+        {
+            return ele;
+        }
+    }
+
+    function movenext(time)
+    {
+        var curEle = getCurrentElement();
+        var next;
+        // no item selected
+        if (curEle === null)
+        {
+            next = $(".comment-body").first();
+            color_to_ele(null, next.parent());
+        }
+        else
+        {
+            next = curEle.parent().next("li").children(".comment-body");
+            color_to_ele(curEle.parent(), next.parent());
+        }
+        // if not the last item
+        move_to_ele(next, time);
+    }
+
+    function moveprev(time)
+    {
+        var curEle = getCurrentElement();
+        var next;
+        // no item selected
+        if (curEle !== null)
+        {
+            next = curEle.parent().prev("li").children(".comment-body");
+            color_to_ele(curEle.parent(), next.parent());
+            // if not the last item
+            move_to_ele(next, time);
+        }
+    }
+
+    function movedown(time)
+    {
+        var curEle = getCurrentElement();
+        // no item selected
+        if (curEle === null)
+        {
+            var next = $(".comment-body").first();
+            color_to_ele(null, next.parent());
+            move_to_ele(next, time);
+        }
+        else
+        {
+            var all_items = $(".comment-body");
+            var cur_ind = all_items.index($(".kb .comment-body").first());
+            if (cur_ind + 1 <= all_items.size() - 1)
+            {
+                var next = $(all_items.get(cur_ind + 1));
+                color_to_ele(curEle.parent(), next.parent());
+                move_to_ele(next, time);
+            }
+        }
+    }
+
+    function moveup(time)
+    {
+        var curEle = getCurrentElement();
+        // no item selected
+        if (curEle !== null)
+        {
+            var all_items = $(".comment-body");
+            var cur_ind = all_items.index($(".kb .comment-body").first());
+            if (cur_ind - 1 >= 0)
+            {
+                var next = $(all_items.get(cur_ind - 1));
+                color_to_ele(curEle.parent(), next.parent());
+                move_to_ele(next, time);
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        var time = 100;
+        var vim_key_listener = new window.keypress.Listener;
+        vim_key_listener.simple_combo("j", function() {
+            movedown(time);
+        });
+        vim_key_listener.simple_combo("k", function() {
+            moveup(time);
+        });
+        vim_key_listener.simple_combo("h", function() {
+            moveprev(time);
+        });
+        vim_key_listener.simple_combo("l", function () {
+            movenext(time);
+        });
+
+        // when user is focus is writing a comment
+        $("input[type=text], textarea")
+        .bind("focus", function() { vim_key_listener.stop_listening(); })
+        .bind("blur", function() { vim_key_listener.listen(); });
+    });
+    </script>
     <script src="{% static 'blogs/jquery.truncate.js' %}"></script>
     <script src="{% static 'blogs/render-content.js' %}"></script>
     <script src="{% static 'blogs/render-modal.js' %}"></script>

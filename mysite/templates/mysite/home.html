@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">有动态背景啦</h1>
+        <h1 class="cover-heading">有动态背景和键盘功能按键啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
@@ -20,6 +20,12 @@
             {% if request.user.is_authenticated %}
                 , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
             {% endif %}
+            <br/>
+            <b>2017年9月18日----版本更新:</b><br/>
+            1. 修正首行缩进时把图片一起缩进的问题<br/>
+            2. 增加用vim键位浏览博客列表页面以及博客详细页的功能<br/>
+            3. 增加按键控制的只显示背景和切换简单背景和动态背景的功能<br/>
+            4. 增加<a href="{% url 'blogs:archive' 131 %}">网站快捷键使用指南</a><br/>
             <br/>
             <b>2017年9月16日----版本更新:</b><br/>
             1. 调整博客正文首行缩进和行距<br/>

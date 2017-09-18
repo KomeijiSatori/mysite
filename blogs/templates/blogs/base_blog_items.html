@@ -8,6 +8,96 @@
             duration: 1000,
             easing: 'ease-out-back'
         });
+
+        $(".marked_truncate p:not(:has(img))").css("text-indent", "2em");
+        $(".blog_content p:not(:has(img))").css("text-indent", "2em");
+    });
+</script>
+
+<script>
+    // key `h j k l` item selection
+    // get current kb element
+    function getCurrentElement()
+    {
+        var ele = $(".blog-div.kb");
+        if (ele.size() != 1)
+        {
+            return null;
+        }
+        else
+        {
+            return ele;
+        }
+    }
+
+    function movedown(time)
+    {
+        var curEle = getCurrentElement();
+        var next;
+        // no item selected
+        if (curEle === null)
+        {
+            next = $(".blog-div").first();
+        }
+        else
+        {
+            next = curEle.next(".blog-div");
+        }
+        // if not the last item
+        color_to_ele(curEle, next);
+        move_to_ele(next, time);
+    }
+
+    function moveup(time)
+    {
+        var curEle = getCurrentElement();
+        // no item selected
+        if (curEle !== null)
+        {
+            var next = curEle.prev(".blog-div");
+            color_to_ele(curEle, next);
+            move_to_ele(next, time);
+        }
+    }
+
+    function moveprev()
+    {
+        var btn = $("#prev-btn");
+        if (btn.size() === 1)
+        {
+            btn[0].click();
+        }
+    }
+
+    function movenext()
+    {
+        var btn = $("#next-btn");
+        if (btn.size() === 1)
+        {
+            btn[0].click();
+        }
+    }
+
+    $(document).ready(function () {
+        var time = 100;
+        var vim_key_listener = new window.keypress.Listener;
+        vim_key_listener.simple_combo("j", function() {
+            movedown(time);
+        });
+        vim_key_listener.simple_combo("k", function() {
+            moveup(time);
+        });
+        vim_key_listener.simple_combo("h", function() {
+            moveprev();
+        });
+        vim_key_listener.simple_combo("l", function() {
+            movenext();
+        });
+
+        // when user is focus is writing a comment
+        $("input[type=text], textarea")
+        .bind("focus", function() { vim_key_listener.stop_listening(); })
+        .bind("blur", function() { vim_key_listener.listen(); });
     });
 </script>
 
@@ -38,7 +128,7 @@
 <!-- Pager -->
 <ul class="pager">
     {% if blogs.has_previous %}
-        <a class="btn btn-default" href="?{% url_replace page=blogs.previous_page_number %}">&lt</a>
+        <a class="btn btn-default" id="prev-btn" href="?{% url_replace page=blogs.previous_page_number %}">&lt</a>
     {% endif %}
 
     {% for i in page_list %}
@@ -54,6 +144,6 @@
     {% endfor %}
 
     {% if blogs.has_next %}
-        <a class="btn btn-default" href="?{% url_replace page=blogs.next_page_number %}">&gt;</a>
+        <a class="btn btn-default" id="next-btn" href="?{% url_replace page=blogs.next_page_number %}">&gt;</a>
     {% endif %}
 </ul>
