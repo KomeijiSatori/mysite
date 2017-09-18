@@ -190,10 +190,48 @@
     }
 }
 
+@keyframes simpleImage {
+    0% {
+        opacity: 0;
+    }
+    8% {
+        opacity: 0;
+    }
+    17% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+.simple-image-div {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    color: transparent;
+    background-image: url('/static/mysite/images/background-lg.png');
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: none;
+    opacity: 0;
+    z-index: -2;
+    animation: simpleImage 6s linear 0s;
+    animation-fill-mode: forwards;
+}
+
 @media (max-width: 768px) {
     body {
         background-color: #f0f0f0;
-        background: url('/static/mysite/images/background.png');
+        background: url('/static/mysite/images/background-sm.png');
         background-attachment: fixed;
+    }
+    .simple-image-div {
+        display: none;
     }
 }
