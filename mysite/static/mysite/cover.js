@@ -26,16 +26,26 @@ function toggle_content() {
     $("#navigation-bar").toggle();
 }
 
+function hide_background() {
+    $(".hidden-xs").hide();
+    $("body").css("background", "url('/static/mysite/images/background.png')");
+}
+
+function show_background() {
+    $(".hidden-xs").show();
+    $("body").css("background", "black");
+}
+
 function toggle_background() {
     if ($(".hidden-xs").is(":visible"))
     {
-        $(".hidden-xs").hide();
-        $("body").css("background", "url('/static/mysite/images/background.png')");
+        hide_background();
+        Cookies.set("animated_background", false, { expired: 14 });
     }
     else
     {
-        $(".hidden-xs").show();
-        $("body").css("background", "black");
+        show_background();
+        Cookies.set("animated_background", true, { expired: 14 });
     }
 }
 
@@ -49,7 +59,12 @@ $(document).ready(function () {
     key_listener.sequence_combo("up up down down left right left right b a", toggle_content, true);
     key_listener.sequence_combo("left up right down", toggle_background, true);
 
+    var is_animated_background = Cookies.get("animated_background");
+    if (is_animated_background === "false")
+    {
+        hide_background();
+    }
+
     get_notification_count();
 
 });
-
