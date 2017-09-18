@@ -76,6 +76,8 @@
                         '</code></pre>';
                 };
                 $("#preview_content").html(marked($("#id_text").val(), { renderer: renderer }));
+                $(".marked_truncate p:not(:has(img))").css("text-indent", "2em");
+                $(".blog_content p:not(:has(img))").css("text-indent", "2em");
             }
             function set_category() {
                 var text = $("#id_categories").val();
