@@ -106,25 +106,28 @@ $(document).ready(function () {
 
     for (var key in keymap)
     {
+        key_state[key] = false;
+
         key_func_map.push({
             "keys": key,
             "on_keydown": function(event)
             {
-                if (key_state[event.key] === false)
+                var key = event.key.toLowerCase();
+                if (key_state[key] === false)
                 {
-                    var cur_str = keymap[event.key];
+                    var cur_str = keymap[key];
                     var note = cur_str.split(" ")[0];
                     var oct = parseInt(cur_str.split(" ")[1]);
                     Synth.play(instrument, note, oct + octave_base, note_span);
-                    key_state[event.key] = true;
+                    key_state[key] = true;
                 }
             },
             "on_keyup": function(event)
             {
-                key_state[event.key] = false;
+                var key = event.key.toLowerCase();
+                key_state[key] = false;
             }
         });
-        key_state[key] = false;
     }
     key_func_map.push({
         "keys": 'up',
