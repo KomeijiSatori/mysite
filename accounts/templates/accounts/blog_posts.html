@@ -1,39 +1,46 @@
 <!--List a list of blogs-->
 {% load static %}
 {% load blog_tags %}
-
+{% load avatar_tags %}
 
 {% for blog in blogs %}
-    <div class="blog-div well">
+    <div class="blog-div well aos-init aos-animate" data-aos="flip-up">
         {% if blog.unread %}
-        <span class="label label-danger brand-new">New</span>
+            <span class="label label-danger brand-new">New</span>
         {% endif %}
         <h2>
-            {{ blog.title }}
+            <span class="blog-title">
+                <a href="{% url 'blogs:archive' blog.id %}">{{ blog.title }}</a>
+            </span>
         </h2>
-        <p class="lead">
-            by {{ blog.author }}
-        </p>
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time.year }}-{{ blog.publish_time.month }}-{{blog.publish_time.day}} {{ blog.publish_time.hour }}:{{ blog.publish_time.minute }}:{{ blog.publish_time.second }}</p>
+        <div class="avatar-div">
+            {% avatar blog.author 64 %}
+        </div>
+        <p><i class="fa fa-pencil"></i> Author: {{ blog.author }}</p>
+        <p><i class="fa fa-clock-o"></i> Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}</p>
         {% if blog.blogcategory_set.all.count > 0 %}
         <p>
-            Category:
+            <i class="fa fa-tags"></i> Category:
             {% for category in blog.blogcategory_set.all %}
-            <a href="{% url 'blogs:category' category %}" target="_blank">{{ category }}</a>
+            <span class="category-span"><a href="{% url 'blogs:category' category %}">{{ category }}</a></span>
             {% endfor %}
         </p>
         {% endif %}
+        <p>
+            <span><i class="fa fa-eye"></i> Views: {{ blog.read_count }}</span>
+            <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {{ blog.comment_set.all | length }}</span>
+        </p>
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
         <p class="lead"><div class="marked_truncate">{{ blog.text }}</div></p>
-        <a class="btn btn-primary read-blog" id="notification_{{ blog.related_notification_id }}" href="{% url 'blogs:archive' blog.id %}" target="_blank">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="btn btn-primary read-blog" id="notification_{{ blog.related_notification_id }}" href="{% url 'blogs:archive' blog.id %}" target="_blank">Read More <i class="fa fa-chevron-right"></i></a>
     </div>
 {% endfor %}
 
 <!-- Pager -->
 <ul class="pager">
     {% if blogs.has_previous %}
-        <a class="btn btn-default page-link" href="{% url_replace page=blogs.previous_page_number %}">&lt;</a>
+        <a class="btn btn-default page-link" id="prev-btn" href="{% url_replace page=blogs.previous_page_number %}">&lt;</a>
     {% endif %}
 
     {% for i in page_list %}
@@ -49,7 +56,7 @@
     {% endfor %}
 
     {% if blogs.has_next %}
-        <a class="btn btn-default page-link" href="{% url_replace page=blogs.next_page_number %}">&gt;</a>
+        <a class="btn btn-default page-link" id="next-btn" href="{% url_replace page=blogs.next_page_number %}">&gt;</a>
     {% endif %}
 </ul>
 

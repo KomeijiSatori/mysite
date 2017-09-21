@@ -14,11 +14,22 @@
     <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
     <script src="{% static 'blogs/jquery.truncate.js' %}" type="text/javascript"></script>
     <script src="{% static 'blogs/render-content.js' %}" type="text/javascript"></script>
+    <script src="{% static 'blogs/blog-list.js' %}" type="text/javascript"></script>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
     <!-- Custom CSS -->
     <link href="{% static 'accounts/accounts-dashboard.css' %}" rel="stylesheet">
 
     <script>
+        // if new tabs exists, do remember to clear this tab in this function!
+        function clear_tabs() {
+            $("#blog-posts").empty();
+            $('#comment-posts').empty();
+            $('#comment-received').empty();
+            $("#blog-subscriptions-div").empty();
+        }
+
         function ajax_blog_posts() {
             $.ajax({
                 type: "GET",
@@ -123,6 +134,8 @@
         $(document).ready(function () {
             $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
                 var target = $(e.target).attr("href");// activated tab
+                // clear tab before new tab generates, in order to ensure proper performance of keyboard operation
+                clear_tabs();
                 if (target == "#blog-posts-tab")
                 {
                     ajax_blog_posts();
