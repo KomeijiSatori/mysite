@@ -92,6 +92,26 @@
     <script>
     // key `h j k l` item selection
     // get current kb element
+    function move_to_ele(ele, time) {
+        // scroll to ele
+        if (ele.size() === 1)
+        {
+            var elOffset = ele.offset().top;
+            var elHeight = ele.height();
+            var windowHeight = $(window).height();
+            var offset;
+
+            if (elHeight < windowHeight) {
+                offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+            }
+            else {
+                offset = elOffset;
+            }
+            $('html, body').animate({
+                scrollTop: offset
+            }, time);
+        }
+    }
 
     function getCurrentElement()
     {
@@ -215,34 +235,37 @@
         <!-- Title -->
         <h1>{{ blog.title }}</h1>
 
-        <!-- Author -->
-        <p class="lead">
-            by <a id="author" style="text-decoration: none;">{% avatar blog.author 27 %} {{ blog.author }}</a>
-            {% if is_follow is not None %}
-                {% if not is_follow %}
-                <button type="button" name="follow-btn" class="btn btn-success" data-followed="F" style="margin-left: 10px;">+ Follow</button>
-                {% else %}
-                <button type="button" name="follow-btn" class="btn btn-warning" data-followed="T" style="margin-left: 10px;">- Unfollow</button>
-                {% endif %}
+        {% if is_follow is not None %}
+            {% if not is_follow %}
+            <button type="button" name="follow-btn" class="btn btn-success" data-followed="F" style="margin-left: 10px;">+ Follow</button>
+            {% else %}
+            <button type="button" name="follow-btn" class="btn btn-warning" data-followed="T" style="margin-left: 10px;">- Unfollow</button>
             {% endif %}
+        {% endif %}
+
+
+        <p><i class="fa fa-pencil"></i> Author:
+            <a id="author"><span class="avatar-span">
+                {% avatar blog.author 64 %}
+            </span>{{ blog.author }}</a>
         </p>
-
-        <!-- Date/Time -->
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time }}</p>
+        <p><i class="fa fa-clock-o"></i> Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}</p>
         {% if blog.last_update_time %}
-        <p><span class="glyphicon glyphicon-time"></span> Last Edit on {{ blog.last_update_time }}</p>
+        <p><small><i class="fa fa-clock-o"></i> Last Edit: {{ blog.last_update_time }}</small></p>
         {% endif %}
 
-        {% if blog.blogcategory_set.all.count is not 0 %}
-            <p>
-                Category:
-                {% for category in blog.blogcategory_set.all %}
-                    <a href="{% url 'blogs:category' category %}">{{ category }}</a>
-                {% endfor %}
-            </p>
+        {% if blog.blogcategory_set.all.count > 0 %}
+        <p>
+            <i class="fa fa-tags"></i> Category:
+            {% for category in blog.blogcategory_set.all %}
+            <span class="category-span"><a href="{% url 'blogs:category' category %}">{{ category }}</a></span>
+            {% endfor %}
+        </p>
         {% endif %}
-
-        <br/>
+        <p>
+            <span><i class="fa fa-eye"></i> Views: {{ blog.read_count }}</span>
+            <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {{ blog.comment_set.all | length }}</span>
+        </p>
 
         <div id="profile-modal" class="modal">
         <!-- Modal content -->

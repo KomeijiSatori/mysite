@@ -1,6 +1,7 @@
 <!--List a list of blogs-->
 {% load static %}
 {% load blog_tags %}
+{% load avatar_tags %}
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -15,113 +16,38 @@
 </script>
 
 <script>
-    // key `h j k l` item selection
-    // get current kb element
-    function getCurrentElement()
-    {
-        var ele = $(".blog-div.kb");
-        if (ele.size() != 1)
-        {
-            return null;
-        }
-        else
-        {
-            return ele;
-        }
-    }
 
-    function movedown(time)
-    {
-        var curEle = getCurrentElement();
-        var next;
-        // no item selected
-        if (curEle === null)
-        {
-            next = $(".blog-div").first();
-        }
-        else
-        {
-            next = curEle.next(".blog-div");
-        }
-        // if not the last item
-        color_to_ele(curEle, next);
-        move_to_ele(next, time);
-    }
-
-    function moveup(time)
-    {
-        var curEle = getCurrentElement();
-        // no item selected
-        if (curEle !== null)
-        {
-            var next = curEle.prev(".blog-div");
-            color_to_ele(curEle, next);
-            move_to_ele(next, time);
-        }
-    }
-
-    function moveprev()
-    {
-        var btn = $("#prev-btn");
-        if (btn.size() === 1)
-        {
-            btn[0].click();
-        }
-    }
-
-    function movenext()
-    {
-        var btn = $("#next-btn");
-        if (btn.size() === 1)
-        {
-            btn[0].click();
-        }
-    }
-
-    $(document).ready(function () {
-        var time = 100;
-        var vim_key_listener = new window.keypress.Listener;
-        vim_key_listener.simple_combo("j", function() {
-            movedown(time);
-        });
-        vim_key_listener.simple_combo("k", function() {
-            moveup(time);
-        });
-        vim_key_listener.simple_combo("h", function() {
-            moveprev();
-        });
-        vim_key_listener.simple_combo("l", function() {
-            movenext();
-        });
-
-        // when user is focus is writing a comment
-        $("input[type=text], textarea")
-        .bind("focus", function() { vim_key_listener.stop_listening(); })
-        .bind("blur", function() { vim_key_listener.listen(); });
-    });
 </script>
 
 {% for blog in blogs %}
     <div class="blog-div well" data-aos="flip-up">
+        {% block blog_extra %}{% endblock %}
         <h2>
-            <a href="{% url 'blogs:archive' blog.id %}">{{ blog.title }}</a>
+            <span class="blog-title">
+                <a href="{% url 'blogs:archive' blog.id %}">{{ blog.title }}</a>
+            </span>
         </h2>
-        <p class="lead">
-            by {{ blog.author }}
-        </p>
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog.publish_time.year }}-{{ blog.publish_time.month }}-{{blog.publish_time.day}} {{ blog.publish_time.hour }}:{{ blog.publish_time.minute }}:{{ blog.publish_time.second }}</p>
+        <div class="avatar-div">
+            {% avatar blog.author 64 %}
+        </div>
+        <p><i class="fa fa-pencil"></i> Author: {{ blog.author }}</p>
+        <p><i class="fa fa-clock-o"></i> Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}</p>
         {% if blog.blogcategory_set.all.count > 0 %}
         <p>
-            Category:
+            <i class="fa fa-tags"></i> Category:
             {% for category in blog.blogcategory_set.all %}
-            <a href="{% url 'blogs:category' category %}">{{ category }}</a>
+            <span class="category-span"><a href="{% url 'blogs:category' category %}">{{ category }}</a></span>
             {% endfor %}
         </p>
         {% endif %}
+        <p>
+            <span><i class="fa fa-eye"></i> Views: {{ blog.read_count }}</span>
+            <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {{ blog.comment_set.all | length }}</span>
+        </p>
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
         <p class="lead"><div class="marked_truncate">{{ blog.text }}</div></p>
-        <a class="btn btn-primary" href="{% url 'blogs:archive' blog.id %}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="btn btn-primary" href="{% url 'blogs:archive' blog.id %}">Read More <i class="fa fa-chevron-right"></i></a>
     </div>
 {% endfor %}
 

@@ -4,7 +4,7 @@
 
 
 {% for comment in comments %}
-    <div class="blog-div well">
+    <div class="blog-div well aos-init aos-animate" data-aos="flip-up">
         <p class="lead"><b>{{ comment.author }}</b>: {{ comment.text|linebreaksbr|truncatewords:30 }}</p>
         <p><span class="glyphicon glyphicon-time"></span> Posted on {{ comment.publish_time }}</p>
         {% if comment.parent %}
@@ -21,7 +21,7 @@
 <!-- Pager -->
 <ul class="pager">
     {% if comments.has_previous %}
-        <a class="btn btn-default page-link" href="{% url_replace page=comments.previous_page_number %}">&lt;</a>
+        <a class="btn btn-default page-link" id="prev-btn" href="{% url_replace page=comments.previous_page_number %}">&lt;</a>
     {% endif %}
 
     {% for i in page_list %}
@@ -37,7 +37,7 @@
     {% endfor %}
 
     {% if comments.has_next %}
-        <a class="btn btn-default page-link" href="{% url_replace page=comments.next_page_number %}">&gt;</a>
+        <a class="btn btn-default page-link" id="next-btn" href="{% url_replace page=comments.next_page_number %}">&gt;</a>
     {% endif %}
 </ul>
 

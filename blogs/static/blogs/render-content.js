@@ -35,27 +35,6 @@ function color_to_ele(curEle, next)
     }
 }
 
-function move_to_ele(ele, time) {
-    // scroll to ele
-    if (ele.size() === 1)
-    {
-        var elOffset = ele.offset().top;
-        var elHeight = ele.height();
-        var windowHeight = $(window).height();
-        var offset;
-
-        if (elHeight < windowHeight) {
-            offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
-        }
-        else {
-            offset = elOffset;
-        }
-        $('html, body').animate({
-            scrollTop: offset
-        }, time);
-    }
-}
-
 $(document).ready(function () {
     update_marked_truncate();
 });

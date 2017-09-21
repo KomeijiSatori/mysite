@@ -35,6 +35,10 @@ def archive(request, blog_id):
         is_follow = FollowService.is_fan_star(request.user, blog.author)
     else:
         is_follow = None
+    # read count plus one
+    blog.read_count += 1
+    blog.save()
+
     context = {
         "blog": blog,
         'comment_form': comment_form,
@@ -132,7 +136,7 @@ def blog_update(request, blog_id):
         text_str = request.POST.get("text")
         blog = BlogService.update_blog_from_string(blog_id, title_str, text_str, category_str)
         return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
-    return render(request, "blogs/post.html", {"form": form, "author": blog.author})
+    return render(request, "blogs/post.html", {"form": form, "blog": blog})
 
 
 def getComment(request, comment_id):

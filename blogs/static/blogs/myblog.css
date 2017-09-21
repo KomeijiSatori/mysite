@@ -1,7 +1,12 @@
+a:hover {
+    text-decoration: none;
+}
+
 .blog-div {
     background-color: rgba(230,238,232,0.7);
     box-shadow: 0px 0px 8px black;
     word-wrap: break-word;
+    margin-top: 50px;
 }
 
 .blog-div:hover {
@@ -103,10 +108,6 @@
     padding: 2px 16px;
     background-color: #5cb85c;
     color: white;
-}
-
-#author:hover {
-    color: red;
 }
 
 #profile-close {
@@ -254,4 +255,57 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 
 .kb {
     border: solid 4px rgba(255, 0, 0, 0.6);
+}
+
+.avatar-div {
+    position: absolute;
+    top: -32px;
+    left: -32px;
+}
+
+.avatar-div img{
+    transition: transform 1s;
+    border-radius: 50%;
+}
+
+.avatar-div img:hover {
+    transform: scale(1.2, 1.2) rotate(720deg);
+}
+
+.blog-title{
+    transition: text-shadow 1s;
+}
+
+.blog-title:hover {
+    text-shadow: 0 0 5px #228DFF;
+}
+
+.category-span {
+    background-color: rgba(127, 127, 127, 0.8);
+    padding: .2em;
+    border-radius: 8px;
+    box-shadow: 0 0 1px black;
+    transition: background-color 1s;
+    margin-left: 4px;
+}
+
+.category-span:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.category-span a {
+    color: white;
+}
+
+#author {
+    cursor: pointer;
+}
+
+.avatar-span img{
+    transition: transform 1s;
+    border-radius: 50%;
+}
+
+.avatar-span img:hover {
+    transform: scale(1.2, 1.2) rotate(-720deg);
 }

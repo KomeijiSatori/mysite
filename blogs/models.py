@@ -11,6 +11,7 @@ class Blog(models.Model):
     publish_time = models.DateTimeField(auto_now_add=True, auto_now=False)
     last_update_time = models.DateTimeField(null=True, blank=True)
     text = models.TextField()
+    read_count = models.IntegerField(default=0, null=False)
 
     def __str__(self):
         return self.title

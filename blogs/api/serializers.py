@@ -49,6 +49,7 @@ class BlogListSerializer(serializers.ModelSerializer):
 class BlogDetailSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     categories = serializers.SerializerMethodField()
+    comment_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Blog
@@ -58,6 +59,8 @@ class BlogDetailSerializer(serializers.ModelSerializer):
             'author',
             'publish_time',
             'last_update_time',
+            'read_count',
+            'comment_count',
             'text',
             'categories',
         ]
@@ -68,6 +71,9 @@ class BlogDetailSerializer(serializers.ModelSerializer):
     def get_categories(self, obj):
         categories = obj.blogcategory_set.all()
         return [category.name for category in categories]
+
+    def get_comment_count(self, obj):
+        return len(obj.comment_set.all())
 
 
 class BlogPostSerializer(serializers.ModelSerializer):

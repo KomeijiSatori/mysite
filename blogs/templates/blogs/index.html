@@ -17,13 +17,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
     <script src="{% static 'blogs/jquery.truncate.js' %}"></script>
     <script src="{% static 'blogs/render-content.js' %}"></script>
+    <script src="{% static 'blogs/blog-list.js' %}"></script>
 {% endblock %}
 
 
 {% block content %}
     <!-- Page Content -->
     {% include "blogs/base_search.html" %}
-    <br/>
 
     {% include "blogs/base_blog_items.html" %}
 

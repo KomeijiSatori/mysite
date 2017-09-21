@@ -1,6 +1,7 @@
 {% extends "mysite/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load avatar_tags %}
 
 
 {% block title %}
@@ -32,12 +33,38 @@
             <h1>Preview</h1>
             <div class="blog-detail_div well">
                 <h1 id="preview_title"></h1>
-                <p class="lead">
-                    by {% if author %}{{author}}{% else %}{{ request.user.username }}{% endif %}
+                <p><i class="fa fa-pencil"></i> Author:
+                    <a id="author">
+                        <span class="avatar-span">
+                        {% if blog %}
+                            {% avatar blog.author 64 %}
+                        {% else %}
+                            {% avatar request.user 64 %}
+                        {% endif %}
+                        </span>
+                        {% if blog %}
+                            {{ blog.author }}
+                        {% else %}
+                            {{ request.user.username }}
+                        {% endif %}
+                    </a>
                 </p>
-                <p><span class="glyphicon glyphicon-time"></span> <span id="preview_time">Posted on xxxx-xx-xx</span></p>
+                <p><i class="fa fa-clock-o"></i> <span id="preview_time">
+                    {% if blog %}
+                    Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}
+                    {% else %}
+                    Posted: xxxx-xx-xx
+                    {% endif %}
+                </span></p>
+                {% if blog %}
+                <p><small><i class="fa fa-clock-o"></i> <span id="update_time">Last Edit: xxxx</span></small></p>
+                {% endif %}
+
                 <p id="preview_category"></p>
-                <br/>
+                <p>
+                    <span><i class="fa fa-eye"></i> Views: {% if blog %}{{ blog.read_count }}{% else %}0{% endif %}</span>
+                    <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {% if blog %}{{ blog.comment_set.all | length }}{% else %}0{% endif %}</span>
+                </p>
                 <div class="blog_content" id="preview_content"></div>
             </div>
 
@@ -81,12 +108,17 @@
             }
             function set_category() {
                 var text = $("#id_categories").val();
-                var cates = text.split(" ");
-                var res = "Category:";
-                for(var i = 0; i < cates.length; i++)
+                if (text === '')
                 {
-                    res += " <a>" + cates[i] + "</a>";
+                    $("#preview_category").html('');
+                    return;
                 }
+                var cates = text.split(" ");
+                var res = '<p><i class="fa fa-tags"></i> Category: ';
+                for (var i = 0; i < cates.length; i++) {
+                    res += '<span class="category-span"><a>' + cates[i] + '</a></span> '
+                }
+                res += '</p>';
                 $("#preview_category").html(res);
             }
             function set_time() {
@@ -98,9 +130,13 @@
                 var curr_hour = d.getHours();
                 var curr_minute = d.getMinutes();
                 var curr_second = d.getSeconds();
-
-                $("#preview_time").html("Posted on " + curr_year + "-" + curr_month + "-" + curr_date
+                {% if blog %}
+                $("#update_time").html("Last Edit: "+ curr_year + "-" + curr_month + "-" + curr_date
                 + " " + curr_hour + ":" + curr_minute + ":" + curr_second);
+                {% else %}
+                $("#preview_time").html("Posted: " + curr_year + "-" + curr_month + "-" + curr_date
+                + " " + curr_hour + ":" + curr_minute + ":" + curr_second);
+                {% endif %}
             }
 
             // initial set
