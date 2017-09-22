@@ -109,4 +109,54 @@ $(document).ready(function () {
     $("input[type=text], textarea")
     .bind("focus", function() { vim_key_listener.stop_listening(); })
     .bind("blur", function() { vim_key_listener.listen(); });
+
+    // search stuff
+    $("#advanced-search-btn").click(function() {
+        $(".advanced_search").slideToggle(500);
+        if ($("#search-arrow").attr('class') === 'fa fa-angle-double-up')
+        {
+            $("#search-arrow").attr('class', 'fa fa-angle-double-down');
+        }
+        else
+        {
+            $("#search-arrow").attr('class', 'fa fa-angle-double-up');
+        }
+    });
+
+    $("#field_publish_from_check").change(function() {
+        if (this.checked) {
+            $("#field_publish_from").prop('disabled', false);
+        }
+        else
+        {
+            $("#field_publish_from").prop('disabled', true);
+        }
+    });
+    $("#field_publish_to_check").change(function() {
+        if (this.checked) {
+            $("#field_publish_to").prop('disabled', false);
+        }
+        else
+        {
+            $("#field_publish_to").prop('disabled', true);
+        }
+    });
+    $("#field_update_from_check").change(function() {
+        if (this.checked) {
+            $("#field_update_from").prop('disabled', false);
+        }
+        else
+        {
+            $("#field_update_from").prop('disabled', true);
+        }
+    });
+    $("#field_update_to_check").change(function() {
+        if (this.checked) {
+            $("#field_update_to").prop('disabled', false);
+        }
+        else
+        {
+            $("#field_update_to").prop('disabled', true);
+        }
+    });
 });

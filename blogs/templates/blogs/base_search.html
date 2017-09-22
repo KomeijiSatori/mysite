@@ -1,19 +1,82 @@
 <div class="blog_post_div well">
-    {% if user.is_authenticated %}
-        <div class="post-btn">
-            <a class="post-btn-content" href="{% url 'blogs:post' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
-        </div>
-    {% else %}
-        <p>Please log in to post a blog.</p>
-    {% endif %}
     <form action="{% url 'blogs:search' %}" method="get">
         <div class="input-group input-group-lg">
-            <input type="text" class="form-control" name="search" placeholder={% if request.GET.search %}"{{ request.GET.search}}"{% else %}"输入想要搜索的内容"{% endif %}>
+            <input type="text" class="form-control" name="search" placeholder="Input whatever you want to search" value={% if request.GET.search %}"{{ request.GET.search}}"{% endif %}>
             <span class="input-group-btn">
                 <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
             </span>
+        </div>
+
+        <div class="advance-search-div">
+            <a id="advanced-search-btn">Advanced Options <i id="search-arrow" class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+        </div>
+
+        <div class="advanced_search">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label class="col-form-label">Search Fields: </label>
+                </div>
+                <div class="col-sm-2">
+                    <input class="control__input" id="field_title" type="checkbox" name="title" checked>
+                    <label class="control__label" for="field_title">Title</label>
+                </div>
+                <div class="col-sm-3">
+                    <input class="control__input" id="field_text" type="checkbox" name="text" checked>
+                    <label class="control__label" for="field_text">Text</label>
+                </div>
+                <div class="col-sm-2">
+                    <input class="control__input" id="field_author" type="checkbox" name="author" checked>
+                    <label class="control__label" for="field_author">Author</label>
+                </div>
+                <div class="col-sm-2">
+                    <input class="control__input" id="field_category" type="checkbox" name="category" checked>
+                    <label class="control__label" for="field_category">Category</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <label class="col-form-label">Publish time: </label>
+                </div>
+                <div class="col-sm-2">
+                    <input class="control__input" id="field_publish_from_check" type="checkbox">
+                    <label class="control__label" for="field_publish_from_check">From </label>
+                </div>
+                <div class="col-sm-3">
+                    <input class="input" id="field_publish_from" name="publish_from_date" type="date" disabled>
+                </div>
+
+                <div class="col-sm-2">
+                    <input class="control__input" id="field_publish_to_check" type="checkbox">
+                    <label class="control__label" for="field_publish_to_check">To </label>
+                </div>
+                <div class="col-sm-3">
+                    <input class="input" id="field_publish_to" name="publish_to_date" type="date" disabled>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <label class="col-form-label">Update time: </label>
+                </div>
+                <div class="col-sm-2">
+                    <input class="control__input" id="field_update_from_check" type="checkbox">
+                    <label class="control__label" for="field_update_from_check">From </label>
+                </div>
+                <div class="col-sm-3">
+                    <input class="input" id="field_update_from" name="update_from_date" type="date" disabled>
+                </div>
+
+                <div class="col-sm-2">
+                    <input class="control__input" id="field_update_to_check" type="checkbox">
+                    <label class="control__label" for="field_update_to_check">To </label>
+                </div>
+                <div class="col-sm-3">
+                    <input class="input" id="field_update_to" name="update_to_date" type="date" disabled>
+                </div>
+            </div>
         </div>
     </form>
 </div>
