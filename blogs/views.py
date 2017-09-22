@@ -161,18 +161,11 @@ def updateComment(request, comment_id):
 def search(request):
     search_text = request.GET.get('search')
     if search_text:
-        blog_list = Blog.objects.all()
-        query_list = blog_list.filter(
-            Q(title__icontains=search_text) |
-            Q(text__icontains=search_text) |
-            Q(author__username__icontains=search_text)
-        )
-        cate = BlogCategory.objects.filter(name=search_text)
-        if cate.count() > 0:
-            blogs = cate[0].blog.all()
-            query_list = query_list | blogs
-        query_list = query_list.distinct()
-
+        paras = dict(request.GET)
+        try:
+            query_list = BlogService.search_blogs(**paras)
+        except Exception:
+            query_list = []
     else:
         query_list = []
 

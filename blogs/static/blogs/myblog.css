@@ -1,4 +1,4 @@
-a:hover {
+a:link, a:visited, a:hover, a:active {
     text-decoration: none;
 }
 
@@ -308,4 +308,28 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 
 .avatar-span img:hover {
     transform: scale(1.2, 1.2) rotate(-720deg);
+}
+
+.advanced_search {
+    display: none;
+}
+
+.advanced_search label {
+    user-select: none;
+}
+
+.input {
+    padding: 1px;
+    resize: none;
+    border-radius: 5px;
+    margin: 0;
+}
+
+.advanced_search .row {
+    margin-top: 16px;
+}
+
+.advance-search-div {
+    cursor: pointer;
+    margin-top: 10px;
 }
