@@ -247,8 +247,8 @@ class BlogService(object):
         if res['publish_to_date']:
             q &= Q(publish_time__lt=res['publish_to_date'])
         if res['update_from_date']:
-            q &= Q(update_time__gte=res['update_from_date'])
+            q &= Q(last_update_time__gte=res['update_from_date'])
         if res['update_to_date']:
-            q &= Q(update_time__lt=res['update_to_date'])
+            q &= Q(last_update_time__lt=res['update_to_date'])
 
         return Blog.objects.filter(q).distinct()

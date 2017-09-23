@@ -173,6 +173,5 @@ REST_FRAMEWORK = {
     )
 }
 
-APPEND_SLASH = False
 
 SITE_ID = 1

@@ -249,7 +249,7 @@
         </p>
         <p><i class="fa fa-clock-o"></i> Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}</p>
         {% if blog.last_update_time %}
-        <p><small><i class="fa fa-clock-o"></i> Last Edit: {{ blog.last_update_time }}</small></p>
+        <p><small><i class="fa fa-clock-o"></i> Last Edit: {{ blog.last_update_time|date:"Y-m-d" }} {{ blog.last_update_time|time:"H:i:s" }}</small></p>
         {% endif %}
 
         {% if blog.blogcategory_set.all.count > 0 %}
