@@ -20,13 +20,13 @@ def upload_js():
             {% } %}
         </td>
         <td>
-            To be uploaded
-        </td>
-        <td>
             <p class="size">{%=o.formatFileSize(file.size)%}</p>
             {% if (!o.files.error) { %}
                 <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
             {% } %}
+        </td>
+        <td>
+            To be uploaded
         </td>
         <td>
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
@@ -60,15 +60,18 @@ def upload_js():
             <p><a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a></p>
         </td>
         <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
             <p class="name">
-                {%=file.full_url%}
+                <button class="btn btn-primary copy-url" data-url="{%=file.full_url%}">
+                    <i class="glyphicon glyphicon-copy"></i>
+                    <span>Copy URL</span>
+                </button>
             </p>
             {% if (file.error) { %}
                 <div><span class="label label-important">{%=locale.fileupload.error%}</span> {%=file.error%}</div>
             {% } %}
-        </td>
-        <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
         <td>
             <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>

@@ -322,6 +322,15 @@
                 } else {
                     removeNode();
                 }
+            },
+            copyUrl: function (e, data) {
+                var text = data.url;
+                var input = document.createElement('input');
+                input.setAttribute('value', text);
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
             }
         },
 
@@ -479,6 +488,21 @@
             }, button.data()));
         },
 
+        _copyUrlHandler: function(e) {
+            e.preventDefault();
+            var button = $(e.currentTarget);
+            this._trigger("copyUrl", e, button.data());
+            var former = $(".copy-url.btn-success");
+            former.children("span").html("Copy URL");
+            former.children("i").attr("class", "glyphicon glyphicon-copy");
+            former.removeClass("btn-success");
+            former.addClass("btn-primary");
+            button.removeClass("btn-primary");
+            button.addClass("btn-success");
+            button.children("span").html("URL Copied");
+            button.children("i").attr("class", "glyphicon glyphicon-ok");
+        },
+
         _forceReflow: function (node) {
             return $.support.transition && node.length &&
                 node[0].offsetWidth;
@@ -557,7 +581,8 @@
             this._on(this.options.filesContainer, {
                 'click .start': this._startHandler,
                 'click .cancel': this._cancelHandler,
-                'click .delete': this._deleteHandler
+                'click .delete': this._deleteHandler,
+                'click .copy-url': this._copyUrlHandler
             });
             this._initButtonBarEventHandlers();
         },
