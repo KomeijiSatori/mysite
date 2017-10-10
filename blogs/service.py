@@ -202,7 +202,7 @@ class BlogService(object):
             raise Exception("Search field is None")
         if len(search) > 1:
             raise Exception("Multiple search fields")
-        search = search[0]
+        search = search[0].strip()
         if search == "":
             raise Exception("Empty search fields")
 
