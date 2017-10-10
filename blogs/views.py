@@ -1,12 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.forms.models import model_to_dict
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.db.models import Q
 
-from .models import Blog, BlogCategory, Comment
+from .models import Blog, BlogCategory, Comment, BlogDraft
 from accounts.models import Profile
 from .forms import BlogForm, BlogCommentForm
 from .service import BlogService
@@ -110,6 +109,17 @@ def post(request):
 
         blog = BlogService.create_blog_from_string(user, title_str, text_str, category_str)
         return HttpResponseRedirect(reverse('blogs:index'))
+    # see if there is draft
+    try:
+        draft = BlogDraft.objects.get(author=request.user)
+        blog_initial = {
+            'title': draft.title,
+            'text': draft.text,
+            'categories': draft.category,
+        }
+        form = BlogForm(initial=blog_initial)
+    except Exception:
+        pass
     return render(request, "blogs/post.html", {"form": form})
 
 
@@ -177,3 +187,26 @@ def search(request):
     context['page_list'] = page_list
     context['title'] = search_text
     return render(request, "blogs/index.html", context)
+
+
+@login_required
+def saveDraft(request):
+    if request.is_ajax():
+        data = request.POST
+        title = data.get("title")
+        text = data.get("text")
+        category = data.get("category")
+        user = request.user
+        BlogService.create_blog_draft_from_string(user, title, text, category)
+        return JsonResponse({"result": "success"})
+    else:
+        raise Http404("Page not found!")
+
+
+@login_required
+def removeDraft(request):
+    if request.is_ajax():
+        BlogDraft.objects.filter(author=request.user).delete()
+        return JsonResponse({"result": "success"})
+    else:
+        raise Http404("Page not found!")

@@ -161,6 +161,34 @@
             $(document).on('click', "input[type='button'][value='OK']", function(){
                 set_content();
             });
+            // save the changes before leaving the page
+            $(window).bind('beforeunload', function(e) {
+                var title = $("#id_title")[0].value;
+                var text = $("#id_text")[0].value;
+                var category = $("#id_categories")[0].value;
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "{% url 'blogs:saveDraft' %}",
+                    data: {
+                        "title": title,
+                        "text": text,
+                        "category": category,
+                        "csrfmiddlewaretoken": '{{ csrf_token }}'
+                    }
+                });
+                return undefined;
+            });
+            // remove draft when hitting submit
+            $('#post_form').submit(function() {
+                $(window).unbind('beforeunload');
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "{% url 'blogs:removeDraft' %}"
+                });
+                return true;
+            });
         })
     </script>
 {% endblock %}

@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Q
 
-from .models import Blog, BlogCategory, Comment
+from .models import Blog, BlogCategory, Comment, BlogDraft
 
 
 class BlogService(object):
@@ -252,3 +252,22 @@ class BlogService(object):
             q &= Q(last_update_time__lt=res['update_to_date'])
 
         return Blog.objects.filter(q).distinct()
+
+    @classmethod
+    def create_blog_draft_from_string(cls, user, title_str, text_str, category_str):
+        """
+        Create blog draft from string.
+        :param user: type: User, the author of the draft
+        :param title_str: type: str, the new title of the draft
+        :param text_str: type: str, the new content of the draft
+        :param category_str: type: str, the new categories of the draft
+        :return: blog: type: BlogDraft, the created draft
+        """
+        draft, created = BlogDraft.objects.get_or_create(author=user)
+        draft.title = title_str
+        draft.author = user
+        draft.text = text_str
+        draft.category = category_str
+        draft.save()
+
+        return draft

@@ -12,4 +12,7 @@ urlpatterns = [
     url(r'^addNestedComment/(?P<comment_id>[0-9]+)/$', views.addNestedComment, name="addNestedComment"),
     url(r'^updateComment/(?P<comment_id>[0-9]+)/$', views.updateComment, name="updateComment"),
     url(r'^category/(?P<category>.+)/$', views.categoryBlogs, name="category"),
+
+    url(r'^ajax/saveDraft/$', views.saveDraft, name="saveDraft"),
+    url(r'^ajax/removeDraft/$', views.removeDraft, name="removeDraft"),
 ]

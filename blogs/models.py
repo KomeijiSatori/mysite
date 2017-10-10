@@ -49,3 +49,16 @@ class BlogCategory(models.Model):
 
     class Meta:
         ordering = ('name',)
+
+
+class BlogDraft(models.Model):
+    title = models.CharField(max_length=500, null=True, blank=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField()
+    category = models.CharField(max_length=500, null=True, blank=True)
+
+    def __str__(self):
+        return self.author.username
+
+    class Meta:
+        ordering = ('author',)
