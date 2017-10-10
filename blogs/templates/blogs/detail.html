@@ -330,7 +330,7 @@
         <!-- Use tree node to implement comment thread-->
         <ol class="commentlist">
             {% recursetree nodes %}
-            <li>
+            <li id="comment_{{ node.id }}">
                 <article class="comment-body">
                     <footer class="comment-meta">
                         <div class="comment-author">

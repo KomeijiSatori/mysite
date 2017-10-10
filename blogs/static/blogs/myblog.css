@@ -330,6 +330,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 }
 
 .advance-search-div {
-    cursor: pointer;
     margin-top: 10px;
+}
+
+#advanced-search-btn {
+    cursor: pointer;
 }

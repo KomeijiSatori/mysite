@@ -14,7 +14,7 @@
         {% endif %}
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
-        <a class="btn btn-primary" href="{% url 'blogs:archive' comment.blog.id %}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="btn btn-primary" href="{% url 'blogs:archive' comment.blog.id %}#comment_{{ comment.id }}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
 {% endfor %}
 
