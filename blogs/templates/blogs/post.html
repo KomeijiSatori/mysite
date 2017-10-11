@@ -161,6 +161,8 @@
             $(document).on('click', "input[type='button'][value='OK']", function(){
                 set_content();
             });
+
+            {% if save_draft %}
             // save the changes before leaving the page
             $(window).bind('beforeunload', function(e) {
                 var title = $("#id_title")[0].value;
@@ -189,6 +191,7 @@
                 });
                 return true;
             });
+            {% endif %}
         })
     </script>
 {% endblock %}

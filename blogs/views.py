@@ -120,7 +120,7 @@ def post(request):
         form = BlogForm(initial=blog_initial)
     except Exception:
         pass
-    return render(request, "blogs/post.html", {"form": form})
+    return render(request, "blogs/post.html", {"form": form, "save_draft": True})
 
 
 @login_required
