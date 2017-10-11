@@ -216,4 +216,9 @@ $(document).ready(function () {
 
     get_notification_count();
 
+    // for textarea and input effect
+    POWERMODE.colorful = true; // make power mode colorful
+    POWERMODE.shake = false; // turn off shake
+    document.body.addEventListener('input', POWERMODE);
+    document.body.addEventListener('textarea', POWERMODE);
 });
