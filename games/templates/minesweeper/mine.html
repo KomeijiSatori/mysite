@@ -27,5 +27,15 @@
 
 <script src="{% static 'minesweeper/mine.js' %}">
 </script>
+
+<script>
+	$(window).bind('beforeunload', function(e) {
+	    if (hasMine === true && isEnd === false)
+		{
+		    save_game();
+		}
+		return undefined;
+	});
+</script>
 {% endblock %}
 

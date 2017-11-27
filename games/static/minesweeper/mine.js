@@ -1,11 +1,13 @@
 var row = 16, col = 32;
 var maxRow = 64, maxCol = 120;
 var mineCnt = 99;
-var map = []; //has mine or not
-var disc = []; //is discovered
-var flg = []; //is set flag or not
-var num = []; //mine nearby
-var hasMine;
+var map = [];  // has mine or not
+var disc = [];  // is discovered
+var flg = [];  // is set flag or not
+var num = [];  // mine nearby
+var hasMine = false;  // if the mine is set
+var isEnd = false;  // if the game is end
+var isCheated = false;  // if the user cheated
 
 //record where the mouse is down
 var msDownRow;
@@ -24,6 +26,8 @@ function random(min, max)
 function initVar()
 {
 	hasMine = false;
+	isEnd = false;
+	isCheated = false;
 	for (var i = 0; i < row; i++)
 	{
 		map[i] = [];
@@ -123,7 +127,7 @@ function initGraph()
 	clkIcon.className = "clkIcon";
 	var timeSpan = document.createElement("span");
 	clkIcon.src = "/static/minesweeper/clock.svg";
-	timeSpan.innerHTML = "0";
+	timeSpan.innerHTML = time;
 	timeSpan.id = "time";
 	clkSpan.id = "clkSpan";
 	clkSpan.addEventListener("click", alterTimer, false);
@@ -420,8 +424,7 @@ function dealMouseUp(block, ev)
 		//start timer
 		if (timer === -1)
 		{
-			timer = setInterval(updateTimer ,1000);
-			startTime = new Date();
+			timer = setInterval(updateTimer, 1000);
 		}
 
 		//judge left or right click
@@ -483,8 +486,15 @@ function rightClick(block)
 	}
 }
 
+
+function clear_storage()
+{
+	localStorage.setItem("minesweeper_data", null);
+}
+
 function endGame()
 {
+	isEnd = true;
 	document.getElementById("mineDiv").removeEventListener("mouseup", updateGraph, false);
 	document.getElementById("imgSpan").removeEventListener("click", showMines, false);
 	document.getElementById("clkSpan").removeEventListener("click", alterTimer, false);
@@ -501,10 +511,12 @@ function endGame()
 			tdata.removeEventListener("mouseup", mouseUpEvent, false);
 		}
 	}
+	clear_storage();
 }
 
 function showMines()
 {
+	isCheated = true;
 	for (var i = 0; i < row; i++)
 	{
 		for (var j = 0; j < col; j++)
@@ -520,9 +532,10 @@ function showMines()
 
 function alterTimer()
 {
+	isCheated = true;
 	if (timer === -2)
 	{
-		timer = setInterval(updateTimer ,1000);
+		timer = setInterval(updateTimer, 1000);
 	}
 	else
 	{
@@ -531,24 +544,8 @@ function alterTimer()
 	}
 }
 
-function play(r, c, mines)
-{
-	row = r;
-	col = c;
-	mineCnt = mines;
-	if (timer >= 0)
-	{
-		clearInterval(timer);
-	}
- 	timer = -1;
- 	time = 0;
-	initVar();
-	initGraph();
-}
-
 function start()
 {
-	// document.getElementById("setDiv").style.display = "none";
 	var r = document.getElementById("height").value;
 	var c = document.getElementById("width").value;
 	var count = document.getElementById("count").value;
@@ -558,12 +555,72 @@ function start()
 	c = (c > maxCol) ? maxCol : c;
 	count = (count < 1) ? 1 : count;
 	count = (count > r * c - 9) ? r * c - 9 : count;
-	document.getElementById("height").value = r;
-	document.getElementById("width").value = c;
-	document.getElementById("count").value = count;
-	play(r, c, count);
+
+	row = r;
+	col = c;
+	mineCnt = count;
+	document.getElementById("height").value = row;
+	document.getElementById("width").value = col;
+	document.getElementById("count").value = mineCnt;
+	initVar();
+	if (timer >= 0)
+	{
+		clearInterval(timer);
+	}
+	timer = -1;
+ 	time = 0;
+	initGraph();
+	clear_storage();
+}
+
+function save_game()
+{
+	var data = {
+		"time": time,
+		"row": row,
+		"col": col,
+		"mineCnt": mineCnt,
+		"map": map,
+		"disc": disc,
+		"flg": flg,
+		"num": num,
+		"hasMine": hasMine,
+		"isEnd": isEnd,
+		"isCheated": isCheated
+	};
+	localStorage.setItem("minesweeper_data", JSON.stringify(data));
+}
+
+function load_game(data)
+{
+	time = data["time"];
+	row = data["row"];
+	col = data["col"];
+	mineCnt = data["mineCnt"];
+	map = data["map"];
+	disc = data["disc"];
+	flg = data["flg"];
+	num = data["num"];
+	hasMine = data["hasMine"];
+	isEnd = data["isEnd"];
+	isCheated = data["isCheated"];
 }
 
 (function() {
-   start();
+	var data_str = localStorage.getItem("minesweeper_data");
+	var data = JSON.parse(data_str);
+	if (data === null)
+	{
+		start();
+	}
+	else
+	{
+		load_game(data);
+		document.getElementById("height").value = row;
+		document.getElementById("width").value = col;
+		document.getElementById("count").value = mineCnt;
+		initGraph();
+		updateGraph();
+		timer = setInterval(updateTimer, 1000);
+	}
 })();
