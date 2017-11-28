@@ -449,7 +449,17 @@ function dealMouseUp(block, ev)
 	{
 		showWin();
 		endGame();
+		// judge if the difficulty is default
+		if (isCheated === false && isDefaultDifficulty())
+		{
+			upload_score();
+		}
 	}
+}
+
+function isDefaultDifficulty()
+{
+	return row == 16 && col == 30 && mineCnt == 99;
 }
 
 function leftClick(block)//false die
@@ -573,6 +583,42 @@ function start()
 	clear_storage();
 }
 
+function change_high_score_div(high_scores)
+{
+	var rows = $("#high-score-table").find("tr");
+	for (var i = 1; i <= high_scores.length; i++)
+	{
+		var row = rows.eq(i);
+		var cells = row.find("td");
+		cells[1].innerHTML = high_scores[i - 1].name;
+		cells[2].innerHTML = high_scores[i - 1].time_spent;
+		cells[3].innerHTML = high_scores[i - 1].time_created;
+	}
+
+	for (var i = high_scores.length + 1; i < rows.length; i++)
+	{
+		var row = rows.eq(i);
+		var cells = row.find("td");
+		cells[1].innerHTML = " ";
+		cells[2].innerHTML = " ";
+		cells[3].innerHTML = " ";
+	}
+}
+
+function get_high_score()
+{
+	$.ajax({
+		type: "GET",
+		url: $("#get_score_div").attr("data-url"),
+		success: function(data)
+		{
+			var high_scores = data["result"];
+			change_high_score_div(high_scores);
+			$("#high-score-modal").show();
+		}
+	});
+}
+
 function save_game()
 {
 	var data = {
@@ -606,7 +652,49 @@ function load_game(data)
 	isCheated = data["isCheated"];
 }
 
-(function() {
+function upload_score()
+{
+	var user_id = $("#post_score_div").attr("data-user");
+	var csrf_token = $("#post_score_div").attr("data-csrf_token");
+	// if the user is authenticated
+	if (user_id)
+	{
+		$.ajax({
+			type: "POST",
+			url: $("#post_score_div").attr("data-url"),
+			data: {"user_id": user_id, "time_spent": time, "csrfmiddlewaretoken": csrf_token},
+			success: function(data)
+			{
+                if (data['result'] > 0)
+                {
+                    get_high_score();
+                    var rank = data['result'];
+                    var rows = $("#high-score-table").find("tr");
+                    var row = rows.eq(rank);
+                    row.css("background-color", "rgba(255, 0, 0, 0.6)");
+                }
+            }
+		});
+	}
+}
+
+$(document).ready(function () {
+	$(window).bind('beforeunload', function(e) {
+	    if (hasMine === true && isEnd === false)
+		{
+		    save_game();
+		}
+		return undefined;
+	});
+
+    $(".close").on('click', function() {
+        $("#high-score-modal").hide();
+    });
+
+    $("#high-score-close").on('click', function() {
+        $("#high-score-modal").hide();
+    });
+
 	var data_str = localStorage.getItem("minesweeper_data");
 	var data = JSON.parse(data_str);
 	if (data === null)
@@ -623,4 +711,5 @@ function load_game(data)
 		updateGraph();
 		timer = setInterval(updateTimer, 1000);
 	}
-})();
+});
+

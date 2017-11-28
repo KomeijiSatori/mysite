@@ -21,21 +21,52 @@
 		Mine Count
 		<input type="number" value="99" min="1" max="471" id="count")>
 		<input class="btn btn-primary" type="button" value="New Game" id="confirm" onclick="start()">
+		<input class="btn btn-success" type="button" value="High Score" id="high_score" onclick="get_high_score()">
 	</div>
 	<div id="mineDiv"></div>
 </div>
 
+<div id="high-score-modal" class="modal">
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+			<div class="modal-title">
+				High Score
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="modal-tip">
+				<p>scores of default difficulty with no cheating are recorded</p>
+			</div>
+
+			<table id="high-score-table">
+				<tr>
+					<th>Rank</th>
+					<th>Name</th>
+					<th>Score</th>
+					<th>Date</th>
+				</tr>
+				{% for score in score_list %}
+				<tr>
+					<td>{{ forloop.counter }}</td>
+					<td>Satori</td>
+					<td>123</td>
+					<td>2017-11-12</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="modal-footer">
+			<button type="button" id="high-score-close" class="btn btn-primary">OK</button>
+		</div>
+	</div>
+</div>
+
+<div id="post_score_div" {% if user.is_authenticated %}data-user="{{ user.id }}"{% endif %} data-url="{% url 'games:mine_score_post' %}" data-csrf_token="{{ csrf_token }}"></div>
+<div id="get_score_div" data-url="{% url 'games:mine_score_get' %}"></div>
+
 <script src="{% static 'minesweeper/mine.js' %}">
 </script>
 
-<script>
-	$(window).bind('beforeunload', function(e) {
-	    if (hasMine === true && isEnd === false)
-		{
-		    save_game();
-		}
-		return undefined;
-	});
-</script>
 {% endblock %}
 
