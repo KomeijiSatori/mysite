@@ -23,14 +23,21 @@ class Profile(models.Model):
 
 
 class Notification(models.Model):
+    NOTIFICATION_TYPES = (
+        ('Reply', 'Reply'),
+        ('Subscribe', 'Subscribe'),
+        ('At', 'At'),
+    )
+
     unread = models.BooleanField(default=True)
+    type = models.CharField(max_length=max([len(x[0]) for x in NOTIFICATION_TYPES]), choices=NOTIFICATION_TYPES)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
-        return str(self.content_object)
+        return str(self.type) + " from " + str(self.content_object)
 
 
 class Follow(models.Model):

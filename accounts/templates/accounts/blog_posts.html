@@ -88,7 +88,7 @@
             url: "{% url 'read_notification' %}",
             data: {"notification_id": notification_id},
             success: function(result) {
-                ajax_unread_blogs_count();
+                ajax_unread_subscribe_blog_count();
                 get_notification_count();
                 ajax_subscribe_blogs_content();
                 $(this).click();
