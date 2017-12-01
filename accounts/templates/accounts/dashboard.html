@@ -28,6 +28,7 @@
             $('#comment-posts').empty();
             $('#comment-received').empty();
             $("#blog-subscriptions-div").empty();
+            $("#at-received").empty();
         }
 
         function ajax_blog_posts() {
@@ -97,7 +98,7 @@
         function ajax_subscribe_blogs_content() {
             $.ajax({
                 type: "GET",
-                url: "{% url 'unread_blogs' %}",
+                url: "{% url 'subscribe_blogs' %}",
                 data: {"user_id": {{ request.user.id }} },
                 success: function(result) {
                     $('#blog-subscriptions-div').html(result);
@@ -112,10 +113,10 @@
             });
         }
 
-        function ajax_unread_blogs_count() {
+        function ajax_unread_subscribe_blog_count() {
             $.ajax({
                 type: "GET",
-                url: "{% url 'unread_blog_count' %}",
+                url: "{% url 'unread_subscribe_blog_count' %}",
                 success: function(result) {
                     var count = result['count'];
                     if (count > 0)
@@ -126,6 +127,38 @@
                     {
                         $('#unread-blogs').html("");
                     }
+                }
+            });
+        }
+
+        function ajax_unread_at_count() {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'unread_at_count' %}",
+                success: function(result) {
+                    var count = result['count'];
+                    if (count > 0)
+                    {
+                        $('#unread-ats').html(count);
+                    }
+                    else
+                    {
+                        $('#unread-ats').html("");
+                    }
+                }
+            });
+        }
+
+        function ajax_at_received() {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'user_at_received' %}",
+                data: {"user_id": {{ request.user.id }} },
+                success: function(result) {
+                    $('#at-received').html(result);
+                },
+                error: function(jqXHR, exception) {
+                    $('#at-received').html(exception);
                 }
             });
         }
@@ -152,6 +185,10 @@
                 {
                     ajax_comment_received();
                 }
+                else if (target == "#at-receive-tab")
+                {
+                    ajax_at_received();
+                }
             });
 
             $("#update-api-key").click(function(){
@@ -170,7 +207,8 @@
             // default render blog_post
             ajax_blog_posts();
             ajax_unread_replies_count();
-            ajax_unread_blogs_count();
+            ajax_unread_subscribe_blog_count();
+            ajax_unread_at_count();
         });
     </script>
 
@@ -197,6 +235,9 @@
         <li><a href="#blog-replies-receive-tab" data-toggle="pill">
             Replies to me <span class="badge" id="unread-replies"></span>
         </a></li>
+        <li><a href="#at-receive-tab" data-toggle="pill">
+            @ me <span class="badge" id="unread-ats"></span>
+        </a></li>
         <li><a href="#api-key-tab" data-toggle="pill">API key</a></li>
     </ul>
     <div class="tab-content">
@@ -221,6 +262,12 @@
         </div>
         <div class="tab-pane fade" id="blog-replies-receive-tab">
             <div class="profile-content-div" id="comment-received">
+                <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="at-receive-tab">
+            <div class="profile-content-div" id="at-received">
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
                 <span class="sr-only">Loading...</span>
             </div>

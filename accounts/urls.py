@@ -36,8 +36,11 @@ urlpatterns = [
     url(r'ajax/account/mark_notification/$', views.read_notification, name="read_notification"),
     url(r'ajax/account/add_follow/$', views.add_follow, name="add_follow"),
     url(r'ajax/account/delete_follow/$', views.delete_follow, name="delete_follow"),
-    url(r'ajax/account/unread_blog_posts/$', views.get_unread_blogs_content, name="unread_blogs"),
-    url(r'ajax/account/unread_blog_count/$', views.get_unread_blog_count, name="unread_blog_count"),
+    url(r'ajax/account/subscribe_blogs_content/$', views.get_subscribe_blogs_content, name="subscribe_blogs"),
+    url(r'ajax/account/unread_subscribe_blog_count/$', views.get_unread_subscribe_blog_count,
+        name="unread_subscribe_blog_count"),
+    url(r'ajax/account/at_content/$', views.get_at_content, name="user_at_received"),
+    url(r'ajax/account/unread_at_notification/$', views.get_unread_at_count, name="unread_at_count"),
     url(r'ajax/account/unread_notification_count/$', views.get_unread_notification_count,
         name="unread_notification_count"),
 

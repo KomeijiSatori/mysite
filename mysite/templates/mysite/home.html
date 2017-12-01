@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">发表博客能自动保存啦</h1>
+        <h1 class="cover-heading">博客能@人啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
@@ -20,6 +20,11 @@
             {% if request.user.is_authenticated %}
                 , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
             {% endif %}
+            3.注意@人的用户名后面需要加一个空格作为分隔符<br/>
+
+            <br/>
+            <b>2017年12月1日----版本更新:</b><br/>
+            1. 增加在博客以及评论里@人的功能<br/>
             <br/>
             <b>2017年11月28日----版本更新:</b><br/>
             1. 增加扫雷游戏退出自动存档读档功能<br/>

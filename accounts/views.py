@@ -10,7 +10,7 @@ from .forms import ProfileForm
 from .models import Profile, Notification
 from blogs.views import Blog, Comment
 from blogs.service import BlogService
-from .service import FollowService
+from .service import FollowService, NotificationService
 
 # Create your views here.
 
@@ -67,7 +67,7 @@ def get_comments_received_content(request):
     if request.is_ajax():
         user_id = request.GET.get("user_id")
         user = get_object_or_404(User, id=user_id)
-        notification_list = user.notification_set.filter(content_type__model='comment')
+        notification_list = NotificationService.get_comment_reply_notifications(user)
         comment_list = list()
         # get comment list
         for notification in notification_list:
@@ -133,7 +133,7 @@ def generate_api_key(request):
 @login_required
 def get_unread_comment_count(request):
     if request.is_ajax():
-        count = request.user.notification_set.filter(unread=True).filter(content_type__model='comment').count()
+        count = NotificationService.get_unread_comment_reply_count(request.user)
         return JsonResponse({"count": count})
     else:
         raise Http404("Page not found!")
@@ -180,11 +180,11 @@ def delete_follow(request):
 
 
 @login_required
-def get_unread_blogs_content(request):
+def get_subscribe_blogs_content(request):
     if request.is_ajax():
         user_id = request.GET.get("user_id")
         user = get_object_or_404(User, id=user_id)
-        notification_list = user.notification_set.filter(content_type__model='blog')
+        notification_list = NotificationService.get_subscribe_blog_notifications(user)
         blog_list = list()
         # get blog list
         for notification in notification_list:
@@ -208,9 +208,59 @@ def get_unread_blogs_content(request):
 
 
 @login_required
-def get_unread_blog_count(request):
+def get_unread_subscribe_blog_count(request):
     if request.is_ajax():
-        count = request.user.notification_set.filter(unread=True).filter(content_type__model='blog').count()
+        count = NotificationService.get_unread_subscribe_blog_count(request.user)
+        return JsonResponse({"count": count})
+    else:
+        raise Http404("Page not found!")
+
+
+@login_required
+def get_at_content(request):
+    if request.is_ajax():
+        user_id = request.GET.get("user_id")
+        user = get_object_or_404(User, id=user_id)
+        at_blog_notification_list = NotificationService.get_at_blog_notifications(user)
+        at_comment_notification_list = NotificationService.get_at_comment_notifications(user)
+
+        at_notifications = []
+        for ind in range(len(at_blog_notification_list)):
+            at_blog_notification_list[ind].src = "blog"
+            at_notifications.append(at_blog_notification_list[ind])
+
+        for ind in range(len(at_comment_notification_list)):
+            at_comment_notification_list[ind].src = "comment"
+            at_notifications.append(at_comment_notification_list[ind])
+
+        at_list = list()
+        # get obj list
+        for notification in at_notifications:
+            obj = notification.content_object
+            # add related notification field
+            obj.related_notification_id = notification.id
+            obj.unread = notification.unread
+            obj.src = notification.src
+            at_list.append(obj)
+
+        at_list = sorted(at_list, key=lambda x: x.publish_time, reverse=True)
+
+        page = request.GET.get('page')
+        items, page_list = BlogService.get_paginated_items(at_list, page)
+        context = {}
+        context['items'] = items
+        context['page_list'] = page_list
+        context['origin_ajax_url'] = request.get_full_path()
+
+        return render(request, "accounts/at_received.html", context)
+    else:
+        raise Http404("Page not found!")
+
+
+@login_required
+def get_unread_at_count(request):
+    if request.is_ajax():
+        count = NotificationService.get_unread_at_count(request.user)
         return JsonResponse({"count": count})
     else:
         raise Http404("Page not found!")
@@ -219,7 +269,7 @@ def get_unread_blog_count(request):
 @login_required
 def get_unread_notification_count(request):
     if request.is_ajax():
-        count = request.user.notification_set.filter(unread=True).count()
+        count = NotificationService.get_unread_notification_count(request.user)
         return JsonResponse({"count": count})
     else:
         raise Http404("Page not found!")
