@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 {% load mptt_tags %}
 {% load avatar_tags %}
+{% load blog_tags %}
 
 
 {% block title %}
@@ -311,6 +312,9 @@
         <!-- Comments Form -->
         <div class="comment-area">
             <h4>Leave a Comment:</h4>
+
+            {% emoticon_bar %}
+
             <form role="form" method="POST" action="{% url 'blogs:addComment' blog.id %}">
                 {% csrf_token %}
                 <div class="form-group">
