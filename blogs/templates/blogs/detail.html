@@ -296,7 +296,7 @@
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
 
         <!-- Post Content -->
-        <div class="blog_content">{{ blog.text }}</div>
+        <div class="blog_content marked_content">{{ blog.text }}</div>
 
         <!--edit button-->
         {% if user == blog.author or user.is_superuser %}
@@ -349,7 +349,7 @@
                         </div>
                     </footer>
                     <div class="comment-content">
-                        <p class="comment-text">{{ node.text|linebreaksbr }}</p>
+                        <p class="comment-text marked_content">{{ node.text }}</p>
                     </div>
 
                     <div class="comment-operation">
@@ -399,7 +399,7 @@
                 </div>
 
                 {% if not node.is_leaf_node %}
-                    <ol class="children">
+                    <ol class="children commentlist">
                         {{ children }}
                     </ol>
                 {% endif %}

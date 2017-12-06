@@ -13,6 +13,7 @@
     {{ form.media }}
     <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
     <link href="{% static 'blogs/pagedown-widget.css' %}" rel="stylesheet">
+    <script src="{% static 'blogs/render-content.js' %}"></script>
 {% endblock %}
 
 
@@ -65,7 +66,7 @@
                     <span><i class="fa fa-eye"></i> Views: {% if blog %}{{ blog.read_count }}{% else %}0{% endif %}</span>
                     <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {% if blog %}{{ blog.comment_set.all | length }}{% else %}0{% endif %}</span>
                 </p>
-                <div class="blog_content" id="preview_content"></div>
+                <div class="blog_content marked_content" id="preview_content"></div>
             </div>
 
         </div>
@@ -86,23 +87,9 @@
                 $("#preview_title").text($("#id_title").val());
             }
             function set_content() {
-                marked.setOptions({
-                    gfm: true,
-                    tables: true,
-                    breaks: true,
-                    pedantic: false,
-                    sanitize: true,
-                    smartLists: true,
-                    smartypants: false
-                });
 
-                var renderer = new marked.Renderer();
-                renderer.code = function (code, language) {
 
-                    return '<pre class="prettyprint"><code class="hljs">' + hljs.highlightAuto(code).value +
-                        '</code></pre>';
-                };
-                $("#preview_content").html(marked($("#id_text").val(), { renderer: renderer }));
+                $("#preview_content").html(render_content($("#id_text").val()));
                 $(".marked_truncate p:not(:has(img))").css("text-indent", "2em");
                 $(".blog_content p:not(:has(img))").css("text-indent", "2em");
             }
