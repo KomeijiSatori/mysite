@@ -143,7 +143,7 @@ ul ul, ol ul, ul ol, ol ol {
     -o-transition: background-color 0.3s ease-in-out,box-shadow 0.3s ease-in-out;
 }
 
-.commentlist li:hover {
+.commentlist > li:hover {
     box-shadow: 0 0 24px;
     background-color: white;
 }
