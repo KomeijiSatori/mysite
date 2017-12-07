@@ -1,0 +1,33 @@
+.emoticon-div
+{
+    border: solid rgba(127, 127, 127, 0.8) 2px;
+    border-radius: 8px;
+    margin: 10px 0px 10px 0px;
+}
+
+.emoticon-tab
+{
+    margin: 10px 10px 10px 10px;
+    padding: 2px;
+    display: inline-block;
+    border: solid rgba(127, 127, 127, 0.8) 3px;
+    border-radius: 8px;
+}
+
+.emoticon-img
+{
+    margin: 0px 10px 0px 10px;
+    border: solid rgba(127, 127, 127, 0.8) 3px;
+    border-radius: 8px;
+}
+
+.emoticon-set img {
+    cursor: pointer;
+    transition: transform 0.5s;
+    opacity: 0.6;
+}
+
+.emoticon-set img:hover {
+    transform: scale(1.2, 1.2) rotate(18deg);
+    opacity: 1;
+}

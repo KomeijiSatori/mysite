@@ -9,8 +9,8 @@ function render_content(text)
             '</code></pre>';
     };
     var marked_html = marked(text, { renderer: renderer });
-    // TODO: then render the emoji
-
+    // then render the emoji
+    marked_html = marked_html.replace(/\[(.+?) (.+?)]/g, '<img src="/media/emoticon/$1/$2">');
     return marked_html;
 }
 

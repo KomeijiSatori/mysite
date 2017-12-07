@@ -31,32 +31,40 @@ def url_replace(context, **kwargs):
 def emoticon_bar():
     cur_dir = os.path.join(settings.MEDIA_ROOT, "emoticon")
     emoticon_set_names = [x for x in os.listdir(cur_dir) if os.path.isdir(os.path.join(cur_dir, x))]
-    emoticon_dirs = [os.path.join(cur_dir, x) for x in emoticon_set_names]
+    # sort by the ascii code
+    emoticon_set_names = sorted(emoticon_set_names)
     tab_list = ""
     img_list = ""
     for set_ind, emoticon_set_name in enumerate(emoticon_set_names):
         emoticon_dir = os.path.join(cur_dir, emoticon_set_name)
         files = [x for x in os.listdir(emoticon_dir) if os.path.isfile(os.path.join(emoticon_dir, x))]
+        # sort the file by ascii code
+        files = sorted(files)
         urls = [settings.MEDIA_URL + "emoticon/{}/{}".format(emoticon_set_name, x) for x in files]
 
-        img_list = ""
+        cur_img = ""
         for ind, url in enumerate(urls):
-            img_list += """<img src="{}" data-ind={}>""".format(url, ind)
+            cur_img += """<img src="{}" data-filename={}>""".format(url, files[ind])
         cur_set = """
-        <div class="emoticon-img" data-emoticon_set_name="{emoticon_set_name}">
+        <div class="emoticon-set" data-emoticon_set_name="{emoticon_set_name}">
             {img_str}
         </div>
-        """.format(emoticon_set_name=emoticon_set_name, img_str=img_list)
+        """.format(emoticon_set_name=emoticon_set_name, img_str=cur_img)
+
+        img_list += cur_set
         tab_list += """
-        <li data-ind={set_ind} data-selected="0"><div>{set_name}</div></li>
+        <a class="btn btn-default" data-ind={set_ind}>{set_name}</a>
         """.format(set_ind=set_ind, set_name=emoticon_set_name)
 
     string = """
+    <p>Emoticons:</p>
     <div class="emoticon-div">
         <div class="emoticon-tab">
             {tab_list}
         </div>
-        {img_list}
+        <div class="emoticon-img">
+            {img_list}
+        </div>
     </div>
-    """.format(tab_list=tab_list, img_list=cur_set)
+    """.format(tab_list=tab_list, img_list=img_list)
     return mark_safe(string)

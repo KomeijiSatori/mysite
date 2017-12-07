@@ -9,6 +9,7 @@ Thanks for your feedback~
 Move all your background in `media/background` folder, at least 6 pictures are required.
 ### Add the emoticon files
 Move all your emoticon folders in `media/emoticon` folder. In each emoticon folder, put all your emoticons in that folder.
+The emoticons' name should never contain the following characters: `[`, `]`, ` `, while names with pure numbers are recommended.
 
   [1]: http://chongliu.me
 
