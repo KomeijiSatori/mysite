@@ -39,9 +39,6 @@
                 success: function(result) {
                     $('#blog-posts').html(result);
                     update_marked_truncate();
-                    $('pre code').each(function(i, block) {
-                        hljs.highlightBlock(block);
-                    });
                 },
                 error: function(jqXHR, exception) {
                     $('#blog-posts').html(exception);
@@ -56,6 +53,7 @@
                 data: {"user_id": {{ request.user.id }} },
                 success: function(result) {
                     $('#comment-posts').html(result);
+                    update_marked_truncate();
                 },
                 error: function(jqXHR, exception) {
                     $('#comment-posts').html(exception);
@@ -70,6 +68,7 @@
                 data: {"user_id": {{ request.user.id }} },
                 success: function(result) {
                     $('#comment-received').html(result);
+                    update_marked_truncate();
                 },
                 error: function(jqXHR, exception) {
                     $('#comment-received').html(exception);
@@ -103,9 +102,6 @@
                 success: function(result) {
                     $('#blog-subscriptions-div').html(result);
                     update_marked_truncate();
-                    $('pre code').each(function(i, block) {
-                        hljs.highlightBlock(block);
-                    });
                 },
                 error: function(jqXHR, exception) {
                     $('#blog-subscriptions-div').html(exception);
@@ -156,6 +152,7 @@
                 data: {"user_id": {{ request.user.id }} },
                 success: function(result) {
                     $('#at-received').html(result);
+                    update_marked_truncate();
                 },
                 error: function(jqXHR, exception) {
                     $('#at-received').html(exception);

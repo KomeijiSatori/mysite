@@ -62,10 +62,10 @@ $(document).ready(function () {
     $(".emoticon-set img").click(function(){
         var set_name = $(this).parent().attr("data-emoticon_set_name");
         var file_name = $(this).attr("data-filename");
-        var string = "[" + set_name + " " + file_name + "]";
+        var string = "[[" + set_name + " " + file_name + "]]";
 
         // find the nearest ``textarea`` above the current bar
-        var textarea = $(this).closest("form").find("textarea")
+        var textarea = $(this).closest("form").find("textarea");
         make_text(textarea, string);
     });
 });

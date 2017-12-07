@@ -70,9 +70,6 @@
             success: function(result) {
                 $('#blog-posts').html(result);
                 update_marked_truncate();
-                $('pre code').each(function(i, block) {
-                    hljs.highlightBlock(block);
-                });
             },
             error: function(jqXHR, exception) {
                 $('#blog-posts').html(exception);

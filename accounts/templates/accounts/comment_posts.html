@@ -5,12 +5,12 @@
 
 {% for comment in comments %}
     <div class="blog-div well aos-init aos-animate" data-aos="flip-up">
-        <p class="lead"><b>{{ comment.author }}</b>: {{ comment.text|linebreaksbr|truncatewords:30 }}</p>
+        <p class="lead"><b>{{ comment.author }}</b>: <span class="marked_truncate">{{ comment.text }}</span></p>
         <p><span class="glyphicon glyphicon-time"></span> Posted on {{ comment.publish_time }}</p>
         {% if comment.parent %}
-        <pre><b>{{ comment.parent.author }}</b>: {{ comment.parent.text|linebreaksbr|truncatewords:30 }}<span style="color:grey"> On {{ comment.parent.publish_time }}</span></pre>
+        <div class="reference-div"><b>{{ comment.parent.author }}</b>: <span class="marked_truncate">{{ comment.parent.text }}</span><small> On {{ comment.parent.publish_time }}</small></div>
         {% else %}
-        <pre><a href="{% url 'blogs:archive' comment.blog.id %}" target="_blank"><b><i>{{ comment.blog.title }}</i></b></a> <span style="color:grey">written by {{ comment.blog.author }} On {{ comment.blog.publish_time }}</span></pre>
+        <div class="reference-div"><a href="{% url 'blogs:archive' comment.blog.id %}" target="_blank"><b><i>{{ comment.blog.title }}</i></b></a> <small>written by {{ comment.blog.author }} On {{ comment.blog.publish_time }}</small></div>
         {% endif %}
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
@@ -50,6 +50,7 @@
             url: ajax_url,
             success: function(result) {
                 $('#comment-posts').html(result);
+                update_marked_truncate();
             },
             error: function(jqXHR, exception) {
                 $('#comment-posts').html(exception);

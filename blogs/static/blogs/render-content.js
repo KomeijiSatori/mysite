@@ -8,10 +8,11 @@ function render_content(text)
         return '<pre class="prettyprint"><code class="hljs">' + hljs.highlightAuto(code).value +
             '</code></pre>';
     };
-    var marked_html = marked(text, { renderer: renderer });
-    // then render the emoji
-    marked_html = marked_html.replace(/\[(.+?) (.+?)]/g, '<img src="/media/emoticon/$1/$2">');
-    return marked_html;
+
+    var html = marked(text, { renderer: renderer });
+    // render the emoji
+    html = html.replace(/\[\[([^ \[\]]+?) ([^ \[\]]+?)]]/g, '<img src="/media/emoticon/$1/$2">');
+    return html;
 }
 
 function update_marked_truncate() {

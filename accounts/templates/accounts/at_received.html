@@ -8,13 +8,13 @@
         {% if item.unread %}
         <span class="label label-danger brand-new">New</span>
         {% endif %}
-        <p class="lead"><b>{{ item.author }}</b>: {{ item.text|linebreaksbr|truncatewords:30 }}</p>
+        <p class="lead"><b>{{ item.author }}</b>: <span class="marked_truncate">{{ item.text }}</span></p>
         <p><span class="glyphicon glyphicon-time"></span> Posted on {{ item.publish_time }}</p>
         {% if item.src == "comment" %}
-        <pre><a href="{% url 'blogs:archive' item.blog.id %}" target="_blank"><b><i>{{ item.blog.title }}</i></b></a> <span style="color:grey">written by {{ item.blog.author }} On {{ item.blog.publish_time }}</span></pre>
+        <div class="reference-div"><a href="{% url 'blogs:archive' item.blog.id %}" target="_blank"><b><i>{{ item.blog.title }}</i></b></a> <small>written by {{ item.blog.author }} On {{ item.blog.publish_time }}</small></div>
         <a class="btn btn-primary read-at" id="notification_{{ item.related_notification_id }}" href="{% url 'blogs:archive' item.blog.id %}#comment_{{ item.id }}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
         {% elif item.src == "blog" %}
-        <pre><a href="{% url 'blogs:archive' item.id %}" target="_blank"><b><i>{{ item.title }}</i></b></a> <span style="color:grey">written by {{ item.author }} On {{ item.publish_time }}</span></pre>
+        <div class="reference-div"><a href="{% url 'blogs:archive' item.id %}" target="_blank"><b><i>{{ item.title }}</i></b></a> <small>written by {{ item.author }} On {{ item.publish_time }}</small></div>
         <a class="btn btn-primary read-at" id="notification_{{ item.related_notification_id }}" href="{% url 'blogs:archive' item.id %}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
         {% endif %}
     </div>
@@ -52,6 +52,7 @@
             url: ajax_url,
             success: function(result) {
                 $('#at-received').html(result);
+                update_marked_truncate();
             },
             error: function(jqXHR, exception) {
                 $('#at-received').html(exception);
