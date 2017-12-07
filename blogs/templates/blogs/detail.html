@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 {% load mptt_tags %}
 {% load avatar_tags %}
+{% load blog_tags %}
 
 
 {% block title %}
@@ -14,6 +15,7 @@
     <!-- Custom CSS -->
     <link href="{% static 'blogs/blog-post.css' %}" rel="stylesheet">
     <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
+    <link href="{% static 'blogs/emoticons.css' %}" rel="stylesheet">
     <!-- Custom JS-->
     <script type="text/javascript">
     $(document).ready(function(){
@@ -224,6 +226,7 @@
     <script src="{% static 'blogs/jquery.truncate.js' %}"></script>
     <script src="{% static 'blogs/render-content.js' %}"></script>
     <script src="{% static 'blogs/render-modal.js' %}"></script>
+    <script src="{% static 'blogs/emoticons.js' %}"></script>
 {% endblock %}
 
 
@@ -316,6 +319,7 @@
                 <div class="form-group">
                     {{ comment_form|crispy }}
                 </div>
+                {% emoticon_bar %}
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -380,6 +384,7 @@
                             <div class="form-group">
                                 {{ comment_form }}
                             </div>
+                            {% emoticon_bar %}
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
@@ -391,6 +396,7 @@
                             <div class="form-group">
                                 {{ comment_form }}
                             </div>
+                            {% emoticon_bar %}
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
                         </form>

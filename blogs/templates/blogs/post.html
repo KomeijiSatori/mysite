@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load avatar_tags %}
+{% load blog_tags %}
 
 
 {% block title %}
@@ -13,7 +14,9 @@
     {{ form.media }}
     <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
     <link href="{% static 'blogs/pagedown-widget.css' %}" rel="stylesheet">
+    <link href="{% static 'blogs/emoticons.css' %}" rel="stylesheet">
     <script src="{% static 'blogs/render-content.js' %}"></script>
+    <script src="{% static 'blogs/emoticons.js' %}"></script>
 {% endblock %}
 
 
@@ -25,6 +28,7 @@
             <form id="post_form" method="POST" action="">
                 {% csrf_token %}
                 {{ form|crispy }}
+                {% emoticon_bar %}
                 <a class="btn btn-success" href="{% url 'upload:upload-new' %}" target="_blank">Upload Image</a>
                 <input type="submit" class="btn btn-primary" value="Submit" />
             </form>
@@ -146,6 +150,10 @@
             });
             // fix img url and url window
             $(document).on('click', "input[type='button'][value='OK']", function(){
+                set_content();
+            });
+            // fix emoticon
+            $(document).on('click', '.emoticon-set img', function(){
                 set_content();
             });
 
