@@ -10,6 +10,7 @@ from .models import Blog, BlogCategory, Comment, BlogDraft
 class BlogService(object):
     item_show_per_page = 10
     item_display_page = 7  # should be odd number
+    max_comment_level = 7  # max level 7(start at level 0)
 
     @classmethod
     def _getPageList(cls, cur_page, page_count):
@@ -163,13 +164,16 @@ class BlogService(object):
     @classmethod
     def create_comment_from_string(cls, user, blog, comment_str, parent=None):
         """
-        Create comment from string.
+        Create comment from string, the comment should be at level fewer than max_comment_level
         :param user: type: User, the author of the comment
         :param blog: type: Blog, the blog which comment belongs to
         :param comment_str: type: str, the new content of the comment
         :param parent: type: Comment, the parent of the comment
-        :return: comment: type: Comment, the created Comment
+        :return: comment: type: Comment, the created Comment, or None, exceed the max level
         """
+        # if exceed the max level
+        if parent and parent.level >= cls.max_comment_level:
+            return None
         comment = Comment()
         comment.author = user
         comment.blog = blog

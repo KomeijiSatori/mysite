@@ -359,9 +359,11 @@
                     <div class="comment-operation">
                         <div id="comment-div_{{ node.id }}">
                             {% if user.is_authenticated %}
+                            {% if node.level < max_comment_level %}
                             <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
                                 <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
                             </button>
+                            {% endif %}
                                 {% if node.author == user or user.is_superuser %}
                                 <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
                                     <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -378,6 +380,7 @@
 
                 <div class="comment-reply-edit">
                     {% if user.is_authenticated %}
+                    {% if node.level < max_comment_level %}
                     <div class="reply_div" id="reply-div_{{ node.id }}">
                         <form role="form" method="POST" action="{% url 'blogs:addNestedComment' node.id %}">
                             {% csrf_token %}
@@ -388,6 +391,7 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
+                    {% endif %}
                     {% endif %}
                     {% if user.is_authenticated and node.author == user or user.is_superuser %}
                     <div class="update_div" id="update-div_{{ node.id }}" data-comment-url="{% url 'blogs:getComment' node.id %}">

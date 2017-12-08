@@ -97,7 +97,10 @@ class CommentCreateView(CreateAPIView):
         if blog:
             text = serializer.validated_data.get("text")
             comment = BlogService.create_comment_from_string(user, blog, text, None)
-            serializer.validated_data['id'] = comment.id
+            if comment:
+                serializer.validated_data['id'] = comment.id
+            else:
+                raise ParseError("Comment level is too high!")
         else:
             raise NotFound(detail="Blog does not exist", code=404)
 
@@ -118,7 +121,10 @@ class NestedCommentCreateView(CreateAPIView):
             text = serializer.validated_data.get("text")
             blog = parent_comment.blog
             comment = BlogService.create_comment_from_string(user, blog, text, parent_comment)
-            serializer.validated_data['id'] = comment.id
+            if comment:
+                serializer.validated_data['id'] = comment.id
+            else:
+                raise ParseError("Comment level is too high!")
         else:
             raise NotFound(detail="Comment does not exist", code=404)
 

@@ -44,6 +44,7 @@ def archive(request, blog_id):
         'nodes': comments,
         'is_follow': is_follow,
         'profile': profile,
+        'max_comment_level': BlogService.max_comment_level
     }
     return render(request, "blogs/detail.html", context)
 
@@ -53,11 +54,7 @@ def addComment(request, blog_id):
     form = BlogCommentForm(request.POST)
     blog = get_object_or_404(Blog, id=blog_id)
     if form.is_valid():
-        comment = Comment()
-        comment.author = request.user
-        comment.text = form.cleaned_data.get('text')
-        comment.blog = blog
-        comment.save()
+        BlogService.create_comment_from_string(request.user, blog, form.cleaned_data.get('text'), None)
     return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
 
 
@@ -67,12 +64,7 @@ def addNestedComment(request, comment_id):
     parent_comment = get_object_or_404(Comment, id=comment_id)
     blog = parent_comment.blog
     if form.is_valid():
-        comment = Comment()
-        comment.parent = parent_comment
-        comment.author = request.user
-        comment.text = form.cleaned_data.get('text')
-        comment.blog = blog
-        comment.save()
+        BlogService.create_comment_from_string(request.user, blog, form.cleaned_data.get('text'), parent_comment)
     return HttpResponseRedirect(reverse('blogs:archive', args=(blog.id,)))
 
 
