@@ -91,8 +91,8 @@
                 $("#preview_title").text($("#id_title").val());
             }
             function set_content() {
-                $("#preview_content").html($("#id_text").val());
-                update_marked_content();
+                $("#preview_content").html(render_content($("#id_text").val()));
+                update_marked_indent();
             }
             function set_category() {
                 var text = $("#id_categories").val();
