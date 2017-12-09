@@ -10,8 +10,7 @@
             easing: 'ease-out-back'
         });
 
-        $(".marked_truncate p:not(:has(img))").css("text-indent", "2em");
-        $(".blog_content p:not(:has(img))").css("text-indent", "2em");
+        update_marked_indent();
     });
 </script>
 
@@ -46,7 +45,7 @@
         </p>
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
-        <p class="lead"><div class="marked_truncate">{{ blog.text }}</div></p>
+        <p class="lead"><div class="blog_content marked_truncate">{{ blog.text }}</div></p>
         <a class="btn btn-primary" href="{% url 'blogs:archive' blog.id %}">Read More <i class="fa fa-chevron-right"></i></a>
     </div>
 {% endfor %}

@@ -16,7 +16,7 @@ function render_content(text)
 }
 
 function update_marked_indent() {
-    $(".blog_content p").filter(function() {
+    $(".blog_content > p").filter(function() {
         // the paragraph has only one picture and it is not emoticon
         var children = $(this).children();
         if (children.length >= 1 && children.eq(0).prop("tagName") == "IMG")
