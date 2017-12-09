@@ -91,11 +91,8 @@
                 $("#preview_title").text($("#id_title").val());
             }
             function set_content() {
-
-
-                $("#preview_content").html(render_content($("#id_text").val()));
-                $(".marked_truncate p:not(:has(img))").css("text-indent", "2em");
-                $(".blog_content p:not(:has(img))").css("text-indent", "2em");
+                $("#preview_content").html($("#id_text").val());
+                update_marked_content();
             }
             function set_category() {
                 var text = $("#id_categories").val();

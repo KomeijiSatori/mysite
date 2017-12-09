@@ -15,20 +15,40 @@ function render_content(text)
     return html;
 }
 
+function update_marked_indent() {
+    $(".blog_content p").filter(function() {
+        // the paragraph has only one picture and it is not emoticon
+        var children = $(this).children();
+        if (children.length >= 1 && children.eq(0).prop("tagName") == "IMG")
+        {
+            var url = children.eq(0).attr("src");
+            var emoticon_url = "/media/emoticon/";
+            if (url.substr(0, emoticon_url.length) !== emoticon_url)
+            {
+                return false;
+            }
+        }
+        return true;
+    }).css("text-indent", "2em");
+}
+
+function update_marked_content() {
+    $(".marked_content").each(function() {
+        var content = $(this).text();
+        var rendered_html = render_content(content);
+        $(this).html(rendered_html);
+        update_marked_indent();
+    });
+}
+
 function update_marked_truncate() {
     $(".marked_truncate").each(function() {
         var content = $(this).text();
         var rendered_html = render_content(content);
         var truncated_html = jQuery.truncate(rendered_html, {length: 120, words: false});
         $(this).html(truncated_html);
+        update_marked_indent();
     });
-    $(".marked_content").each(function() {
-        var content = $(this).text();
-        var rendered_html = render_content(content);
-        $(this).html(rendered_html);
-    });
-    $(".marked_truncate p:not(:has(img))").css("text-indent", "2em");
-    $(".blog_content p:not(:has(img))").css("text-indent", "2em");
 }
 
 function color_to_ele(curEle, next)
@@ -54,4 +74,5 @@ $(document).ready(function () {
         smartypants: false
     });
     update_marked_truncate();
+    update_marked_content();
 });

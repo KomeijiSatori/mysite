@@ -32,7 +32,7 @@
         </p>
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
-        <p class="lead"><div class="marked_truncate">{{ blog.text }}</div></p>
+        <p class="lead"><div class="blog_content marked_truncate">{{ blog.text }}</div></p>
         <a class="btn btn-primary read-blog" id="notification_{{ blog.related_notification_id }}" href="{% url 'blogs:archive' blog.id %}" target="_blank">Read More <i class="fa fa-chevron-right"></i></a>
     </div>
 {% endfor %}
