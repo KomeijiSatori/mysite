@@ -218,7 +218,7 @@
     background-image: url('/static/mysite/images/background-lg.png');
     background-size: cover;
     background-position: 50% 50%;
-    background-repeat: none;
+    background-repeat: no-repeat;
     opacity: 0;
     z-index: -2;
     animation: simpleImage 6s linear 0s;

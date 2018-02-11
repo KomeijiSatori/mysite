@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="cover-div">
-        <h1 class="cover-heading">博客能@人啦</h1>
+        <h1 class="cover-heading">博客能@人以及发表情啦</h1>
         <p class="lead">
             欢迎～ {{ user.username }}
         </p>
@@ -18,10 +18,14 @@
             1. 发博客和上传图片需要登录, 没有账号请点击register进行注册<br/>
             2. 点击左上角头像即可进入用户界面, 在用户界面能生成API key
             {% if request.user.is_authenticated %}
-                , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面<br/>
-            {% endif %}
+                , 或者<a href="{% url 'dashboard' %}">点我</a>进入用户页面
+            {% endif %}<br/>
             3.注意@人的用户名后面需要加一个空格作为分隔符<br/>
 
+            <br/>
+
+            <b>2018年2月11日----版本更新:</b><br/>
+            1. 增加浏览和谐图片功能, 按键盘左下右上即可来回切换<br/>
             <br/>
             <b>2017年12月7日----版本更新:</b><br/>
             1. 增加博客以及评论的发表情功能<br/>

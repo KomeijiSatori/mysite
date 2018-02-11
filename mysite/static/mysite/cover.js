@@ -52,6 +52,23 @@ function toggle_background() {
     }
 }
 
+function toggle_hidden_background() {
+    if ($(".hidden-bg").is(":visible"))
+    {
+        $(".hidden-bg").hide();
+        $(".hidden-bg").unbind('mousemove');
+    }
+    else
+    {
+        $(".hidden-bg").bind('mousemove' ,function(e) {
+            $(".circle").css({'left': (e.clientX - 100) + 'px'});
+            $(".circle").css({'top': (e.clientY - 100) + 'px'});
+            $(".circle").css({'background-position': -(e.clientX - 100) + 'px ' + -(e.clientY - 100) + 'px'});
+        });
+        $(".hidden-bg").show();
+    }
+}
+
 var instrument_active = false;
 var instrument_listener = null;
 var octave_base = 4;
@@ -199,6 +216,7 @@ $(document).ready(function () {
     key_listener.sequence_combo("up up down down left right left right b a", toggle_content, true);
     key_listener.sequence_combo("left up right down", toggle_background, true);
     key_listener.sequence_combo("! @ #", toggle_keyboard, true);
+    key_listener.sequence_combo("left down right up", toggle_hidden_background, true);
 
     $("input[type=text], textarea")
     .bind("focus", function() { key_listener.stop_listening(); })
