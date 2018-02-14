@@ -1,5 +1,6 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
     (｡・`ω´･)
@@ -13,7 +14,7 @@
         <img src="{% static 'mysite/images/403-2.png' %}"/>
     </div>
     <div>
-        <h2>Sorry, you don't have the permission!</h2>
+        <h2>{% trans "Sorry, you don't have the permission!" %}</h2>
     </div>
 </div>
 {% endblock %}

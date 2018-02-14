@@ -1,10 +1,11 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 {% load i18n avatar_tags %}
 
 {% block title %}
-    Avatar Add
+    {% trans "Avatar Add" %}
 {% endblock %}
 
 {% block additional_head %}
@@ -15,14 +16,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
             // file select style
-            var ele = '<label for="id_avatar" class="custom-file-upload"><i class="fa fa-cloud-upload"></i> <span id="upload_tip">Select Image</span></label>';
+            var ele = '<label for="id_avatar" class="custom-file-upload"><i class="fa fa-cloud-upload"></i> <span id="upload_tip">{% trans "Select Image" %}</span></label>';
             $(ele).insertBefore($("#id_avatar"));
 
             $("#id_avatar").change(function () {
                 var filename = $(this).val();
                 if (filename == '')
                 {
-                    filename = "Select Image";
+                    filename = "{% trans 'Select Image' %}";
                 }
                 $("#upload_tip").html(filename);
             });
@@ -34,20 +35,20 @@
 {% block content %}
 
 <div class="accounts-panel-div" style="text-align: center;">
-    <h3>Your current avatar:</h3>
+    <h3>{% trans "Your current avatar:" %}</h3>
     {% avatar request.user %}
     <hr/>
     {% if not avatars %}
-        <p class="lead">You haven't uploaded an avatar yet. Please upload one now.</p>
+        <p class="lead">{% trans "You haven't uploaded an avatar yet. Please upload one now." %}</p>
     {% endif %}
-    <h3>Upload New Avatar</h3>
-    <form enctype="multipart/form-data" method="POST" action="{% url 'avatar_add' %}">{% csrf_token %}
+    <h3>{% trans "Upload New Avatar" %}</h3>
+    <form enctype="multipart/form-data" method="POST" action="{% url 'avatar_add' %}" novalidate>{% csrf_token %}
         {{ upload_avatar_form|crispy }}
-        <input type="submit" class="btn btn-primary" value="Confirm Upload" />
+        <input type="submit" class="btn btn-primary" value="{% trans 'Confirm Upload' %}" />
     </form>
     <hr/>
-    <a href="{% url 'avatar_change' %}" class="btn btn-success">Change Avatar</a>
-    <a href="{% url 'avatar_delete' %}" class="btn btn-danger">Manage Avatar</a>
-    <a href="{% url 'dashboard' %}" class="btn btn-default">Back to Profile</a>
+    <a href="{% url 'avatar_change' %}" class="btn btn-success">{% trans "Change Avatar" %}</a>
+    <a href="{% url 'avatar_delete' %}" class="btn btn-danger">{% trans "Manage Avatar" %}</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-default">{% trans "Back to Profile" %}</a>
 </div>
 {% endblock %}

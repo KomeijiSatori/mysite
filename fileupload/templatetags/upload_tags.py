@@ -1,5 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 
 register = template.Library()
 
@@ -16,7 +17,7 @@ def upload_js():
         <td>
             <p class="name">{%=file.name%}</p>
             {% if (file.error) { %}
-                <div><span class="label label-important">{%=locale.fileupload.error%}</span> {%=file.error%}</div>
+                <div><span class="label label-danger">{%=locale.fileupload.error%}</span> {%=file.error%}</div>
             {% } %}
         </td>
         <td>
@@ -26,19 +27,19 @@ def upload_js():
             {% } %}
         </td>
         <td>
-            To be uploaded
+            """ + _("To be uploaded") + """
         </td>
         <td>
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
                 <button class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>{%=locale.fileupload.start%}</span>
+                    <span>""" + _("Start") + """</span>
                 </button>
             {% } %}
             {% if (!i) { %}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>{%=locale.fileupload.cancel%}</span>
+                    <span>""" + _("Cancel") + """</span>
                 </button>
             {% } %}
         </td>
@@ -66,17 +67,17 @@ def upload_js():
             <p class="name">
                 <button class="btn btn-primary copy-url" data-url="{%=file.full_url%}">
                     <i class="glyphicon glyphicon-copy"></i>
-                    <span>Copy URL</span>
+                    <span>""" + _("Copy URL") + """</span>
                 </button>
             </p>
             {% if (file.error) { %}
-                <div><span class="label label-important">{%=locale.fileupload.error%}</span> {%=file.error%}</div>
+                <div><span class="label label-danger">{%=locale.fileupload.error%}</span> {%=file.error%}</div>
             {% } %}
         </td>
         <td>
             <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                 <i class="glyphicon glyphicon-trash"></i>
-                <span>{%=locale.fileupload.destroy%}</span>
+                <span>""" + _("delete") + """</span>
             </button>
             <input type="checkbox" name="delete" value="1" class="toggle">
         </td>

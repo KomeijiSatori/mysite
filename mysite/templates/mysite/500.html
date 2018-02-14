@@ -1,5 +1,6 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
      Σ (° △ °|||)
@@ -13,8 +14,8 @@
         <img src="{% static 'mysite/images/500-2.png' %}"/>
     </div>
     <div>
-        <h2>Wow, the page is currently down!</h2>
-        <h2>The admin will repair it soon!</h2>
+        <h2>{% trans "Wow, the page is currently down!" %}</h2>
+        <h2>{% trans "The admin will repair it soon!" %}</h2>
     </div>
 </div>
 {% endblock %}

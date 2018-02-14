@@ -1,5 +1,6 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 {% load avatar_tags %}
 {% load blog_tags %}
@@ -11,6 +12,7 @@
 
 
 {% block additional_head %}
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     {{ form.media }}
     <link href="{% static 'blogs/myblog.css' %}" rel="stylesheet">
     <link href="{% static 'blogs/pagedown-widget.css' %}" rel="stylesheet">
@@ -24,21 +26,21 @@
     <br/>
     <div class="blog_post_div well">
         <div class="container-fluid">
-            <h1>Form</h1>
-            <form id="post_form" method="POST" action="">
+            <h1>{% trans "Form" %}</h1>
+            <form id="post_form" method="POST" novalidate action="">
                 {% csrf_token %}
                 {{ form|crispy }}
                 {% emoticon_bar %}
-                <a class="btn btn-success" href="{% url 'upload:upload-new' %}" target="_blank">Upload Image</a>
+                <a class="btn btn-success" href="{% url 'upload:upload-new' %}" target="_blank">{% trans "Upload Image" %}</a>
                 <input type="submit" class="btn btn-primary" value="Submit" />
             </form>
         </div>
 
         <div class="container-fluid">
-            <h1>Preview</h1>
+            <h1>{% trans "Preview" %}</h1>
             <div class="blog-detail_div well">
                 <h1 id="preview_title"></h1>
-                <p><i class="fa fa-pencil"></i> Author:
+                <p><i class="fa fa-pencil"></i> {% trans "Author:" %}
                     <a id="author">
                         <span class="avatar-span">
                         {% if blog %}
@@ -56,19 +58,19 @@
                 </p>
                 <p><i class="fa fa-clock-o"></i> <span id="preview_time">
                     {% if blog %}
-                    Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}
+                    {% blocktrans with date=blog.publish_time|date:"Y-m-d" time=blog.publish_time|time:"H:i:s" %}Posted: {{ date }} {{ time }}{% endblocktrans %}
                     {% else %}
-                    Posted: xxxx-xx-xx
+                    {% trans "Posted: xxxx-xx-xx" %}
                     {% endif %}
                 </span></p>
                 {% if blog %}
-                <p><small><i class="fa fa-clock-o"></i> <span id="update_time">Last Edit: xxxx</span></small></p>
+                <p><small><i class="fa fa-clock-o"></i> <span id="update_time">{% trans "Last Edit: xxxx" %}</span></small></p>
                 {% endif %}
 
                 <p id="preview_category"></p>
                 <p>
-                    <span><i class="fa fa-eye"></i> Views: {% if blog %}{{ blog.read_count }}{% else %}0{% endif %}</span>
-                    <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {% if blog %}{{ blog.comment_set.all | length }}{% else %}0{% endif %}</span>
+                    <span><i class="fa fa-eye"></i> {% trans "Views:" %} {% if blog %}{{ blog.read_count }}{% else %}0{% endif %}</span>
+                    <span style="margin-left: 10px;"><i class="fa fa-comment"></i> {% trans "Comments:" %} {% if blog %}{{ blog.comment_set.all | length }}{% else %}0{% endif %}</span>
                 </p>
                 <div class="blog_content marked_content" id="preview_content"></div>
             </div>
@@ -102,7 +104,7 @@
                     return;
                 }
                 var cates = text.split(" ");
-                var res = '<p><i class="fa fa-tags"></i> Category: ';
+                var res = '<p><i class="fa fa-tags"></i> {% trans "Category:" %} ';
                 for (var i = 0; i < cates.length; i++) {
                     res += '<span class="category-span"><a>' + cates[i] + '</a></span> '
                 }
@@ -119,10 +121,10 @@
                 var curr_minute = d.getMinutes();
                 var curr_second = d.getSeconds();
                 {% if blog %}
-                $("#update_time").html("Last Edit: "+ curr_year + "-" + curr_month + "-" + curr_date
+                $("#update_time").html("{% trans 'Last Edit:' %} "+ curr_year + "-" + curr_month + "-" + curr_date
                 + " " + curr_hour + ":" + curr_minute + ":" + curr_second);
                 {% else %}
-                $("#preview_time").html("Posted: " + curr_year + "-" + curr_month + "-" + curr_date
+                $("#preview_time").html("{% trans 'Posted:' %} " + curr_year + "-" + curr_month + "-" + curr_date
                 + " " + curr_hour + ":" + curr_minute + ":" + curr_second);
                 {% endif %}
             }

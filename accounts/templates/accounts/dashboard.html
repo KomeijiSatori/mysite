@@ -1,10 +1,11 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 {% load avatar_tags %}
 
 {% block title %}
-    Dashboard
+    {% trans "Dashboard" %}
 {% endblock %}
 
 
@@ -217,65 +218,65 @@
     <div class="profile-avatar text-center">
         {% avatar request.user 96 %}<br/>
         <div class="profile-nav">
-            <a href="{% url 'avatar_change' %}" class="btn btn-success">Change Avatar</a>
-            <a href="{% url 'avatar_delete' %}" class="btn btn-danger">Manage Avatar</a>
-            <a href="{% url 'profile_edit' %}" class="btn btn-info">Edit Profile</a>
+            <a href="{% url 'avatar_change' %}" class="btn btn-success">{% trans "Change Avatar" %}</a>
+            <a href="{% url 'avatar_delete' %}" class="btn btn-danger">{% trans "Manage Avatar" %}</a>
+            <a href="{% url 'profile_edit' %}" class="btn btn-info">{% trans "Edit Profile" %}</a>
         </div>
     </div>
 
     <ul class="nav nav-pills">
-        <li class="active"><a href="#blog-posts-tab" data-toggle="pill">My blog posts</a></li>
-        <li><a href="#blog-comments-tab" data-toggle="pill">My blog comments</a></li>
+        <li class="active"><a href="#blog-posts-tab" data-toggle="pill">{% trans "My blog posts" %}</a></li>
+        <li><a href="#blog-comments-tab" data-toggle="pill">{% trans "My blog comments" %}</a></li>
         <li><a href="#blog-subscription-tab" data-toggle="pill">
-            Blog subscriptions <span class="badge" id="unread-blogs"></span>
+            {% trans "Blog subscriptions" %} <span class="badge" id="unread-blogs"></span>
         </a></li>
         <li><a href="#blog-replies-receive-tab" data-toggle="pill">
-            Replies to me <span class="badge" id="unread-replies"></span>
+            {% trans "Replies to me" %} <span class="badge" id="unread-replies"></span>
         </a></li>
         <li><a href="#at-receive-tab" data-toggle="pill">
-            @ me <span class="badge" id="unread-ats"></span>
+            {% trans "@ me" %} <span class="badge" id="unread-ats"></span>
         </a></li>
-        <li><a href="#api-key-tab" data-toggle="pill">API key</a></li>
+        <li><a href="#api-key-tab" data-toggle="pill">{% trans "API key" %}</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade in active" id="blog-posts-tab">
              <div class="profile-content-div" id="blog-posts">
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">{% trans "Loading..." %}</span>
             </div>
         </div>
 
         <div class="tab-pane fade" id="blog-comments-tab">
             <div class="profile-content-div" id="comment-posts">
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">{% trans "Loading..." %}</span>
             </div>
         </div>
         <div class="tab-pane fade" id="blog-subscription-tab">
             <div class="profile-content-div" id="blog-subscriptions-div">
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">{% trans "Loading..." %}</span>
             </div>
         </div>
         <div class="tab-pane fade" id="blog-replies-receive-tab">
             <div class="profile-content-div" id="comment-received">
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">{% trans "Loading..." %}</span>
             </div>
         </div>
         <div class="tab-pane fade" id="at-receive-tab">
             <div class="profile-content-div" id="at-received">
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">{% trans "Loading..." %}</span>
             </div>
         </div>
         <div class="tab-pane fade" id="api-key-tab">
             <div class="profile-content-div" id="api-key-content">
                 <div id="api-panel" style="display: {% if api_key %}inherit{% else %}none{% endif %};">
                     <h3>Your API key: <b style="color: red;"><span id="api-key">{{ api_key }}</span></b></h3>
-                    <p class="lead">Remember to keep your API key secrete.</p>
+                    <p class="lead">{% trans "Remember to keep your API key secrete." %}</p>
                 </div>
-                <a class="btn btn-primary" id="update-api-key">Generate new API key</a>
+                <a class="btn btn-primary" id="update-api-key">{% trans "Generate new API key" %}</a>
             </div>
         </div>
     </div>

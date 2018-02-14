@@ -1,9 +1,10 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 
 
 {% block title %}
-    Minesweeper
+    {% trans "Minesweeper" %}
 {% endblock %}
 
 {% block additional_head %}
@@ -20,8 +21,8 @@
 		<input type="number" value="30" min="4" max="120" id="width">
 		Mine Count
 		<input type="number" value="99" min="1" max="471" id="count")>
-		<input class="btn btn-primary" type="button" value="New Game" id="confirm" onclick="start()">
-		<input class="btn btn-success" type="button" value="High Score" id="high_score" onclick="get_high_score()">
+		<input class="btn btn-primary" type="button" value="{% trans 'New Game' %}" id="confirm" onclick="start()">
+		<input class="btn btn-success" type="button" value="{% trans 'High Score' %}" id="high_score" onclick="get_high_score()">
 	</div>
 	<div id="mineDiv"></div>
 </div>
@@ -31,20 +32,20 @@
 		<div class="modal-header">
 			<span class="close">&times;</span>
 			<div class="modal-title">
-				High Score
+				{% trans "High Score" %}
 			</div>
 		</div>
 		<div class="modal-body">
 			<div class="modal-tip">
-				<p>scores of default difficulty with no cheating are recorded</p>
+				<p>{% trans "scores of default difficulty with no cheating are recorded" %}</p>
 			</div>
 
 			<table id="high-score-table">
 				<tr>
-					<th>Rank</th>
-					<th>Name</th>
-					<th>Time Spent</th>
-					<th>Record Datetime</th>
+					<th>{% trans "Rank" %}</th>
+					<th>{% trans "Name" %}</th>
+					<th>{% trans "Time Spent" %}</th>
+					<th>{% trans "Record Datetime" %}</th>
 				</tr>
 				{% for score in score_list %}
 				<tr>
@@ -57,7 +58,7 @@
 			</table>
 		</div>
 		<div class="modal-footer">
-			<button type="button" id="high-score-close" class="btn btn-primary">OK</button>
+			<button type="button" id="high-score-close" class="btn btn-primary">{% trans "OK" %}</button>
 		</div>
 	</div>
 </div>

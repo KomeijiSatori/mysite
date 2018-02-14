@@ -1,5 +1,6 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 
@@ -27,18 +28,18 @@
 
     <div class="blog_post_div well">
         <div class="blog-hint-div">
-            <p>Welcome to my blog. You can post whatever you like!</p>
-            <p>The blog post is using <b>markdown</b>, and here is a simple guide. <a href="{% url 'blogs:archive' 105 %}" target="_blank">Markdown Guide</a></p>
+            <p>{% trans "Welcome to my blog. You can post whatever you like!" %}</p>
+            <p>{% blocktrans %}The blog post is using <b>markdown</b>, and here is a simple guide.{% endblocktrans %} <a href="{% url 'blogs:archive' 105 %}" target="_blank">{% trans "Markdown Guide" %}</a></p>
         {% if user.is_authenticated %}
             <div class="post-btn">
                 <a class="post-btn-content" href="{% url 'blogs:post' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
             </div>
             <a class="btn btn-primary" href="{% url 'blogs:post' %}">
-                <span>POST NOW <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                <span>{% trans "POST NOW" %} <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
             </a>
         {% else %}
             <a class="btn btn-primary" href="{% url 'auth_login' %}?next={{ request.get_full_path }}">
-                <span>LOGIN TO POST A BLOG <i class="fa fa-sign-in" aria-hidden="true"></i></span>
+                <span>{% trans "LOGIN TO POST A BLOG" %} <i class="fa fa-sign-in" aria-hidden="true"></i></span>
             </a>
         {% endif %}
         </div>

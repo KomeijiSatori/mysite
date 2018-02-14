@@ -1,9 +1,16 @@
 {% extends "mysite/base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Contact" %}
+{% endblock %}
 
 {% block content %}
 <div class="cover-div">
     <p class="lead">
+        {% blocktrans %}
         If you have any questions or problems, such as registration mail not received or password reset, please contact me at KomeijiSatori07@gmail.com. Thank you!
+        {% endblocktrans %}
     </p>
 </div>
 {% endblock %}

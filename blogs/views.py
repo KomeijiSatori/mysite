@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.forms.models import model_to_dict
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import ugettext as _
 from django.urls import reverse
 
 from .models import Blog, BlogCategory, Comment, BlogDraft
@@ -21,7 +22,7 @@ def index(request):
     blogs, page_list = BlogService.get_paginated_items(blog_list, page)
     context['blogs'] = blogs
     context['page_list'] = page_list
-    context['title'] = "Blogs"
+    context['title'] = _("Blogs")
     return render(request, "blogs/index.html", context)
 
 

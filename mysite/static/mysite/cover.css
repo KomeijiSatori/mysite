@@ -132,6 +132,16 @@ pre {
     box-shadow: 0 0 0 3px rgba(255,255,255,0.85), 0 0 7px 7px rgba(0,0,0,0.25), inset 0 0 40px 2px rgba(0,0,0,0.25);
 }
 
+.lang-div {
+    min-width: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.lang-item {
+    width: 100%;
+}
+
 .hidden-bg {
     position: fixed;
     width: 100%;

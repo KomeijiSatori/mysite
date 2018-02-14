@@ -1,21 +1,22 @@
 <!--List a list of blogs-->
 {% load static %}
+{% load i18n %}
 {% load blog_tags %}
 
 
 {% for item in items %}
     <div class="blog-div well aos-init aos-animate" data-aos="flip-up">
         {% if item.unread %}
-        <span class="label label-danger brand-new">New</span>
+        <span class="label label-danger brand-new">{% trans "New" %}</span>
         {% endif %}
         <p class="lead"><b>{{ item.author }}</b>: <span class="marked_truncate">{{ item.text }}</span></p>
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ item.publish_time }}</p>
+        <p><span class="glyphicon glyphicon-time"></span> {% blocktrans with time=item.publish_time %}Posted on {{ time }}{% endblocktrans %}</p>
         {% if item.src == "comment" %}
-        <div class="reference-div"><a href="{% url 'blogs:archive' item.blog.id %}" target="_blank"><b><i>{{ item.blog.title }}</i></b></a> <small>written by {{ item.blog.author }} On {{ item.blog.publish_time }}</small></div>
-        <a class="btn btn-primary read-at" id="notification_{{ item.related_notification_id }}" href="{% url 'blogs:archive' item.blog.id %}#comment_{{ item.id }}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <div class="reference-div"><a href="{% url 'blogs:archive' item.blog.id %}" target="_blank"><b><i>{{ item.blog.title }}</i></b></a> <small>{% blocktrans with author=item.blog.author time=item.blog.publish_time %}written by {{ author }} On {{ time }}{% endblocktrans %}</small></div>
+        <a class="btn btn-primary read-at" id="notification_{{ item.related_notification_id }}" href="{% url 'blogs:archive' item.blog.id %}#comment_{{ item.id }}" target="_blank">{% trans "Get Detail" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
         {% elif item.src == "blog" %}
-        <div class="reference-div"><a href="{% url 'blogs:archive' item.id %}" target="_blank"><b><i>{{ item.title }}</i></b></a> <small>written by {{ item.author }} On {{ item.publish_time }}</small></div>
-        <a class="btn btn-primary read-at" id="notification_{{ item.related_notification_id }}" href="{% url 'blogs:archive' item.id %}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <div class="reference-div"><a href="{% url 'blogs:archive' item.id %}" target="_blank"><b><i>{{ item.title }}</i></b></a> <small>{% blocktrans with author=item.author time=item.publish_time %}written by {{ author }} On {{ time }}{% endblocktrans %}</small></div>
+        <a class="btn btn-primary read-at" id="notification_{{ item.related_notification_id }}" href="{% url 'blogs:archive' item.id %}" target="_blank">{% trans "Get Detail" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
         {% endif %}
     </div>
 {% endfor %}

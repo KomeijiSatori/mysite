@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Profile Edit
+    {% trans "Profile Edit" %}
 {% endblock %}
 
 {% block additional_head %}
@@ -16,12 +16,12 @@
 <div class='accounts-panel-div'>
     <div class='row'>
         <div class='col-sm-6 col-sm-offset-3'>
-            <h1>Profile</h1>
+            <h1>{% trans "Profile" %}</h1>
             <form method="post" action=".">
                 {% csrf_token %}
                 {{ form|crispy }}
 
-                <input class='btn btn-block btn-primary' type="submit" value="Save" />
+                <input class='btn btn-block btn-primary' type="submit" value="{% trans 'Save' %}" />
             </form>
         </div>
     </div>

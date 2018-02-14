@@ -1,5 +1,6 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
     (* ￣ー￣)
@@ -13,7 +14,7 @@
         <img src="{% static 'mysite/images/400-2.png' %}"/>
     </div>
     <div>
-        <h2>Oops, you've got a bad request!</h2>
+        <h2>{% trans "Oops, you've got a bad request!" %}</h2>
     </div>
 </div>
 {% endblock %}
