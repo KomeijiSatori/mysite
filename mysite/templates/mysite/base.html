@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% load avatar_tags %}
 {% load mysite_tags %}
 
@@ -60,18 +61,39 @@
                 <div id="navbar">
                     <ul class="nav navbar-nav">
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true">Log Out</i></a></li>
+                        <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"><title>{% trans "Log Out" %}</title></i></a></li>
                         {% else %}
-                            <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in" aria-hidden="true">Log In</i></a></li>
-                            <li><a href="{% url 'registration_register' %}"><i class="fa fa-user-plus" aria-hidden="true">Register</i></a></li>
+                        <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in" aria-hidden="true">{% trans "Log In" %}</i></a></li>
+                        <li><a href="{% url 'registration_register' %}"><i class="fa fa-user-plus" aria-hidden="true">{% trans "Register" %}</i></a></li>
                         {% endif %}
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-globe"></i> {% trans "Language" %}<span class="caret"></span>
+                            </a>
+                            <div class="lang-div dropdown-menu" role="menu">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <a class="lang-item btn {% if language.code == LANGUAGE_CODE %}btn-primary{% else %}btn-default{% endif %}" onclick="$('#lang_type').val('{{ language.code }}'); $('#lang_form').submit();">
+                                    {{ language.name_local }}
+                                </a>
+                            {% endfor %}
+                            </div>
+                        </li>
+                        <form action="{% url 'set_language' %}" method="post" id="lang_form">{% csrf_token %}
+                            <input name="language" id="lang_type" type="hidden">
+                            <input name="next" type="hidden" value="{{ redirect_to }}" />
+                        </form>
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
-                        <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">Blog</a></li>
-                        <li {% if '/game' in request.path %}class="active"{% endif %}><a href="{% url 'games:minesweeper' %}">Game</a></li>
-                        <li {% if '/upload' in request.path %}class="active"{% endif %}><a href="{% url 'upload:upload-new' %}">Upload</a></li>
-                        <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="{% url 'contact' %}">Contact</a></li>
+                        <li {% if request.path == '/' %}class="active"{% endif %}><a href="/">{% trans "Home" %}</a></li>
+                        <li {% if '/blogs' in request.path %}class="active"{% endif %}><a href="{% url 'blogs:index' %}">{% trans "Blog" %}</a></li>
+                        <li {% if '/game' in request.path %}class="active"{% endif %}><a href="{% url 'games:minesweeper' %}">{% trans "Game" %}</a></li>
+                        <li {% if '/upload' in request.path %}class="active"{% endif %}><a href="{% url 'upload:upload-new' %}">{% trans "Upload" %}</a></li>
+                        <li {% if '/contact' in request.path %}class="active"{% endif %}><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -83,8 +105,8 @@
                     {% block content %}
                     {% endblock %}
                     <div class="footer">
-                        <a class="btn btn-info" href="https://www.mygalgame.com" target="_blank">Theme inspired by 忧郁的弟弟</a>
-                        <a class="btn btn-success" href="https://github.com/KomeijiSatori/mysite" target="_blank">Developed by Satori. All rights reserved.</a>
+                        <a class="btn btn-info" href="https://www.mygalgame.com" target="_blank">{% trans "Theme inspired by 忧郁的弟弟" %}</a>
+                        <a class="btn btn-success" href="https://github.com/KomeijiSatori/mysite" target="_blank">{% trans "Developed by Satori. All rights reserved." %}</a>
                     </div>
                 </div>
             </div>

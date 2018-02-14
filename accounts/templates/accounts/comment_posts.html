@@ -1,5 +1,6 @@
 <!--List a list of blogs-->
 {% load static %}
+{% load i18n %}
 {% load blog_tags %}
 
 
@@ -8,13 +9,13 @@
         <p class="lead"><b>{{ comment.author }}</b>: <span class="marked_truncate">{{ comment.text }}</span></p>
         <p><span class="glyphicon glyphicon-time"></span> Posted on {{ comment.publish_time }}</p>
         {% if comment.parent %}
-        <div class="reference-div"><b>{{ comment.parent.author }}</b>: <span class="marked_truncate">{{ comment.parent.text }}</span><small> On {{ comment.parent.publish_time }}</small></div>
+        <div class="reference-div"><b>{{ comment.parent.author }}</b>: <span class="marked_truncate">{{ comment.parent.text }}</span><small> {% blocktrans with time=comment.parent.publish_time %} {{ time }}{% endblocktrans %}</small></div>
         {% else %}
-        <div class="reference-div"><a href="{% url 'blogs:archive' comment.blog.id %}" target="_blank"><b><i>{{ comment.blog.title }}</i></b></a> <small>written by {{ comment.blog.author }} On {{ comment.blog.publish_time }}</small></div>
+        <div class="reference-div"><a href="{% url 'blogs:archive' comment.blog.id %}" target="_blank"><b><i>{{ comment.blog.title }}</i></b></a> <small>{% blocktrans with author=comment.blog.author time=comment.blog.publish_time %}written by {{ author }} On {{ time }}{% endblocktrans %}</small></div>
         {% endif %}
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
-        <a class="btn btn-primary" href="{% url 'blogs:archive' comment.blog.id %}#comment_{{ comment.id }}" target="_blank">Get Detail <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="btn btn-primary" href="{% url 'blogs:archive' comment.blog.id %}#comment_{{ comment.id }}" target="_blank">{% trans "Get Detail" %} <span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
 {% endfor %}
 

@@ -493,13 +493,13 @@
             var button = $(e.currentTarget);
             this._trigger("copyUrl", e, button.data());
             var former = $(".copy-url.btn-success");
-            former.children("span").html("Copy URL");
+            former.children("span").html(gettext("Copy URL"));
             former.children("i").attr("class", "glyphicon glyphicon-copy");
             former.removeClass("btn-success");
             former.addClass("btn-primary");
             button.removeClass("btn-primary");
             button.addClass("btn-success");
-            button.children("span").html("URL Copied");
+            button.children("span").html(gettext("URL Copied"));
             button.children("i").attr("class", "glyphicon glyphicon-ok");
         },
 

@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
+from django.views.i18n import JavaScriptCatalog
 from . import views
 
 urlpatterns = [
@@ -27,6 +28,11 @@ urlpatterns = [
     url(r'^upload/', include('fileupload.urls', namespace="upload")),
     url(r'^games/', include('games.urls', namespace="games")),
     url(r'^api/blogs/', include("blogs.api.urls", namespace="blogs-api")),
+]
+
+urlpatterns += [
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]
 
 

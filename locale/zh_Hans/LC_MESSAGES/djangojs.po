@@ -1,0 +1,441 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-02-13 21:29+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: custom_files/Markdown.Editor.js:21 static/pagedown/Markdown.Editor.js:21
+msgid "Strong"
+msgstr "加粗"
+
+#: custom_files/Markdown.Editor.js:22 static/pagedown/Markdown.Editor.js:22
+msgid "strong text"
+msgstr "加粗文字"
+
+#: custom_files/Markdown.Editor.js:24 static/pagedown/Markdown.Editor.js:24
+msgid "Emphasis"
+msgstr "倾斜"
+
+#: custom_files/Markdown.Editor.js:25 static/pagedown/Markdown.Editor.js:25
+msgid "emphasized text"
+msgstr "倾斜文字"
+
+#: custom_files/Markdown.Editor.js:27 static/pagedown/Markdown.Editor.js:27
+msgid "Hyperlink"
+msgstr "链接"
+
+#: custom_files/Markdown.Editor.js:28
+msgid "enter link description here"
+msgstr "在此输入链接描述"
+
+#: custom_files/Markdown.Editor.js:29 static/pagedown/Markdown.Editor.js:29
+msgid "Insert Hyperlink"
+msgstr "插入链接"
+
+#: custom_files/Markdown.Editor.js:29 custom_files/Markdown.Editor.js:39
+#: static/pagedown/Markdown.Editor.js:29 static/pagedown/Markdown.Editor.js:39
+msgid "Example:"
+msgstr "例子："
+
+#: custom_files/Markdown.Editor.js:31 custom_files/Markdown.Editor.js:32
+#: static/pagedown/Markdown.Editor.js:31 static/pagedown/Markdown.Editor.js:32
+msgid "Blockquote"
+msgstr "引用："
+
+#: custom_files/Markdown.Editor.js:34 static/pagedown/Markdown.Editor.js:34
+msgid "Code Sample"
+msgstr "代码示例"
+
+#: custom_files/Markdown.Editor.js:35 static/pagedown/Markdown.Editor.js:35
+msgid "enter code here"
+msgstr "在此插入代码"
+
+#: custom_files/Markdown.Editor.js:37 static/pagedown/Markdown.Editor.js:37
+msgid "Image"
+msgstr "图片"
+
+#: custom_files/Markdown.Editor.js:38
+msgid "enter image description here"
+msgstr "在此输入图片描述"
+
+#: custom_files/Markdown.Editor.js:39 static/pagedown/Markdown.Editor.js:39
+msgid "Insert Image"
+msgstr "插入图片"
+
+#: custom_files/Markdown.Editor.js:41 static/pagedown/Markdown.Editor.js:41
+msgid "Numbered List"
+msgstr "数字列表"
+
+#: custom_files/Markdown.Editor.js:42 static/pagedown/Markdown.Editor.js:42
+msgid "Bulleted List"
+msgstr "点列表"
+
+#: custom_files/Markdown.Editor.js:43 static/pagedown/Markdown.Editor.js:43
+msgid "List item"
+msgstr "列表元素"
+
+#: custom_files/Markdown.Editor.js:45 custom_files/Markdown.Editor.js:46
+#: static/pagedown/Markdown.Editor.js:45 static/pagedown/Markdown.Editor.js:46
+msgid "Heading"
+msgstr "标题"
+
+#: custom_files/Markdown.Editor.js:48 static/pagedown/Markdown.Editor.js:48
+msgid "Horizontal Rule"
+msgstr "水平线"
+
+#: custom_files/Markdown.Editor.js:50 static/pagedown/Markdown.Editor.js:50
+msgid "Undo"
+msgstr "撤销"
+
+#: custom_files/Markdown.Editor.js:51 custom_files/Markdown.Editor.js:52
+#: static/pagedown/Markdown.Editor.js:51 static/pagedown/Markdown.Editor.js:52
+msgid "Redo"
+msgstr "重做"
+
+#: custom_files/Markdown.Editor.js:54 static/pagedown/Markdown.Editor.js:54
+msgid "Markdown Editing Help"
+msgstr "Markdown编辑指南"
+
+#: custom_files/Markdown.Editor.js:1172 static/pagedown/Markdown.Editor.js:1172
+msgid "OK"
+msgstr "确定"
+
+#: custom_files/Markdown.Editor.js:1183
+#: fileupload/static/fileupload/js/locale.js:26
+#: static/admin/js/admin/DateTimeShortcuts.js:188
+#: static/admin/js/admin/DateTimeShortcuts.js:348
+#: static/fileupload/js/locale.js:26 static/pagedown/Markdown.Editor.js:1183
+msgid "Cancel"
+msgstr "取消"
+
+#: fileupload/static/fileupload/js/jquery.fileupload-ui.js:496
+#: static/fileupload/js/jquery.fileupload-ui.js:496
+msgid "Copy URL"
+msgstr "复制链接"
+
+#: fileupload/static/fileupload/js/jquery.fileupload-ui.js:502
+#: static/fileupload/js/jquery.fileupload-ui.js:502
+msgid "URL Copied"
+msgstr "已复制"
+
+#: fileupload/static/fileupload/js/jquery.fileupload-validate.js:71
+#: static/fileupload/js/jquery.fileupload-validate.js:71
+msgid "Maximum number of files exceeded"
+msgstr "超过一次最大上传数"
+
+#: fileupload/static/fileupload/js/jquery.fileupload-validate.js:72
+#: fileupload/static/fileupload/js/locale.js:19
+#: static/fileupload/js/jquery.fileupload-validate.js:72
+#: static/fileupload/js/locale.js:19
+msgid "File type not allowed"
+msgstr "文件类型不支持"
+
+#: fileupload/static/fileupload/js/jquery.fileupload-validate.js:73
+#: static/fileupload/js/jquery.fileupload-validate.js:73
+msgid "File is too large"
+msgstr "文件过大"
+
+#: fileupload/static/fileupload/js/jquery.fileupload-validate.js:74
+#: fileupload/static/fileupload/js/locale.js:18
+#: static/fileupload/js/jquery.fileupload-validate.js:74
+#: static/fileupload/js/locale.js:18
+msgid "File is too small"
+msgstr "文件过小"
+
+#: fileupload/static/fileupload/js/locale.js:17
+#: static/fileupload/js/locale.js:17
+msgid "File is too big"
+msgstr "文件过大"
+
+#: fileupload/static/fileupload/js/locale.js:20
+#: static/fileupload/js/locale.js:20
+msgid "Max number of files exceeded"
+msgstr "超过一次最大上传数"
+
+#: fileupload/static/fileupload/js/locale.js:21
+#: static/fileupload/js/locale.js:21
+msgid "Uploaded bytes exceed file size"
+msgstr "上传的大小超过文件大小"
+
+#: fileupload/static/fileupload/js/locale.js:22
+#: static/fileupload/js/locale.js:22
+msgid "Empty file upload result"
+msgstr "上传空文件"
+
+#: fileupload/static/fileupload/js/locale.js:24
+#: static/fileupload/js/locale.js:24
+msgid "Error"
+msgstr "错误"
+
+#: fileupload/static/fileupload/js/locale.js:25
+#: static/fileupload/js/locale.js:25
+msgid "Start"
+msgstr "开始"
+
+#: fileupload/static/fileupload/js/locale.js:27
+#: static/fileupload/js/locale.js:27
+msgid "Delete"
+msgstr "删除"
+
+#: static/admin/js/SelectFilter2.js:47
+#, javascript-format
+msgid "Available %s"
+msgstr "Available %s"
+
+#: static/admin/js/SelectFilter2.js:53
+#, javascript-format
+msgid ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
+msgstr ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
+
+#: static/admin/js/SelectFilter2.js:69
+#, javascript-format
+msgid "Type into this box to filter down the list of available %s."
+msgstr "Type into this box to filter down the list of available %s."
+
+#: static/admin/js/SelectFilter2.js:74
+msgid "Filter"
+msgstr "Filter"
+
+#: static/admin/js/SelectFilter2.js:78
+msgid "Choose all"
+msgstr "Choose all"
+
+#: static/admin/js/SelectFilter2.js:78
+#, javascript-format
+msgid "Click to choose all %s at once."
+msgstr "Click to choose all %s at once."
+
+#: static/admin/js/SelectFilter2.js:84
+msgid "Choose"
+msgstr "Choose"
+
+#: static/admin/js/SelectFilter2.js:86
+msgid "Remove"
+msgstr "Remove"
+
+#: static/admin/js/SelectFilter2.js:92
+#, javascript-format
+msgid "Chosen %s"
+msgstr "Chosen %s"
+
+#: static/admin/js/SelectFilter2.js:98
+#, javascript-format
+msgid ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
+msgstr ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
+
+#: static/admin/js/SelectFilter2.js:108
+msgid "Remove all"
+msgstr "Remove all"
+
+#: static/admin/js/SelectFilter2.js:108
+#, javascript-format
+msgid "Click to remove all chosen %s at once."
+msgstr "Click to remove all chosen %s at once."
+
+#: static/admin/js/actions.js:48 static/admin/js/actions.min.js:2
+msgid "%(sel)s of %(cnt)s selected"
+msgid_plural "%(sel)s of %(cnt)s selected"
+msgstr[0] "%(sel)s of %(cnt)s selected"
+msgstr[1] "%(sel)s of %(cnt)s selected"
+
+#: static/admin/js/actions.js:117 static/admin/js/actions.min.js:4
+msgid ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
+msgstr ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
+
+#: static/admin/js/actions.js:129 static/admin/js/actions.min.js:5
+msgid ""
+"You have selected an action, but you haven't saved your changes to "
+"individual fields yet. Please click OK to save. You'll need to re-run the "
+"action."
+msgstr ""
+"You have selected an action, but you haven't saved your changes to "
+"individual fields yet. Please click OK to save. You'll need to re-run the "
+"action."
+
+#: static/admin/js/actions.js:131 static/admin/js/actions.min.js:5
+msgid ""
+"You have selected an action, and you haven't made any changes on individual "
+"fields. You're probably looking for the Go button rather than the Save "
+"button."
+msgstr ""
+"You have selected an action, and you haven't made any changes on individual "
+"fields. You're probably looking for the Go button rather than the Save "
+"button."
+
+#: static/admin/js/admin/DateTimeShortcuts.js:74
+#, javascript-format
+msgid "Note: You are %s hour ahead of server time."
+msgid_plural "Note: You are %s hours ahead of server time."
+msgstr[0] "Note: You are %s hour ahead of server time."
+msgstr[1] "Note: You are %s hours ahead of server time."
+
+#: static/admin/js/admin/DateTimeShortcuts.js:82
+#, javascript-format
+msgid "Note: You are %s hour behind server time."
+msgid_plural "Note: You are %s hours behind server time."
+msgstr[0] "Note: You are %s hour behind server time."
+msgstr[1] "Note: You are %s hours behind server time."
+
+#: static/admin/js/admin/DateTimeShortcuts.js:109
+#: static/admin/js/admin/DateTimeShortcuts.js:160
+msgid "Now"
+msgstr "Now"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:127
+msgid "Choose a Time"
+msgstr "Choose a Time"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:157
+msgid "Choose a time"
+msgstr "Choose a time"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:165
+msgid "Midnight"
+msgstr "Midnight"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:170
+msgid "6 a.m."
+msgstr "6 a.m."
+
+#: static/admin/js/admin/DateTimeShortcuts.js:175
+msgid "Noon"
+msgstr "Noon"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:180
+msgid "6 p.m."
+msgstr "6 p.m."
+
+#: static/admin/js/admin/DateTimeShortcuts.js:253
+#: static/admin/js/admin/DateTimeShortcuts.js:333
+msgid "Today"
+msgstr "Today"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:270
+msgid "Choose a Date"
+msgstr "Choose a Date"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:327
+msgid "Yesterday"
+msgstr "Yesterday"
+
+#: static/admin/js/admin/DateTimeShortcuts.js:339
+msgid "Tomorrow"
+msgstr "Tomorrow"
+
+#: static/admin/js/calendar.js:12
+msgid "January"
+msgstr "January"
+
+#: static/admin/js/calendar.js:13
+msgid "February"
+msgstr "February"
+
+#: static/admin/js/calendar.js:14
+msgid "March"
+msgstr "March"
+
+#: static/admin/js/calendar.js:15
+msgid "April"
+msgstr "April"
+
+#: static/admin/js/calendar.js:16
+msgid "May"
+msgstr "May"
+
+#: static/admin/js/calendar.js:17
+msgid "June"
+msgstr "June"
+
+#: static/admin/js/calendar.js:18
+msgid "July"
+msgstr "July"
+
+#: static/admin/js/calendar.js:19
+msgid "August"
+msgstr "August"
+
+#: static/admin/js/calendar.js:20
+msgid "September"
+msgstr "September"
+
+#: static/admin/js/calendar.js:21
+msgid "October"
+msgstr "October"
+
+#: static/admin/js/calendar.js:22
+msgid "November"
+msgstr "November"
+
+#: static/admin/js/calendar.js:23
+msgid "December"
+msgstr "December"
+
+#: static/admin/js/calendar.js:26
+msgctxt "one letter Sunday"
+msgid "S"
+msgstr "S"
+
+#: static/admin/js/calendar.js:27
+msgctxt "one letter Monday"
+msgid "M"
+msgstr "M"
+
+#: static/admin/js/calendar.js:28
+msgctxt "one letter Tuesday"
+msgid "T"
+msgstr "T"
+
+#: static/admin/js/calendar.js:29
+msgctxt "one letter Wednesday"
+msgid "W"
+msgstr "W"
+
+#: static/admin/js/calendar.js:30
+msgctxt "one letter Thursday"
+msgid "T"
+msgstr "T"
+
+#: static/admin/js/calendar.js:31
+msgctxt "one letter Friday"
+msgid "F"
+msgstr "F"
+
+#: static/admin/js/calendar.js:32
+msgctxt "one letter Saturday"
+msgid "S"
+msgstr "S"
+
+#: static/admin/js/collapse.js:10 static/admin/js/collapse.js:21
+#: static/admin/js/collapse.min.js:1
+msgid "Show"
+msgstr "Show"
+
+#: static/admin/js/collapse.js:18 static/admin/js/collapse.min.js:1
+msgid "Hide"
+msgstr "Hide"

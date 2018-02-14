@@ -2,6 +2,7 @@ from urllib.parse import urlencode, urlparse, parse_qs
 from django.utils.safestring import mark_safe
 from django import template
 from django.conf import settings
+from django.utils.translation import ugettext as _
 import os
 
 
@@ -57,7 +58,7 @@ def emoticon_bar():
         """.format(set_ind=set_ind, set_name=emoticon_set_name)
 
     string = """
-    <p>Emoticons:</p>
+    <p>{emoticons}</p>
     <div class="emoticon-div">
         <div class="emoticon-tab">
             {tab_list}
@@ -66,5 +67,5 @@ def emoticon_bar():
             {img_list}
         </div>
     </div>
-    """.format(tab_list=tab_list, img_list=img_list)
+    """.format(emoticons=_("Emoticons:"), tab_list=tab_list, img_list=img_list)
     return mark_safe(string)

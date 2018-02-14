@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Login
+    {% trans "Login" %}
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
     <div class='row'>
         <div class='col-sm-6 col-sm-offset-3'>
             <h1>Login</h1>
-            <form method="post" action=".">
+            <form method="post" action="." novalidate>
                 {% csrf_token %}
                 {{ form|crispy }}
 

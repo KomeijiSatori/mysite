@@ -1,5 +1,6 @@
 {% extends "mysite/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 {% load mptt_tags %}
 {% load avatar_tags %}
@@ -28,12 +29,12 @@
             if ($(this).children('i').attr('class') === 'fa fa-arrow-down')
             {
                 $(this).children('i').attr('class', 'fa fa-arrow-up');
-                $(this).children('span').html('Retract');
+                $(this).children('span').html('{% trans "Retract" %}');
             }
             else
             {
                 $(this).children('i').attr('class', 'fa fa-arrow-down');
-                $(this).children('span').html('Reply');
+                $(this).children('span').html('{% trans "Reply" %}');
             }
         });
 
@@ -49,7 +50,7 @@
             $("#reply-div_" + comment_id).hide();
             $("#comment-div_" + comment_id).hide();
             $("#reply-btn_" + comment_id).children('i').attr('class', 'fa fa-arrow-down');
-            $("#reply-btn_" + comment_id).children('span').html('Reply');
+            $("#reply-btn_" + comment_id).children('span').html('{% trans "Reply" %}');
             $("#update-div_" + comment_id).show(500);
         });
 
@@ -69,7 +70,7 @@
                     data: { "fan": {{ request.user.id }}, "star": {{ blog.author.id }} },
                     success: function(result) {
                         $("button[name='follow-btn']").attr("class", "btn btn-warning");
-                        $("button[name='follow-btn']").html("- Unfollow");
+                        $("button[name='follow-btn']").html("{% trans '- Unfollow' %}");
                         $("button[name='follow-btn']").attr("data-followed", "T");
                     }
                 });
@@ -82,7 +83,7 @@
                     data: { "fan": {{ request.user.id }}, "star": {{ blog.author.id }} },
                     success: function(result) {
                         $("button[name='follow-btn']").attr("class", "btn btn-success");
-                        $("button[name='follow-btn']").html("+ Follow");
+                        $("button[name='follow-btn']").html("{% trans '+ Follow' %}");
                         $("button[name='follow-btn']").attr("data-followed", "F");
                     }
                 });
@@ -238,21 +239,21 @@
         <!-- Title -->
         <h1>{{ blog.title }}</h1>
 
-        <p><i class="fa fa-pencil"></i> Author:
+        <p><i class="fa fa-pencil"></i> {% trans "Author:" %}
             <a id="author"><span class="avatar-span">
                 {% avatar blog.author 64 %}
             </span>{{ blog.author }}</a>
             {% if is_follow is not None %}
             {% if not is_follow %}
-            <button type="button" name="follow-btn" class="btn btn-success" data-followed="F" style="margin-left: 10px;">+ Follow</button>
+            <button type="button" name="follow-btn" class="btn btn-success" data-followed="F" style="margin-left: 10px;">{% trans "+ Follow" %}</button>
             {% else %}
-            <button type="button" name="follow-btn" class="btn btn-warning" data-followed="T" style="margin-left: 10px;">- Unfollow</button>
+            <button type="button" name="follow-btn" class="btn btn-warning" data-followed="T" style="margin-left: 10px;">{% trans "- Unfollow" %}</button>
             {% endif %}
         {% endif %}
         </p>
-        <p><i class="fa fa-clock-o"></i> Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}</p>
+        <p><i class="fa fa-clock-o"></i> {% blocktrans with date=blog.publish_time|date:"Y-m-d" time=blog.publish_time|time:"H:i:s" %} Posted: {{ date }} {{ time }}{% endblocktrans %}</p>
         {% if blog.last_update_time %}
-        <p><small><i class="fa fa-clock-o"></i> Last Edit: {{ blog.last_update_time|date:"Y-m-d" }} {{ blog.last_update_time|time:"H:i:s" }}</small></p>
+        <p><small><i class="fa fa-clock-o"></i> {% blocktrans with date=blog.last_update_time|date:"Y-m-d" time=blog.last_update_time|time:"H:i:s" %} Last Edit: {{ date }} {{ time }}{% endblocktrans %}</small></p>
         {% endif %}
 
         {% if blog.blogcategory_set.all.count > 0 %}
@@ -264,8 +265,8 @@
         </p>
         {% endif %}
         <p>
-            <span><i class="fa fa-eye"></i> Views: {{ blog.read_count }}</span>
-            <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {{ blog.comment_set.all | length }}</span>
+            <span><i class="fa fa-eye"></i> {% blocktrans with cnt=blog.read_count %} Views: {{ cnt }}{% endblocktrans %}</span>
+            <span style="margin-left: 10px;"><i class="fa fa-comment"></i> {% blocktrans with cnt=blog.comment_set.all|length %} Comments: {{ cnt }}{% endblocktrans %}</span>
         </p>
 
         <div id="profile-modal" class="modal">
@@ -278,19 +279,19 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <p>Name: {{ profile.user.username }}</p><hr/>
-                    <p>Gender: {{ profile.gender }}</p><hr/>
-                    <p>Birthday: {{ profile.birthday }}</p><hr/>
-                    <p>Mobile: {{ profile.mobile }}</p><hr/>
-                    <p>Residence: {{ profile.residence }}</p><hr/>
-                    <p>Website: {{ profile.website }}</p><hr/>
-                    <p>Microblog: {{ profile.microblog }}</p><hr/>
-                    <p>QQ: {{ profile.qq }}</p><hr/>
-                    <p>Wechat: {{ profile.wechat }}</p><hr/>
-                    <p>Introduction: {{ profile.introduction }}</p>
+                    <p>{% blocktrans with name=profile.user.username %} Name: {{ name }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with gender=profile.gender %} Gender: {{ gender }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with birthday=profile.birthday %} Birthday: {{ birthday }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with mobile=profile.mobile %} Mobile: {{ mobile }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with residence=profile.residence %} Residence: {{ residence }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with website=profile.website %} Website: {{ website }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with microblog=profile.microblog %} Microblog: {{ microblog }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with qq=profile.qq %} QQ: {{ qq }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with wechat=profile.wechat %} Wechat: {{ wechat }}{% endblocktrans %}</p><hr/>
+                    <p>{% blocktrans with introduction=profile.introduction %} Introduction: {{ introduction }}{% endblocktrans %}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="profile-close" class="btn-lg btn-primary">OK</button>
+                    <button type="button" id="profile-close" class="btn-lg btn-primary">{% trans "OK" %}</button>
                 </div>
             </div>
         </div>
@@ -303,7 +304,7 @@
 
         <!--edit button-->
         {% if user == blog.author or user.is_superuser %}
-        <a class="btn btn-primary" href="{% url 'blogs:blog_update' blog.id %}">Edit</a>
+        <a class="btn btn-primary" href="{% url 'blogs:blog_update' blog.id %}">{% trans "Edit" %}</a>
         {% endif %}
 
         <hr>
@@ -313,19 +314,19 @@
         {% if user.is_authenticated %}
         <!-- Comments Form -->
         <div class="comment-area">
-            <h4>Leave a Comment:</h4>
+            <h4>{% trans "Leave a Comment:" %}</h4>
             <form role="form" method="POST" action="{% url 'blogs:addComment' blog.id %}">
                 {% csrf_token %}
                 <div class="form-group">
                     {{ comment_form|crispy }}
                 </div>
                 {% emoticon_bar %}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
             </form>
         </div>
         {% else %}
         <a class="btn btn-link" href="{% url 'auth_login' %}?next={{ request.path }}">
-            <span>LOGIN TO LEAVE A COMMENT <i class="fa fa-sign-in" aria-hidden="true"></i></span>
+            <span>{% trans "LOGIN TO LEAVE A COMMENT" %} <i class="fa fa-sign-in" aria-hidden="true"></i></span>
         </a>
         {% endif %}
         <hr>
@@ -340,13 +341,13 @@
                         <div class="comment-author">
                             {% avatar node.author 64 %}
                             <b>{{ node.author }}</b>
-                            <span class="says">Says: </span>
+                            <span class="says">{% trans "Says:" %} </span>
                         </div>
                         <div class="comment-metadata">
                             {{ node.publish_time }}
                             {% if node.last_update_time %}
                             <div class="comment-update-time">
-                            Last Edit on {{ node.last_update_time }}
+                            {% blocktrans with time=node.last_update_time %}Last Edit on {{ time }}{% endblocktrans %}
                             </div>
                             {% endif %}
 
@@ -361,17 +362,17 @@
                             {% if user.is_authenticated %}
                             {% if node.level < max_comment_level %}
                             <button class="btn btn-link" name="reply-comment" id="reply-btn_{{ node.id }}">
-                                <span>Reply</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                <span>{% trans "Reply" %}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i>
                             </button>
                             {% endif %}
                                 {% if node.author == user or user.is_superuser %}
                                 <button class="btn btn-link" name="update-comment" id="update-btn_{{ node.id }}">
-                                    <span>Edit</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    <span>{% trans "Edit" %}</span> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </button>
                                 {% endif %}
                             {% else %}
                             <a class="btn btn-link" href="{% url 'auth_login' %}?next={{ request.path }}">
-                                <span>Login to Reply <i class="fa fa-sign-in" aria-hidden="true"></i></span>
+                                <span>{% trans "Login to Reply" %} <i class="fa fa-sign-in" aria-hidden="true"></i></span>
                             </a>
                             {% endif %}
                         </div>
@@ -388,7 +389,7 @@
                                 {{ comment_form }}
                             </div>
                             {% emoticon_bar %}
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
                         </form>
                     </div>
                     {% endif %}
@@ -401,8 +402,8 @@
                                 {{ comment_form }}
                             </div>
                             {% emoticon_bar %}
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">Cancel</button>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                            <button type="button" class="btn btn-default" name="cancel-btn" id="cancel-btn_{{ node.id }}">{% trans "Cancel" %}</button>
                         </form>
                     </div>
                     {% endif %}

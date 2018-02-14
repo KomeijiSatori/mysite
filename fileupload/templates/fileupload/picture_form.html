@@ -1,12 +1,14 @@
 {% extends "fileupload/upload_base.html" %}
 {% load static %}
+{% load i18n %}
 {% load upload_tags %}
 
 {% block content %}
 <div class="cover-div">
-    <h1>Image Drive <i class="fa fa-cloud" aria-hidden="true"></i></h1>
+    <h1>{% trans "Image Drive" %} <i class="fa fa-cloud" aria-hidden="true"></i></h1>
     <div class="row" style="text-align: left;">
         <div class="col-md-4 col-md-offset-4">
+            {% blocktrans %}
             <h3><strong>Feature</strong> and<strong> Tips</strong></h3>
             Support images only<br/>
             If file is not image, the file won't be stored<br/>
@@ -15,6 +17,7 @@
             Support drag and drop files<br/>
             Provide image preview<br/>
             Provide image url for blog post<br/>
+            {% endblocktrans %}
         </div>
     </div>
     <br/>
@@ -28,20 +31,20 @@
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
+                    <span>{% trans "Add files" %}</span>
                     <input type="file" name="file" multiple>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
+                    <span>{% trans "Start upload" %}</span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
+                    <span>{% trans "Cancel upload" %}</span>
                 </button>
                 <button type="button" class="btn btn-danger delete">
                     <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
+                    <span>{% trans "Delete" %}</span>
                 </button>
                 <input type="checkbox" class="toggle">
                 <!-- The loading indicator is shown during file processing -->
@@ -60,24 +63,22 @@
         <!-- The table listing the files available for upload/download -->
         <table role="presentation" class="table table-striped"><tbody class="files">
         <tr class="template-download fade in">
-            <td>Snapshot</td>
-            <td>Name</td>
-            <td>Size</td>
-            <td>Image Url</td>
-            <td>Operation</td>
+            <td>{% trans "Snapshot" %}</td>
+            <td>{% trans "Name" %}</td>
+            <td>{% trans "Size" %}</td>
+            <td>{% trans "Image Url" %}</td>
+            <td>{% trans "Operation" %}</td>
         </tr>
         </tbody></table>
     </form>
     <br>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Additional Notes</h3>
+            <h3 class="panel-title">{% trans "Additional Notes" %}</h3>
         </div>
         <div class="panel-body">
             <ul>
-                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support">Browser support</a>).</li>
-                <li>Based on <a href="https://github.com/blueimp/jQuery-File-Upload">blueimp's repository</a>. Thanks for his great work</li>
-                <li>Built with Twitter's <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
+                <li>{% blocktrans %}You can <strong>drag &amp; drop</strong> files from your desktop on this webpage.{% endblocktrans %}</li>
             </ul>
         </div>
     </div>
@@ -93,6 +94,8 @@
     <ol class="indicator"></ol>
 </div>
 {% upload_js %}
+
+<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 
 <script src="{% static 'fileupload/js/vendor/jquery.ui.widget.js' %}"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->

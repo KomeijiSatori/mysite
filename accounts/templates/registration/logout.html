@@ -2,12 +2,12 @@
 {% load i18n %}
 
 {% block title %}
-    Logout
+    {% trans "Logout" %}
 {% endblock %}
 
 {% block content %}
 <div class='cover-div'>
-    <p class='text-align-center lead'>You have successfully logged out.</p>
-    <p class='text-align-center lead'><a href="{% url 'auth_login' %}">Login</a></p></p>
+    <p class='text-align-center lead'>{% trans "You have successfully logged out." %}</p>
+    <p class='text-align-center lead'><a href="{% url 'auth_login' %}">{% trans "Login" %}</a></p></p>
 </div>
 {% endblock %}

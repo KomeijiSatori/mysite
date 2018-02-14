@@ -1,7 +1,8 @@
+{% load i18n %}
 <div class="blog_post_div well">
     <form action="{% url 'blogs:search' %}" method="get">
         <div class="input-group input-group-lg">
-            <input type="text" class="form-control" name="search" placeholder="Input whatever you want to search" value={% if request.GET.search %}"{{ request.GET.search}}"{% endif %}>
+            <input type="text" class="form-control" name="search" placeholder="{% trans 'Input whatever you want to search' %}" value={% if request.GET.search %}"{{ request.GET.search}}"{% endif %}>
             <span class="input-group-btn">
                 <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -10,39 +11,39 @@
         </div>
 
         <div class="advance-search-div">
-            <a id="advanced-search-btn">Advanced Options <i id="search-arrow" class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+            <a id="advanced-search-btn">{% trans "Advanced Options" %} <i id="search-arrow" class="fa fa-angle-double-down" aria-hidden="true"></i></a>
         </div>
 
         <div class="advanced_search">
             <div class="row">
                 <div class="col-sm-2">
-                    <label class="col-form-label">Search Fields: </label>
+                    <label class="col-form-label">{% trans "Search Fields:" %} </label>
                 </div>
                 <div class="col-sm-2">
                     <input class="control__input" id="field_title" type="checkbox" name="title" {% if request.GET.title %}checked{% endif %}>
-                    <label class="control__label" for="field_title">Title</label>
+                    <label class="control__label" for="field_title">{% trans "Title" %}</label>
                 </div>
                 <div class="col-sm-3">
                     <input class="control__input" id="field_text" type="checkbox" name="text" {% if request.GET.text %}checked{% endif %}>
-                    <label class="control__label" for="field_text">Text</label>
+                    <label class="control__label" for="field_text">{% trans "Text" %}</label>
                 </div>
                 <div class="col-sm-2">
                     <input class="control__input" id="field_author" type="checkbox" name="author" {% if request.GET.author %}checked{% endif %}>
-                    <label class="control__label" for="field_author">Author</label>
+                    <label class="control__label" for="field_author">{% trans "Author" %}</label>
                 </div>
                 <div class="col-sm-2">
                     <input class="control__input" id="field_category" type="checkbox" name="category" {% if request.GET.category %}checked{% endif %}>
-                    <label class="control__label" for="field_category">Category</label>
+                    <label class="control__label" for="field_category">{% trans "Category" %}</label>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-2">
-                    <label class="col-form-label">Publish time: </label>
+                    <label class="col-form-label">{% trans "Publish time:" %} </label>
                 </div>
                 <div class="col-sm-2">
                     <input class="control__input" id="field_publish_from_check" type="checkbox" {% if request.GET.publish_from_date %}checked{% endif %}>
-                    <label class="control__label" for="field_publish_from_check">From </label>
+                    <label class="control__label" for="field_publish_from_check">{% trans "From" %} </label>
                 </div>
                 <div class="col-sm-3">
                     <input class="input" id="field_publish_from" name="publish_from_date" type="date" {% if request.GET.publish_from_date %}value="{{ request.GET.publish_from_date }}"{% else %}disabled{% endif %}>
@@ -50,7 +51,7 @@
 
                 <div class="col-sm-2">
                     <input class="control__input" id="field_publish_to_check" type="checkbox" {% if request.GET.publish_to_date %}checked{% endif %}>
-                    <label class="control__label" for="field_publish_to_check">To </label>
+                    <label class="control__label" for="field_publish_to_check">{% trans "To" %} </label>
                 </div>
                 <div class="col-sm-3">
                     <input class="input" id="field_publish_to" name="publish_to_date" type="date" {% if request.GET.publish_to_date %}value="{{ request.GET.publish_to_date }}"{% else %}disabled{% endif %}>
@@ -59,11 +60,11 @@
 
             <div class="row">
                 <div class="col-sm-2">
-                    <label class="col-form-label">Update time: </label>
+                    <label class="col-form-label">{% trans "Update time:" %} </label>
                 </div>
                 <div class="col-sm-2">
                     <input class="control__input" id="field_update_from_check" type="checkbox" {% if request.GET.update_from_date %}checked{% endif %}>
-                    <label class="control__label" for="field_update_from_check">From </label>
+                    <label class="control__label" for="field_update_from_check">{% trans "From" %} </label>
                 </div>
                 <div class="col-sm-3">
                     <input class="input" id="field_update_from" name="update_from_date" type="date" {% if request.GET.update_from_date %}value="{{ request.GET.update_from_date }}"{% else %}disabled{% endif %}>
@@ -71,7 +72,7 @@
 
                 <div class="col-sm-2">
                     <input class="control__input" id="field_update_to_check" type="checkbox" {% if request.GET.update_to_date %}checked{% endif %}>
-                    <label class="control__label" for="field_update_to_check">To </label>
+                    <label class="control__label" for="field_update_to_check">{% trans "To" %} </label>
                 </div>
                 <div class="col-sm-3">
                     <input class="input" id="field_update_to" name="update_to_date" type="date" {% if request.GET.update_to_date %}value="{{ request.GET.update_to_date }}"{% else %}disabled{% endif %}>

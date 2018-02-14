@@ -1,12 +1,13 @@
 <!--List a list of blogs-->
 {% load static %}
+{% load i18n %}
 {% load blog_tags %}
 {% load avatar_tags %}
 
 {% for blog in blogs %}
     <div class="blog-div well aos-init aos-animate" data-aos="flip-up">
         {% if blog.unread %}
-            <span class="label label-danger brand-new">New</span>
+            <span class="label label-danger brand-new">{% trans "New" %}</span>
         {% endif %}
         <h2>
             <span class="blog-title">
@@ -16,24 +17,24 @@
         <div class="avatar-div">
             {% avatar blog.author 64 %}
         </div>
-        <p><i class="fa fa-pencil"></i> Author: {{ blog.author }}</p>
-        <p><i class="fa fa-clock-o"></i> Posted: {{ blog.publish_time|date:"Y-m-d" }} {{ blog.publish_time|time:"H:i:s" }}</p>
+        <p><i class="fa fa-pencil"></i> {% blocktrans with author=blog.author %}Author: {{ author }}{% endblocktrans %}</p>
+        <p><i class="fa fa-clock-o"></i> {% blocktrans with date=blog.publish_time|date:"Y-m-d" time=blog.publish_time|time:"H:i:s" %}Posted: {{ date }} {{ time }}{% endblocktrans %}</p>
         {% if blog.blogcategory_set.all.count > 0 %}
         <p>
-            <i class="fa fa-tags"></i> Category:
+            <i class="fa fa-tags"></i> {% trans "Category:" %}
             {% for category in blog.blogcategory_set.all %}
             <span class="category-span"><a href="{% url 'blogs:category' category %}">{{ category }}</a></span>
             {% endfor %}
         </p>
         {% endif %}
         <p>
-            <span><i class="fa fa-eye"></i> Views: {{ blog.read_count }}</span>
-            <span style="margin-left: 10px;"><i class="fa fa-comment"></i> Comments: {{ blog.comment_set.all | length }}</span>
+            <span><i class="fa fa-eye"></i> {% blocktrans with cnt=blog.read_count %}Views: {{ cnt }}{% endblocktrans %}</span>
+            <span style="margin-left: 10px;"><i class="fa fa-comment"></i> {% blocktrans with cnt=blog.comment_set.all|length %}Comments: {{ cnt }}{% endblocktrans %}</span>
         </p>
         <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
         <!--<hr>-->
         <p class="lead"><div class="blog_content marked_truncate">{{ blog.text }}</div></p>
-        <a class="btn btn-primary read-blog" id="notification_{{ blog.related_notification_id }}" href="{% url 'blogs:archive' blog.id %}" target="_blank">Read More <i class="fa fa-chevron-right"></i></a>
+        <a class="btn btn-primary read-blog" id="notification_{{ blog.related_notification_id }}" href="{% url 'blogs:archive' blog.id %}" target="_blank">{% trans "Read More" %} <i class="fa fa-chevron-right"></i></a>
     </div>
 {% endfor %}
 

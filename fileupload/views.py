@@ -65,7 +65,10 @@ class PictureListView(ListView):
                 if file_authenticate(self.request.user, f.owner):
                     # get server address.
                     f.domain = self.request.META['HTTP_HOST']
-                    files.append(serialize(f))
+                    try:
+                        files.append(serialize(f))
+                    except:
+                        pass
             data = {'files': files}
             response = JSONResponse(data, mimetype=response_mimetype(self.request))
             response['Content-Disposition'] = 'inline; filename=files.json'
