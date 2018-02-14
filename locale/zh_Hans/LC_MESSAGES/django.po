@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-14 17:32+0800\n"
+"POT-Creation-Date: 2018-02-14 18:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,6 +147,7 @@ msgid "Posted: %(date)s %(time)s"
 msgstr "发表于：%(date)s %(time)s"
 
 #: accounts/templates/accounts/blog_posts.html:24
+#: blogs/templates/blogs/base_blog_items.html:37
 #: blogs/templates/blogs/post.html:107
 msgid "Category:"
 msgstr "类别："

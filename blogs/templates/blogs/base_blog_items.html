@@ -34,7 +34,7 @@
         <p><i class="fa fa-clock-o"></i> {% blocktrans with date=blog.publish_time|date:"Y-m-d" time=blog.publish_time|time:"H:i:s" %}Posted: {{ date }} {{ time }}{% endblocktrans %}</p>
         {% if blog.blogcategory_set.all.count > 0 %}
         <p>
-            <i class="fa fa-tags"></i> Category:
+            <i class="fa fa-tags"></i> {% trans "Category:" %}
             {% for category in blog.blogcategory_set.all %}
             <span class="category-span"><a href="{% url 'blogs:category' category %}">{{ category }}</a></span>
             {% endfor %}
