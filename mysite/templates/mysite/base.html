@@ -61,10 +61,10 @@
                 <div id="navbar">
                     <ul class="nav navbar-nav">
                         {% if user.is_authenticated %}
-                        <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"><title>{% trans "Log Out" %}</title></i></a></li>
+                        <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"> {% trans "Log Out" %}</i></a></li>
                         {% else %}
-                        <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in" aria-hidden="true">{% trans "Log In" %}</i></a></li>
-                        <li><a href="{% url 'registration_register' %}"><i class="fa fa-user-plus" aria-hidden="true">{% trans "Register" %}</i></a></li>
+                        <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in" aria-hidden="true"> {% trans "Log In" %}</i></a></li>
+                        <li><a href="{% url 'registration_register' %}"><i class="fa fa-user-plus" aria-hidden="true"> {% trans "Register" %}</i></a></li>
                         {% endif %}
 
                         <li class="dropdown">

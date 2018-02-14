@@ -7,7 +7,7 @@ from pagedown.widgets import PagedownWidget
 class BlogForm(forms.Form):
     title = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': _('Title')}))
     categories = forms.CharField(required=False, label='', widget=forms.TextInput(
-        attrs={'placeholder': _('Tags\tDivide tags by space Could be empty')}))
+        attrs={'placeholder': _('Tags    Divide tags by space, could be empty')}))
     text = forms.CharField(label='', widget=PagedownWidget(show_preview=False))
 
     def clean_title(self):

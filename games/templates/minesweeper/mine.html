@@ -15,11 +15,11 @@
 {% block content %}
 <div id="content-div">
 	<div id="setDiv">
-		Height
+		{% trans "Height" %}
 		<input type="number" value="16" min="4" max="64" on id="height">
-		Width
+		{% trans "Width" %}
 		<input type="number" value="30" min="4" max="120" id="width">
-		Mine Count
+		{% trans "Mine Count" %}
 		<input type="number" value="99" min="1" max="471" id="count")>
 		<input class="btn btn-primary" type="button" value="{% trans 'New Game' %}" id="confirm" onclick="start()">
 		<input class="btn btn-success" type="button" value="{% trans 'High Score' %}" id="high_score" onclick="get_high_score()">
@@ -43,7 +43,7 @@
 			<table id="high-score-table">
 				<tr>
 					<th>{% trans "Rank" %}</th>
-					<th>{% trans "Name" %}</th>
+					<th>{% trans "Name" context "Game" %}</th>
 					<th>{% trans "Time Spent" %}</th>
 					<th>{% trans "Record Datetime" %}</th>
 				</tr>
