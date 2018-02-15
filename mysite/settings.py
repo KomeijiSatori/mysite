@@ -26,7 +26,7 @@ SECRET_KEY = 'hqh9s)7yd2j^ygwjy@!er3vl=kx%#&i(2@3zb1eep^kfch9xf*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'chongliu.me', 'www.chongliu.me']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'chongliu.me', 'www.chongliu.me', '139.162.88.195']
 
 EMAIL_HOST = os.environ.get("MailHost", "")
 EMAIL_HOST_USER = os.environ.get("MailUser", '')
